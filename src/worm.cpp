@@ -6,7 +6,7 @@ void InteractionExpansion::Z_to_W()
   if (not Zflag) return; 
 
 
-  double metropolis_weight = (WtoZ/ZtoW) *eta/weight;
+  double metropolis_weight = (WtoZ/ZtoW)/weight;
 
   if(fabs(metropolis_weight) > random()){
     measurements["ZtoW"]<< 1.;
@@ -26,7 +26,7 @@ void InteractionExpansion::W_to_Z()
 
     if (Zflag) return; 
 
-    double metropolis_weight = (ZtoW/WtoZ)/eta* weight;
+    double metropolis_weight = (ZtoW/WtoZ)*weight;
 
     if(fabs(metropolis_weight) > random()){ //do the actual update
       measurements["WtoZ"]<< 1.;

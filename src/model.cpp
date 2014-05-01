@@ -29,7 +29,8 @@ void InteractionExpansion::add()
   }
 
   // true means compute_only_weight
-  double metropolis_weight = pow(-beta*V*n_bond, n)/npickk(M.num_vertices()+n, n)*add_impl(taus, sites, true);
+  double wratio = add_impl(taus, sites, true)*pow(-V, n); 
+  double metropolis_weight = pow(beta*n_bond, n)/npickk(M.num_vertices()+n, n)* wratio;
 
   //if (metropolis_weight<0.){
   //  std::cout << metropolis_weight << " < 0 in add" << std::endl; 
@@ -49,7 +50,7 @@ void InteractionExpansion::add()
 
     sign*=metropolis_weight<0.?-1.:1.;
     
-    weight *= metropolis_weight; 
+    weight *= wratio; 
 
   }else{
 
@@ -85,14 +86,9 @@ void InteractionExpansion::remove()
             vertices.push_back(vertex_nr); //accept only when it is different from the exsisting ones 
     }
     std::sort (vertices.begin(), vertices.end());  
-
-    //std::cout << "before remove_impl,n:"<< vertices.size() << " "<< n << std::endl; 
-    //std::cout << "vertices:\n";  
-    //std::ostream_iterator<unsigned int> out_it (std::cout," ");
-    //std::copy(vertices.begin(), vertices.end(), out_it );
-    //std::cout << std::endl; 
-
-    double metropolis_weight = npickk(pert_order, n)/pow(-beta*V*n_bond, n) * remove_impl(vertices, true);
+    
+    double wratio = remove_impl(vertices, true)/pow(-V, n); 
+    double metropolis_weight = npickk(pert_order, n)/pow(beta*n_bond, n)* wratio;
     //std::cout << "after remove_impl" << std::endl; 
     //if (metropolis_weight<0.){
     //  std::cout << metropolis_weight << " < 0 in remove" << std::endl; 
@@ -112,7 +108,7 @@ void InteractionExpansion::remove()
 
       sign*=metropolis_weight<0.?-1.:1.;
 
-      weight *= metropolis_weight; 
+      weight *= wratio; 
 
     }else{
 

@@ -60,7 +60,16 @@ void InteractionExpansion::reset_perturbation_series()
   m_matrix::matrix_t Mdiff(M.matrix()); //make a copy of M.matrix()
   build_matrix(); 
 
-  weight = 1./M.matrix().determinant();  
+  int pert_order = M.num_vertices(); 
+  double new_weight = std::pow(-V,pert_order)/M.matrix().determinant()/eta;  
+  if (fabs(new_weight/weight-1.)>1E-8) {
+    std::cout<<"WARNING: roundoff errors " << weight << " " << new_weight << std::endl;
+  }
+
+  weight = new_weight; 
+
+
+  //std::cout << "weight:" << weight << std::endl; 
 
   Mdiff -= M.matrix(); //subtract the new one 
   Mdiff = Mdiff.cwiseAbs(); //and take absolute value 

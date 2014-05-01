@@ -8,7 +8,7 @@ void InteractionExpansion::initialize_observables()
                << alps::ngs::RealObservable("PertOrder")
                << alps::ngs::RealObservable("ZtoW")
                << alps::ngs::RealObservable("WtoZ")
-               << alps::ngs::RealObservable("WtoW")
+//               << alps::ngs::RealObservable("WtoW")
                ; 
 
  measurements  << alps::ngs::RealObservable("Z")

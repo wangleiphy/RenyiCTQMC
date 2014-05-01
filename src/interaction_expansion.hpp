@@ -150,10 +150,11 @@ private:
   itime_green_function_t bare_green_itime;
     
   unsigned long sweeps;        
+
+  const double eta; //coef before W
   double weight;
   double sign;
 
-  const double eta; //coef before W
   const double Zupdate; 
   const double ZtoW;
   const double WtoZ;  //(Zupdate) *2 + Z2W + W2Z + Wupdate = 1
