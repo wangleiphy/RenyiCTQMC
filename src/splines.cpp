@@ -8,6 +8,17 @@ template<class X, class Y> inline Y linear_interpolate(const X x0, const X dxinv
   return y0 + (x-x0)*dxinv*(y1-y0);
 }
 
+//http://en.wikipedia.org/wiki/Bilinear_interpolation
+template<class X, class F> inline F bilinear_interpolate(const X dxinv, const X dyinv, 
+                                                         const X x1, const X y1, 
+                                                         const X y2, const X y2, 
+                                                         const F f11, const F f12, const F f21, const F f22, 
+                                                         const X x, const X y, 
+                                                         )
+{
+  return dxinv * dyinv * (f11*(x2-x)*(y2-y) + f21*(x-x1)*(y2-y) + f12*(x2-x)*(y-y1) + f22*(x-x1)*(y-y1));
+}
+
 ///Compute the Green's function G0 (the BARE) green's function between two points
 double InteractionExpansion::green0_spline(const creator &cdagger, const creator &c) const
 {
@@ -42,3 +53,29 @@ double InteractionExpansion::green0_spline(const itime_t delta_t, const site_t s
                                bare_green_itime(time_index+1,site1,site2),delta_t+beta);
   }
 }
+
+
+///Compute the Green's function G0 (the BARE) green's function between two points
+double InteractionExpansion::super_green0_spline(const creator &cdagger, const creator &c) const
+{
+  return super_green0_spline(cdagger.t(), c.t(), site1, site2);  
+}
+
+
+///Compute the bare green's function for a given site, and imaginary time.
+double InteractionExpansion::suepr_green0_spline(const itime_t tau1, const itime_t tau2, const site_t site1, const site_t site2) const
+{
+    int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
+    int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
+
+    return bilinear_interpolate(timestepinv, timestepinv,
+                                super_bare_green_itime.tau(itau1), super_bare_green_itime.tau(itau2), 
+                                super_bare_green_itime.tau(itau1+1), super_bare_green_itime.tau(itau2+1), 
+                                super_bare_green_itime(itau1, itau2, site1, site2),
+                                super_bare_green_itime(itau1, itau2+1, site1, site2),
+                                super_bare_green_itime(itau1+1, itau2, site1, site2),
+                                super_bare_green_itime(itau1+1, itau2+1, site1, site2),
+                                tau1, tau2);
+
+}
+

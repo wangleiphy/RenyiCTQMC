@@ -5,12 +5,9 @@
 #include <Eigen/Dense>
 #include <vector>
 
-
-//Matsubara GF: use T=std::complex<double>
-//Imaginary time: use T=double
-template <typename T> class green_function{
+class green_function{
 public:
-  typedef Eigen::Matrix< T , Eigen::Dynamic, Eigen::Dynamic >  Mat;
+  typedef Eigen::MatrixXd  Mat;
 
   ///constructor: how many time slices, how many sites
   green_function(unsigned int ntime, unsigned int nsite, const Mat& K, const itime_t beta, const itime_t timestep)
@@ -82,6 +79,5 @@ private:
   }
 
 };
-typedef green_function<double> itime_green_function_t;
 
 #endif

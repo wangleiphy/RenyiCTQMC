@@ -112,10 +112,10 @@ private:
   const alps::graph_helper<> lattice; 
   const unsigned int max_order;                        
   //const spin_t n_flavors;                          //number of flavors 
+  Eigen::MatrixXd K_;                                //the kinetic energy matrix of ABB' system 
   const site_t n_site;                               //number of sites
   const site_t n_bond;                               //number of *interaction* bond (fine when n.n. hopping and V )
-  const site_t n_cell;                               //number of unit cells = n_site/2 
-  Eigen::MatrixXd K_;  // the kinetic energy matrix 
+  //const site_t n_cell;                             //number of unit cells = n_site/2 
   
   //graph stuff 
   //std::vector<DistanceMap> distmap;             //  vector<map(dist:vector<sites>)>
@@ -147,7 +147,8 @@ private:
   std::vector<m_matrix> M(2);
   m_matrix Msuper; 
 
-  itime_green_function_t bare_green_itime;
+  green_function bare_green_itime;
+  super_green_function super_bare_green_itime;
     
   unsigned long sweeps;        
 

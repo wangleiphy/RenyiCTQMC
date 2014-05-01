@@ -26,13 +26,14 @@ void InteractionExpansion::interaction_expansion_step()
 
 
 void InteractionExpansion::build_matrix(){
-    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
 
+    //rebuild super Matrix 
+    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
     Msuper.matrix() = Eigen::MatrixXd::Zero(Msuper.creators().size(), Msuper.creators().size());  
     for (unsigned int i=0; i< Msuper.creators().size(); ++i){
         for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
-            Msuper.matrix()(i,j) = green0_spline(M.creators()[i], M.creators()[j]); 
-            Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*M.creators()[j].parity()*M.matrix()(i,j);//anti-symmetrization 
+            Msuper.matrix()(i,j) = super_green0_spline(Msuper.creators()[i], Msuper.creators()[j]); 
+            Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*M.creators()[j].parity()*Msuper.matrix()(i,j);//anti-symmetrization 
         }
     }
 
@@ -42,10 +43,20 @@ void InteractionExpansion::build_matrix(){
    //std::cout << "M from scratch:\n" << M.matrix() << std::endl; 
    //std::cout << "det(M)= " << M.matrix().determinant() << std::endl; 
     
-   //look for vertices with tau < beta, and build M[0] 
+  for (unsigned icopy=0; icopy<2; ++icopy) {
 
-    
-   //look for vertices with beta < tau < 2*beta , and build M[1]
+    assert(M[icopy].creators().size() == 2*M[icopy].num_vertices()); 
+
+    M[icopy].matrix() = Eigen::MatrixXd::Zero(M[icopy].creators().size(), M[icopy].creators().size());  
+    for (unsigned int i=0; i< Msuper.creators().size(); ++i){
+        for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
+            M[icopy].matrix()(i,j) = green0_spline(M.creators()[i], M[icopy].creators()[j]); 
+            M[icopy].matrix()(j,i) = -M[icopy].creators()[i].parity()*M[icopy].creators()[j].parity()*M[icopy].matrix()(i,j);//anti-symmetrization 
+        }
+    }
+
+    M[icopy].matrix() = M[icopy].matrix().inverse().eval();     
+  }
 
 }
 
