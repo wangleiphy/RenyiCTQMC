@@ -8,7 +8,6 @@ void InteractionExpansion::initialize_observables()
                << alps::ngs::RealObservable("PertOrder")
                << alps::ngs::RealObservable("ZtoW")
                << alps::ngs::RealObservable("WtoZ")
-//               << alps::ngs::RealObservable("WtoW")
                ; 
 
  measurements  << alps::ngs::RealObservable("Z")
@@ -16,7 +15,7 @@ void InteractionExpansion::initialize_observables()
                //<< alps::ngs::RealObservable("IntE")
                ; 
 
- for (unsigned int i=1; i<= n_max; ++i){
+ for (unsigned int i=1; i<= 2; ++i){
    {
     std::stringstream obs_name;
     obs_name<<"VertexAdd_"<<i;
@@ -38,7 +37,7 @@ void InteractionExpansion::measure_observables()
   measurements["Sign"]<<sign;
   measurements["PertOrder"] << double(M.num_vertices()); // the true pert order 
 
-  if (Zflag){
+  if (sector==0){
     measurements["Z"] << 1.;
     measurements["W"] << 0.;
     //measurements["IntE"] << double(M.num_vertices());// the pert order measured in Z space 
@@ -52,8 +51,7 @@ void InteractionExpansion::measure_observables()
 
 //finial evaluation 
 void InteractionExpansion::evaluate(results_type& results){
-
      //results["IntE"] = (-1./beta)*results["IntE"]/results["Z"];
 
-     results.insert("ZoverZ0", eta*results["Z"]/results["W"]);
+     results.insert("Zratio", eta*results["W"]/results["Z"]);
 }

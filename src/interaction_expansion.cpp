@@ -39,22 +39,21 @@ M(),
 bare_green_itime(n_tau+1, n_site, K_, beta, timestep),
 sweeps(0),
 eta(boost::lexical_cast<double>(parms["eta"])),
-weight(1./eta),
+weight(1.),
 sign(1.),
-Zupdate(boost::lexical_cast<double>(parms["Zupdate"])),
+Add(boost::lexical_cast<double>(parms["Add"])),
+Remove(boost::lexical_cast<double>(parms["Remove"])),
 ZtoW(boost::lexical_cast<double>(parms["ZtoW"])),
 WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
-//coef2(2.*neighbors[0].size()/(double)n_cell), //constant ratio appear in worm create/destroy 
-//coef4(2.*std::pow(neighbors[0].size()/(double)n_cell, 3)),  
-Zflag(true), // initialy we are in Z space 
-n_max(boost::lexical_cast<unsigned int>(parms["n_max"]))
+sector(0) // initialy we are in Z space 
+//n_max(boost::lexical_cast<unsigned int>(parms["n_max"]))
 //measure_unequaltime(boost::lexical_cast<bool>(parms["MEASURE_UNEQUALTIME"]) | false)
 {
-   probs.push_back(Zupdate); 
-   probs.push_back(2.*Zupdate); 
-   probs.push_back(2.*Zupdate+ZtoW); 
-   probs.push_back(2.*Zupdate+ZtoW+WtoZ); 
+   probs.push_back(Add); 
+   probs.push_back(Add+Remove); 
+   probs.push_back(Add+Remove+ZtoW); 
+   probs.push_back(Add+Remove+ZtoW+WtoZ); 
 
    //initialize ALPS observables
    initialize_observables();

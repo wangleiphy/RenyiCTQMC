@@ -143,10 +143,10 @@ private:
   const unsigned int measurement_period;        
   //const unsigned int convergence_check_period;        
   
-  //important M matrix  
-  m_matrix M;
+  //M matrix  
+  std::vector<m_matrix> M(2);
+  m_matrix Msuper; 
 
-  /*private member variables*/
   itime_green_function_t bare_green_itime;
     
   unsigned long sweeps;        
@@ -155,7 +155,8 @@ private:
   double weight;
   double sign;
 
-  const double Zupdate; 
+  const double Add; 
+  const double Remove; 
   const double ZtoW;
   const double WtoZ;  //(Zupdate) *2 + Z2W + W2Z + Wupdate = 1
   std::vector<double> probs; 
@@ -163,8 +164,6 @@ private:
   bool Zflag; 
 
   const unsigned int n_max; 
-
-  //const bool measure_unequaltime; 
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 

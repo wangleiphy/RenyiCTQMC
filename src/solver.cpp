@@ -15,39 +15,38 @@ void InteractionExpansion::interaction_expansion_step()
         remove(); 
 //        std::cout << "after remove" << std::endl; 
     }else if(update_type < probs[2]){
-//        std::cout << "before Z2W" << std::endl; 
+//        std::cout << "before M2wormcreate" << std::endl; 
         Z_to_W(); 
-//        std::cout << "after Z2W" << std::endl; 
+//        std::cout << "after M2wormcreate" << std::endl; 
     }else if(update_type < probs[3]){
-//        std::cout << "before W2Z" << std::endl; 
+//        std::cout << "before M2wormdestroy" << std::endl; 
         W_to_Z(); 
-//        std::cout << "after W2Z" << std::endl; 
-   }else{                       
-//        std::cout << "before W2W" << std::endl; 
-        W_to_W(); 
-//        std::cout << "after W2W" << std::endl; 
-    }
+//        std::cout << "after wormremove" << std::endl; 
 }
 
+
 void InteractionExpansion::build_matrix(){
-    assert(M.creators().size() == 2*M.num_vertices()); 
+    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
 
-
-    M.matrix() = Eigen::MatrixXd::Zero(M.creators().size(), M.creators().size());  
-    for (unsigned int i=0; i< M.creators().size(); ++i){
-        //M.matrix()(i,i) = lattice.parity(M.creators()[i].s())*delta; //staggered on site potential  
-        for (unsigned int j=i+1; j< M.creators().size(); ++j){ //do not fill diagonal 
-            //std::cout << "i,j " <<  i << " " << j << std::endl; 
-            M.matrix()(i,j) = green0_spline(M.creators()[i], M.creators()[j]); 
-            M.matrix()(j,i) = -M.creators()[i].parity()*M.creators()[j].parity()*M.matrix()(i,j);//anti-symmetrization 
+    Msuper.matrix() = Eigen::MatrixXd::Zero(Msuper.creators().size(), Msuper.creators().size());  
+    for (unsigned int i=0; i< Msuper.creators().size(); ++i){
+        for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
+            Msuper.matrix()(i,j) = green0_spline(M.creators()[i], M.creators()[j]); 
+            Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*M.creators()[j].parity()*M.matrix()(i,j);//anti-symmetrization 
         }
     }
 
    //std::cout << "Minv from scratch:\n" << M.matrix() << std::endl; 
-   M.matrix() = M.matrix().inverse().eval();     
+   Msuper.matrix() = Msuper.matrix().inverse().eval();     
 
    //std::cout << "M from scratch:\n" << M.matrix() << std::endl; 
    //std::cout << "det(M)= " << M.matrix().determinant() << std::endl; 
+    
+   //look for vertices with tau < beta, and build M[0] 
+
+    
+   //look for vertices with beta < tau < 2*beta , and build M[1]
+
 }
 
 ///Every now and then we have to recreate M from scratch to avoid roundoff error.
@@ -55,15 +54,13 @@ void InteractionExpansion::reset_perturbation_series()
 {
   sign=1.;
   
-  if (M.creators().size()<1) return; //do not rebuilt for empty matrix 
+  if (Msuper.creators().size()<1) return; //do not rebuilt for empty matrix 
 
-  m_matrix::matrix_t Mdiff(M.matrix()); //make a copy of M.matrix()
-  build_matrix(); 
-
-  int pert_order = M.num_vertices(); 
-  double new_weight = pow(-V,pert_order)/M.matrix().determinant()/eta;  
-
-  //std::cout<<"weights " << pert_order << " "<< weight << " " << new_weight << std::endl;
+  m_matrix::matrix_t Mdiff(Msuper.matrix()); //make a copy of M.matrix()
+  build_matrix(); // rebuild Msuper and M 
+    
+  //reset the weight ratio 
+  double new_weight = Msuper.matrix().determinant()/M[0].matrix().determinant()/M[1].matrix.determinant();  
 
   if (fabs(new_weight/weight-1.)>1E-8) {
     std::cout<<"WARNING: roundoff errors " << weight << " " << new_weight << std::endl;
@@ -71,10 +68,7 @@ void InteractionExpansion::reset_perturbation_series()
 
   weight = new_weight; 
 
-
-  //std::cout << "weight:" << weight << std::endl; 
-
-  Mdiff -= M.matrix(); //subtract the new one 
+  Mdiff -= Msuper.matrix(); //subtract the new one 
   Mdiff = Mdiff.cwiseAbs(); //and take absolute value 
   double max_diff = Mdiff.maxCoeff(); 
 
