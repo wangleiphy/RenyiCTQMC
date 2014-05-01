@@ -61,7 +61,10 @@ void InteractionExpansion::reset_perturbation_series()
   build_matrix(); 
 
   int pert_order = M.num_vertices(); 
-  double new_weight = std::pow(-V,pert_order)/M.matrix().determinant()/eta;  
+  double new_weight = pow(-V,pert_order)/M.matrix().determinant()/eta;  
+
+  //std::cout<<"weights " << pert_order << " "<< weight << " " << new_weight << std::endl;
+
   if (fabs(new_weight/weight-1.)>1E-8) {
     std::cout<<"WARNING: roundoff errors " << weight << " " << new_weight << std::endl;
   }
