@@ -7,7 +7,7 @@ void InteractionExpansion::print(std::ostream &os) const{
   os<<"***                                      Lei Wang, ETH Zurich, 2013                                     ***"<<std::endl;
   os<<"***                                      lewang@phys.ethz.ch                                            ***"<<std::endl;
   os<<"***********************************************************************************************************"<<std::endl;
-  os<<"n_site: "<<n_site << ",\tn_bond: "<< n_bond << std::endl; 
+  os<<"n_bond: "<< n_bond << std::endl; 
   os<<"n_tau: "<<n_tau << ",\tmax order: "<<max_order << std::endl; 
   os<<"mc steps: "<<mc_steps << ",\ttherm steps: "<<therm_steps << std::endl;
   os<<"recalc period: "<<recalc_period<<",\tmeasurement period: "<< measurement_period << std::endl; 
@@ -27,9 +27,9 @@ void InteractionExpansion::print(std::ostream &os) const{
 void InteractionExpansion::update_params(alps::params &parms) const{
     //std::cout << "before: " << parms.size() << std::endl; 
 
-    parms["Nsite"] = n_site; 
+//    parms["Nsite"] = n_site; 
     parms["Nbond"] = n_bond; 
-    parms["Ncell"] = n_cell; 
+//    parms["Ncell"] = n_cell; 
 
     //std::cout << "after: " << parms.size() << std::endl; 
 }

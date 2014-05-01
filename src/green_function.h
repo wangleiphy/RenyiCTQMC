@@ -10,9 +10,9 @@ public:
   typedef Eigen::MatrixXd  Mat;
 
   ///constructor: how many time slices, how many sites
-  green_function(unsigned int ntime, unsigned int nsite, const Mat& K, const itime_t beta, const itime_t timestep)
+  green_function(unsigned int ntime, const Mat& K, const itime_t beta, const itime_t timestep)
   :nt_(ntime)
-  ,ns_(nsite)
+  ,ns_(K.rows())
   ,tau_(ntime)
   ,gf_(ntime)
   {
@@ -31,10 +31,10 @@ public:
    */
  
    //calculate bare_green function in imaginary time 
-   Eigen::VectorXd v(nsite); // always double   // this two 
+   Eigen::VectorXd v(ns_); // always double   // this two 
    for(itime_index_t it=0; it<ntime; ++it){
       tau_[it] = (double)it*timestep; 
-      for(site_t l=0; l<nsite; ++l) 
+      for(site_t l=0; l<ns_; ++l) 
           v(l) = gf(ces.eigenvalues()(l), beta, tau_[it]); 
       gf_[it] = ces.eigenvectors() * v.asDiagonal() * ces.eigenvectors().adjoint(); 
    }

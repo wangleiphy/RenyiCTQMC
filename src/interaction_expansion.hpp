@@ -112,7 +112,13 @@ private:
   const alps::graph_helper<> lattice; 
   const unsigned int max_order;                        
   //const spin_t n_flavors;                          //number of flavors 
+ 
+  const unsigned NA;                                 // number of sites in partition A
+  const unsigned NB;                                 // 
   Eigen::MatrixXd K_;                                //the kinetic energy matrix of ABB' system 
+  Eigen::MatrixXd KAB_;
+  Eigen::MatrixXd KABprime_;
+
   const site_t n_site;                               //number of sites
   const site_t n_bond;                               //number of *interaction* bond (fine when n.n. hopping and V )
   //const site_t n_cell;                             //number of unit cells = n_site/2 
@@ -135,7 +141,7 @@ private:
   const itime_t temperature;                               
   const itime_t beta;  
   const itime_t timestepinv;// n_tau * temperature 
-  const itime_t timestep;   // 1/(n_tau * temperature) 
+  const itime_t timestep;   // 1/(n_tau * temperature) = beta/ n_tau  
   const double V;                        
   //const double delta; 
   
@@ -162,7 +168,7 @@ private:
   const double WtoZ;  //(Zupdate) *2 + Z2W + W2Z + Wupdate = 1
   std::vector<double> probs; 
 
-  bool Zflag; 
+  unsigned sector; 
 
   const unsigned int n_max; 
 

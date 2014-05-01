@@ -4,6 +4,7 @@
 #include "types.h"
 #include <Eigen/Dense>
 #include <vector>
+#include <unsupported/Eigen/MatrixFunctions>
 #include "boost/multi_array.hpp"
 
 class super_green_function{
@@ -11,9 +12,9 @@ public:
   typedef Eigen::MatrixXd  Mat;
 
   ///constructor: how many time slices, how many sites
-  green_function(unsigned int ntime, unsigned int nsite, const Mat& KAB,, const Mat& KABprime, const itime_t beta, const itime_t timestep)
+  green_function(unsigned int ntime, const Mat& KAB, const Mat& KABprime, const itime_t beta, const itime_t timestep)
   :nt_(ntime)
-  ,ns_(nsite)
+  ,ns_(KAB.rows())
   ,tau_(ntime)
   ,gf_(boost::extents[ntime][ntime])
   {
@@ -60,36 +61,6 @@ public:
   ///return # of imaginary time values
   unsigned int ntime()const{return nt_;}
 
-  Mat B(const double tau1, const double tau2){
-      assert(tau1 > tau2); 
-
-      if (tau1>beta){
-        if (tau2>beta) 
-            return  exp(-(tau1-tau2)*KABprime) ;  
-        else
-            return  exp(-(tau1-beta)*KABprime) * exp(-(beta-tau2)*KAB); 
-      }else{
-        return exp(-(tau1-tau2)*KAB);
-    }
-  }
-
-  Mat Binv(const double tau1, const double tau2){
-      assert(tau1 > tau2); 
-
-      if (tau1>beta){
-        if (tau2>beta) 
-            return exp((tau1-tau2)*KABprime) ;  
-        else
-            return exp((beta-tau2)*KAB)*exp((tau1-beta)*KABprime); 
-      }else{
-        return exp((tau1-tau2)*KAB);
-    }
-   }
-
-  Mat gf(const double tau){
-    Mat res = Eigen::MatrixXd::Identity(ns_, ns_) + B(tau, 0.) * B(2.*beta, tau); 
-    return res.inverse(); 
-  }
   
 private:
 
@@ -98,6 +69,40 @@ private:
   const unsigned int ns_; //totoal number of sites ABBprime 
   std::vector<double> tau_; // from 0 to 2*beta 
   boost::multi_array<Mat, 2> gf_;  // gf_[tau1][tau2] is the gf matrix 
+
+
+  Mat B(const double tau1, const double tau2){
+      assert(tau1 > tau2); 
+
+      if (tau1>beta){
+        if (tau2>beta) 
+            return expm(-(tau1-tau2)*KABprime) ;  
+        else
+            return expm(-(tau1-beta)*KABprime) * expm(-(beta-tau2)*KAB); 
+      }else{
+        return expm(-(tau1-tau2)*KAB);
+    }
+  }
+
+  Mat Binv(const double tau1, const double tau2){
+      assert(tau1 > tau2); 
+
+      if (tau1>beta){
+        if (tau2>beta) 
+            return expm((tau1-tau2)*KABprime) ;  
+        else
+            return expm((beta-tau2)*KAB)*exp((tau1-beta)*KABprime); 
+      }else{
+        return expm((tau1-tau2)*KAB);
+    }
+   }
+
+  Mat gf(const double tau){
+    Mat res = Eigen::MatrixXd::Identity(ns_, ns_) + B(tau, 0.) * B(2.*beta, tau); 
+    return res.inverse(); 
+  }
+
+  Mat expm(const Mat& A){return A.exp();}
 
 };
 

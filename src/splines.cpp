@@ -58,7 +58,8 @@ double InteractionExpansion::green0_spline(const itime_t delta_t, const site_t s
 ///Compute the Green's function G0 (the BARE) green's function between two points
 double InteractionExpansion::super_green0_spline(const creator &cdagger, const creator &c) const
 {
-  return super_green0_spline(cdagger.t(), c.t(), site1, site2);  
+
+  return super_green0_spline(cdagger.t(), c.t(), cdagger.s(), c.s());  
 }
 
 
@@ -68,14 +69,24 @@ double InteractionExpansion::suepr_green0_spline(const itime_t tau1, const itime
     int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
     int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
 
+    //shift site if necessary 
+    //in beta < tau < 2*beta the Ham is HABprime 
+    site_t s1 = site1; 
+    site_t s2 = site2; 
+
+    if (tau1>beta && site1 >= NA)
+         s1 = site1 + NB; 
+
+    if (tau2>beta && site2 >= NA)
+         s2 = site2 + NB;  
+
     return bilinear_interpolate(timestepinv, timestepinv,
                                 super_bare_green_itime.tau(itau1), super_bare_green_itime.tau(itau2), 
                                 super_bare_green_itime.tau(itau1+1), super_bare_green_itime.tau(itau2+1), 
-                                super_bare_green_itime(itau1, itau2, site1, site2),
-                                super_bare_green_itime(itau1, itau2+1, site1, site2),
-                                super_bare_green_itime(itau1+1, itau2, site1, site2),
-                                super_bare_green_itime(itau1+1, itau2+1, site1, site2),
+                                super_bare_green_itime(itau1, itau2, s1, s2),
+                                super_bare_green_itime(itau1, itau2+1, s1, s2),
+                                super_bare_green_itime(itau1+1, itau2, s1, s2),
+                                super_bare_green_itime(itau1+1, itau2+1, s1, s2),
                                 tau1, tau2);
-
 }
 

@@ -37,7 +37,6 @@ set (SOURCE
      interaction_expansion.cpp 
      model.cpp
      worm.cpp 
-     utils.cpp 
      )
 
 add_executable(main main.cpp ${SOURCE} observables.cpp)
