@@ -33,10 +33,15 @@ def buildH(Kmat, V):
     
     return H 
 
-def S2(Nsite, LA, beta, w, v):
+def S2(Kmat, V, LA, beta):
     '''
     compute renyi EE S2 
     '''
+    
+    Nsite = Kmat.shape[0]
+    Hmat = buildH(Kmat, V)
+
+    w, v = eigh(Hmat)
 
     weights = exp(-beta * w)
     Z = weights.sum()  
@@ -68,33 +73,28 @@ def S2(Nsite, LA, beta, w, v):
 
 
 if __name__=='__main__':
-    from numpy import array , zeros , linspace , dot , exp , diag 
+    from numpy import array , zeros , linspace , dot , exp , diag , arange 
     import scipy.sparse as sps 
     from numpy.linalg import eigh 
     import sys 
 
     L = 8
-    V = 0.0
-
     Thop = 1.0
+
+    #Kinetic energy matrix 
     Kmat = zeros((L, L),float)
-    for s in range(L-1):   
-        Kmat[s, s+1] = -Thop 
-        Kmat[s+1, s] = -Thop 
-
-    #print Kmat 
-
+    for s in range(L):   
+        Kmat[s, (s+1)%L] = -Thop 
+        Kmat[(s+1)%L, s] = -Thop 
     Kmat = sps.csr_matrix(Kmat)
 
-    Hmat = buildH(Kmat, V)
-    #print Hmat 
-
-    w, v = eigh(Hmat)
-
+     
     beta = 2.
+    LA = L/2
+    Snonint = S2(Kmat, 0.0, LA, beta)
 
-    for LA in range(1,L):
-        print LA, S2(L, LA, beta, w, v)
+    for V in arange(0.1, 1.1, 0.1):
+        print V, S2(Kmat, V, LA, beta) - Snonint  , Snonint  
 
 
 
