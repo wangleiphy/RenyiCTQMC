@@ -15,7 +15,7 @@ void InteractionExpansion::initialize_observables()
                //<< alps::ngs::RealObservable("IntE")
                ; 
 
- for (unsigned int i=1; i<= 2; ++i){
+ for (unsigned int i=0; i<2; ++i){
    {
     std::stringstream obs_name;
     obs_name<<"VertexAdd_"<<i;

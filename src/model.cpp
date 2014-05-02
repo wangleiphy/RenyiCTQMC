@@ -10,10 +10,9 @@ void InteractionExpansion::add()
   if(pert_order+1 > max_order) 
     return; 
 
-  std::vector<site_t> sites; 
-
   itime_t tau = 2.*beta*random(); 
 
+  std::vector<site_t> sites; 
   alps::graph_helper<>::bond_descriptor b = lattice.bond(randomint(n_bond));
   sites.push_back(lattice.source(b));
   sites.push_back(lattice.target(b));
@@ -32,9 +31,8 @@ void InteractionExpansion::add()
     std::stringstream obs_name;
     obs_name<<"VertexAdd_"<<sector;
     measurements[obs_name.str().c_str()] << 1.;
-
     add_impl(tau, sites, false);
- 
+
     assert(Msuper.creators().size() == Msuper.matrix().rows()); 
     assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
 

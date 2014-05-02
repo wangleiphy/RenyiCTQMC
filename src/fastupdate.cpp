@@ -10,8 +10,14 @@ std::vector<double> InteractionExpansion::add_impl(const double tau, const std::
 
     if (not compute_only_weight) {
         unsigned icopy = tau < beta ? 0 : 1;  
-        table.push_back(std::make_pair(icopy, M[icopy].num_vertices())); 
+        table.push_back(std::make_pair(icopy, M[icopy].num_vertices()-1)); 
     }
+    
+    std::cout << "begin table" << std::endl; 
+    for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
+        std::cout << it->first << " " << it->second << std::endl; 
+    }
+    std::cout << "end table" << std::endl; 
 
     return wratios; 
 }
