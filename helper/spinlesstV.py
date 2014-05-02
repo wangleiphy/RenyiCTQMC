@@ -74,7 +74,7 @@ if __name__=='__main__':
     import sys 
 
     L = 8
-    V = 1.0
+    V = 0.0
 
     Thop = 1.0
     Kmat = zeros((L, L),float)
@@ -91,7 +91,7 @@ if __name__=='__main__':
 
     w, v = eigh(Hmat)
 
-    beta = 1.
+    beta = 2.
 
     for LA in range(1,L):
         print LA, S2(L, LA, beta, w, v)

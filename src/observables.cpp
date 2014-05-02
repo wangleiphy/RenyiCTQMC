@@ -53,5 +53,5 @@ void InteractionExpansion::measure_observables()
 void InteractionExpansion::evaluate(results_type& results){
      //results["IntE"] = (-1./beta)*results["IntE"]/results["Z"];
 
-     results.insert("Zratio", eta*results["W"]/results["Z"]);
+     results.insert("Zratio", results["W"]/results["Z"]/eta);
 }
