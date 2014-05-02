@@ -7,21 +7,21 @@ void InteractionExpansion::interaction_expansion_step()
     double update_type=random();
 
     if(update_type < probs[0]){     
-        std::cout << "before add" << std::endl; 
+//        std::cout << "before add" << std::endl; 
         add();
-        std::cout << "after add" << std::endl; 
+//        std::cout << "after add" << std::endl; 
     }else if(update_type < probs[1]){
-        std::cout << "before remove" << std::endl; 
+//        std::cout << "before remove" << std::endl; 
         remove(); 
-        std::cout << "after remove" << std::endl; 
+//        std::cout << "after remove" << std::endl; 
     }else if(update_type < probs[2]){
-        std::cout << "before Z2W" << std::endl; 
+//        std::cout << "before Z2W" << std::endl; 
         Z_to_W(); 
-        std::cout << "after Z2W" << std::endl; 
+//        std::cout << "after Z2W" << std::endl; 
     }else if(update_type < probs[3]){
-        std::cout << "before W2Z" << std::endl; 
+//        std::cout << "before W2Z" << std::endl; 
         W_to_Z(); 
-        std::cout << "after W2Z" << std::endl; 
+//        std::cout << "after W2Z" << std::endl; 
     }
 }
 
@@ -68,8 +68,7 @@ void InteractionExpansion::build_matrix(){
     //std::cout << "det(M"<< icopy <<") = " << M[icopy].matrix().determinant() << std::endl; 
   }
      
-    std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
-
+   //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
 
 }
 
@@ -85,29 +84,25 @@ void InteractionExpansion::reset_perturbation_series()
     
   //reset the weight ratio 
   double new_weight = M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant();  
-
   if (fabs(new_weight/weight-1.)>1E-8) {
-    std::cout<<"WARNING: roundoff errors in weight " << weight << " " << new_weight << std::endl;
-    abort(); 
+    std::cout<<"WARNING: roundoff errors in weight " << fabs(weight-new_weight) << std::endl;
   }
-
   weight = new_weight; 
-
+    
+  //check the difference 
   Mdiff -= Msuper.matrix(); //subtract the new one 
   Mdiff = Mdiff.cwiseAbs(); //and take absolute value 
   double max_diff = Mdiff.maxCoeff(); 
 
-
   if(max_diff > 1.e-8){
-    std::cout<<"WARNING: roundoff errors " <<max_diff << std::endl;
-
-    std::cout << Mdiff << std::endl; 
-    std::cout << "creators: ";  
-    for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
-      std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
-    }
-    std::cout << std::endl; 
-    abort(); 
+    std::cout<<"WARNING: roundoff errors in Msuper " <<max_diff << std::endl;
+    //std::cout << Mdiff << std::endl; 
+    //std::cout << "creators: ";  
+    //for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
+    //  std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
+    //}
+    //std::cout << std::endl; 
+    //abort(); 
   }
 }
 

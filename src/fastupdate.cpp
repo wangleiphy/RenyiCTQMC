@@ -13,11 +13,12 @@ std::vector<double> InteractionExpansion::add_impl(const double tau, const std::
         table.push_back(std::make_pair(icopy, M[icopy].num_vertices()-1)); 
     }
     
-    std::cout << "begin table after add" << std::endl; 
-    for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
-        std::cout << it->first << " " << it->second << std::endl; 
-    }
-    std::cout << "end table after add" << std::endl; 
+        
+    //std::cout << "begin table after add" << std::endl; 
+    //for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
+    //    std::cout << it->first << " " << it->second << std::endl; 
+    //}
+    //std::cout << "end table after add" << std::endl; 
 
     return wratios; 
 }
@@ -45,11 +46,11 @@ std::vector<double> InteractionExpansion::remove_impl(const unsigned vertex, con
         }
     }
 
-    std::cout << "begin table after remove" << std::endl; 
-    for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
-        std::cout << it->first << " " << it->second << std::endl; 
-    }
-    std::cout << "end table after remove" << std::endl; 
+    //std::cout << "begin table after remove" << std::endl; 
+    //for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
+    //    std::cout << it->first << " " << it->second << std::endl; 
+    //}
+    //std::cout << "end table after remove" << std::endl; 
 
     return wratios; 
 }
