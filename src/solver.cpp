@@ -43,11 +43,11 @@ void InteractionExpansion::build_matrix(){
         }
     }
 
-   std::cout << "Msuperinv from scratch:\n" << Msuper.matrix() << std::endl; 
+   //std::cout << "Msuperinv from scratch:\n" << Msuper.matrix() << std::endl; 
    Msuper.matrix() = Msuper.matrix().inverse().eval();     
 
    //std::cout << "Msuper from scratch:\n" << Msuper.matrix() << std::endl; 
-   std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 
+   //std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 
 
     
   for (unsigned icopy=0; icopy<2; ++icopy) {
@@ -64,10 +64,12 @@ void InteractionExpansion::build_matrix(){
 
     M[icopy].matrix() = M[icopy].matrix().inverse().eval();     
 
-    std::cout << "M" << icopy << " from scratch:\n" << M[icopy].matrix() << std::endl; 
-    std::cout << "det(M"<< icopy <<") = " << M[icopy].matrix().determinant() << std::endl; 
-
+    //std::cout << "M" << icopy << " from scratch:\n" << M[icopy].matrix() << std::endl; 
+    //std::cout << "det(M"<< icopy <<") = " << M[icopy].matrix().determinant() << std::endl; 
   }
+     
+    std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
+
 
 }
 
@@ -82,10 +84,11 @@ void InteractionExpansion::reset_perturbation_series()
   build_matrix(); // rebuild Msuper and M 
     
   //reset the weight ratio 
-  double new_weight = Msuper.matrix().determinant()/M[0].matrix().determinant()/M[1].matrix().determinant();  
+  double new_weight = M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant();  
 
   if (fabs(new_weight/weight-1.)>1E-8) {
     std::cout<<"WARNING: roundoff errors in weight " << weight << " " << new_weight << std::endl;
+    abort(); 
   }
 
   weight = new_weight; 

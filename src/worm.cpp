@@ -33,11 +33,9 @@ void InteractionExpansion::W_to_Z()
       measurements["WtoZ"]<< 1.;
 
       sector = 0; 
-
       sign*=metropolis_weight<0.?-1.:1.;
 
     }else{
       measurements["WtoZ"]<<0.;
-
     }
 }
