@@ -64,9 +64,9 @@ double InteractionExpansion::Zadd_impl(const double tau, const std::vector<site_
     unsigned int icopy = tau < beta ? 0: 1;  
     unsigned int Msize = M[icopy].matrix().rows();
  
-    Eigen::MatrixXd Stilde = Eigen::MatrixXd::Zero(2, 2); // diagonal term is always zero 
-    Eigen::MatrixXd RM(2, Msize), R(2, Msize);
-    Eigen::MatrixXd Q(Msize, 2), MQ(Msize, 2);
+    Eigen::Matrix2d Stilde = Eigen::Matrix2d::Zero(); // diagonal term is always zero 
+    Eigen::Matrix2Xd RM(2, Msize), R(2, Msize);
+    Eigen::MatrixX2d Q(Msize, 2), MQ(Msize, 2);
  
     Stilde(0,1) = green0_spline(0., sites[0], sites[1]);
     Stilde(1,0) = -Stilde(0,1)* lattice.parity(sites[0])* lattice.parity(sites[1]);   
@@ -124,9 +124,9 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
 
     unsigned int Msize = Msuper.matrix().rows();
  
-    Eigen::MatrixXd Stilde = Eigen::MatrixXd::Zero(2, 2); // diagonal term is always zero 
-    Eigen::MatrixXd RM(2, Msize), R(2, Msize);
-    Eigen::MatrixXd Q(Msize, 2), MQ(Msize, 2);
+    Eigen::Matrix2d Stilde = Eigen::Matrix2d::Zero(); // diagonal term is always zero 
+    Eigen::Matrix2Xd RM(2, Msize), R(2, Msize);
+    Eigen::MatrixX2d Q(Msize, 2), MQ(Msize, 2);
  
     Stilde(0, 1) = super_green0_spline(tau, tau, sites[0], sites[1]);  
     //Stilde(0, 1) = super_bare_green_itime.gf(tau, tau, sites[0], sites[1]);  
@@ -145,7 +145,6 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
       Stilde.noalias() -= R * MQ; 
     }
 
- 
   //return weight if we have nothing else to do
   if(compute_only_weight){
     return  Stilde.determinant();// we have not yet perform the inverse, so it is actually 1./det(Stilde)
@@ -189,7 +188,7 @@ double InteractionExpansion::Zremove_impl(const unsigned vertex, const bool comp
   unsigned Msize = M[icopy].matrix().rows();
 
   // the block we want to remove
-  Eigen::MatrixXd Stilde = M[icopy].matrix().block<2,2>(2*vert, 2*vert);
+  Eigen::Matrix2d Stilde = M[icopy].matrix().block<2,2>(2*vert, 2*vert);
 
   if(compute_only_weight){
     return Stilde.determinant();
@@ -213,7 +212,8 @@ double InteractionExpansion::Zremove_impl(const unsigned vertex, const bool comp
 
   //now perform fastupdate of M
   Msize -= 2; 
-  Eigen::MatrixXd Qtilde(Msize, 2), Rtilde(2, Msize);
+  Eigen::MatrixX2d Qtilde(Msize, 2);
+  Eigen::Matrix2Xd Rtilde(2, Msize);
 
   if(Msize>0){
     Qtilde = M[icopy].matrix().topRightCorner(Msize, 2) ; //block(i,j,rows,cols)
@@ -245,7 +245,7 @@ double InteractionExpansion::Wremove_impl(const unsigned vertex, const bool comp
   unsigned Msize = Msuper.matrix().rows();
 
   // the block we want to remove
-  Eigen::MatrixXd Stilde = Msuper.matrix().block<2,2>(2*vertex, 2*vertex);
+  Eigen::Matrix2d Stilde = Msuper.matrix().block<2,2>(2*vertex, 2*vertex);
 
   if(compute_only_weight){
     return Stilde.determinant();
@@ -269,7 +269,8 @@ double InteractionExpansion::Wremove_impl(const unsigned vertex, const bool comp
 
   //now perform fastupdate of M
   Msize -= 2; 
-  Eigen::MatrixXd Qtilde(Msize, 2), Rtilde(2, Msize);
+  Eigen::MatrixX2d Qtilde(Msize, 2); 
+  Eigen::Matrix2Xd Rtilde(2, Msize);
 
   if(Msize>0){
     Qtilde = Msuper.matrix().topRightCorner(Msize, 2) ; //block(i,j,rows,cols)

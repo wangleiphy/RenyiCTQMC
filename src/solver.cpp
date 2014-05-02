@@ -88,7 +88,16 @@ void InteractionExpansion::reset_perturbation_series()
   double new_weight = M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant();  
   if (fabs(new_weight/weight-1.)>1E-8) {
     std::cout<<"WARNING: roundoff errors in weight " << fabs(weight-new_weight) << std::endl;
+
+    std::cout << Mdiff << std::endl; 
+    std::cout << "creators: ";  
+    for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
+      std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
+    }
+    std::cout << std::endl; 
+    abort(); 
   }
+
   weight = new_weight; 
     
   //check the difference 
@@ -98,13 +107,14 @@ void InteractionExpansion::reset_perturbation_series()
 
   if(max_diff > 1.e-8){
     std::cout<<"WARNING: roundoff errors in Msuper " <<max_diff << std::endl;
-    //std::cout << Mdiff << std::endl; 
-    //std::cout << "creators: ";  
-    //for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
-    //  std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
-    //}
-    //std::cout << std::endl; 
-    //abort(); 
+
+    std::cout << Mdiff << std::endl; 
+    std::cout << "creators: ";  
+    for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
+      std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
+    }
+    std::cout << std::endl; 
+    abort(); 
   }
 }
 

@@ -57,7 +57,7 @@ void InteractionExpansion::test(){
       sites.push_back(1); 
       sites.push_back(12); 
 
-      double tau = 0.84; 
+      double tau = 0.824; 
 
       std::vector<double> wratio = add_impl(tau, sites, false); //actual update M.matrix() and M.num_vertices(), false means not only calculate weight 
       std::cout << "add vertex" << std::endl; 
