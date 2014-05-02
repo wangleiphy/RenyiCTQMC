@@ -83,12 +83,18 @@ if __name__=='__main__':
 
     #Kinetic energy matrix 
     Kmat = zeros((L, L),float)
-    for s in range(L):   
-        Kmat[s, (s+1)%L] = -Thop 
-        Kmat[(s+1)%L, s] = -Thop 
+
+    #PBC 
+    #for s in range(L):   
+    #    Kmat[s, (s+1)%L] = -Thop 
+    #    Kmat[(s+1)%L, s] = -Thop 
+    #OBC 
+    for s in range(L-1):   
+        Kmat[s, s+1] = -Thop 
+        Kmat[s+1, s] = -Thop 
+
     Kmat = sps.csr_matrix(Kmat)
 
-     
     beta = 2.
     LA = L/2
     Snonint = S2(Kmat, 0.0, LA, beta)
