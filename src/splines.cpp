@@ -65,10 +65,7 @@ double InteractionExpansion::super_green0_spline(const creator &cdagger, const c
 
 ///Compute the bare green's function for a given site, and imaginary time.
 double InteractionExpansion::super_green0_spline(const itime_t tau1, const itime_t tau2, const site_t site1, const site_t site2) const
-{
-    int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
-    int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
-
+{  
     //shift site if necessary 
     //in beta <= tau < 2*beta the Ham is HABprime 
     site_t s1 = site1; 
@@ -80,6 +77,11 @@ double InteractionExpansion::super_green0_spline(const itime_t tau1, const itime
     if (tau2>=beta && site2 >= NA)
          s2 = site2 + NB;  
 
+  if(tau1 >= tau2){
+
+    int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
+    int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
+
     return bilinear_interpolate(timestepinv, timestepinv,
                                 super_bare_green_itime.tau(itau1), super_bare_green_itime.tau(itau2), 
                                 super_bare_green_itime.tau(itau1+1), super_bare_green_itime.tau(itau2+1), 
@@ -88,5 +90,19 @@ double InteractionExpansion::super_green0_spline(const itime_t tau1, const itime
                                 super_bare_green_itime(itau1+1, itau2, s1, s2),
                                 super_bare_green_itime(itau1+1, itau2+1, s1, s2),
                                 tau1, tau2);
+   }else{
+
+    int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
+    int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
+
+    return -bilinear_interpolate(timestepinv, timestepinv,
+                                super_bare_green_itime.tau(itau2), super_bare_green_itime.tau(itau1), 
+                                super_bare_green_itime.tau(itau2+1), super_bare_green_itime.tau(itau1+1), 
+                                super_bare_green_itime(itau2, itau1, s2, s1),
+                                super_bare_green_itime(itau2, itau1+1, s2, s1),
+                                super_bare_green_itime(itau2+1, itau1, s2, s1),
+                                super_bare_green_itime(itau2+1, itau1+1, s2, s1),
+                                tau2, tau1)*lattice.parity(site1) * lattice.parity(site2);
+   }
 }
 

@@ -4,7 +4,7 @@
 #include "types.h"
 #include <Eigen/Dense>
 #include <vector>
-#include <unsupported/Eigen/MatrixFunctions>
+//#include <unsupported/Eigen/MatrixFunctions>
 #include "boost/multi_array.hpp"
 
 class super_green_function{
@@ -22,25 +22,12 @@ public:
   ,NB_(NB)
   ,KAB_(KAB)
   ,KABprime_(KABprime)
+  ,wKAB()
+  ,wKABprime()
+  ,uKAB()
+  ,uKABprime()
   {
    
-   //std::cout << "K:\n" << K << std::endl; 
-    
-   /*
-   //calculate bare_green function in imaginary time 
-   for(itime_index_t it1=0; it1<ntime; ++it1){
-      double tau1 =  (double)it1*timestep; 
-      tau_[it1] = tau1; 
-      for(itime_index_t it2=0; it2<ntime; ++it2){
-        double tau2 =  (double)it1*timestep; 
-        if (tau1 > tau2)   
-            gf_[it1][it2] = B(tau1, tau2)*G(tau2); 
-        else
-            gf_[it1][it2] = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
-      }
-   }
-   */
-
    //std::cout << "super_green_function done" << std::endl; 
 
    /*output gf for test 
@@ -54,7 +41,30 @@ public:
    abort();
    */
 
-  }
+   Eigen::SelfAdjointEigenSolver<Mat> ces;
+
+   ces.compute(KAB_);
+   wKAB = ces.eigenvalues();  
+   uKAB = ces.eigenvectors(); 
+
+   ces.compute(KABprime_);
+   wKABprime = ces.eigenvalues();  
+   uKABprime = ces.eigenvectors(); 
+
+   //calculate bare_green function in imaginary time 
+   for(itime_index_t it1=0; it1<ntime; ++it1){
+      double tau1 = (double)it1*timestep; 
+      tau_[it1] = tau1; 
+      for(itime_index_t it2=0; it2<ntime; ++it2){
+        double tau2 =  (double)it2*timestep; 
+        if (tau1 >= tau2)   
+            gf_[it1][it2] = B(tau1, tau2)*G(tau2); 
+        else
+            gf_[it1][it2] = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
+      }
+   }
+ 
+}
 
   ///destructor
   ~super_green_function(){
@@ -71,7 +81,7 @@ public:
 
         site_t s1 = site1; 
         site_t s2 = site2; 
-        Mat tmp; 
+        Mat res; 
        
         if (tau1>=beta_ && site1 >= NA_)
              s1 = site1 + NB_; 
@@ -79,12 +89,12 @@ public:
         if (tau2>=beta_ && site2 >= NA_)
              s2 = site2 + NB_;  
 
-        if (tau1 > tau2)   
-            tmp = B(tau1, tau2)*G(tau2); 
+        if (tau1 >= tau2)   
+            res = B(tau1, tau2)*G(tau2); 
         else
-            tmp = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
+            res = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
 
-        return tmp(s1, s2); 
+        return res(s1, s2); 
   }
 
 
@@ -107,17 +117,21 @@ private:
   const Mat& KAB_; 
   const Mat& KABprime_; 
 
+  //eigen value and vectors of KAB and KABprime 
+  Eigen::VectorXd wKAB, wKABprime; 
+  Mat uKAB, uKABprime; 
+
   //helper functions 
   Mat B(const double tau1, const double tau2) const { // B(tau1) ... Btau(tau2)
       assert(tau1>=tau2); 
 
       if (tau1>=beta_){
         if (tau2>=beta_) 
-            return expm(-(tau1-tau2)*KABprime_) ;  
+            return expmKABprime(tau1-tau2) ;  
         else
-            return expm(-(tau1-beta_)*KABprime_) * expm(-(beta_-tau2)*KAB_); 
+            return expmKABprime(tau1-beta_) * expmKAB(beta_-tau2); 
       }else{
-        return expm(-(tau1-tau2)*KAB_);
+        return expmKAB(tau1-tau2);
     }
   }
 
@@ -126,11 +140,11 @@ private:
 
       if (tau1>=beta_){
         if (tau2>=beta_) 
-            return expm((tau1-tau2)*KABprime_) ;  
+            return expmKABprime(-(tau1-tau2)) ;  
         else
-            return expm((beta_-tau2)*KAB_)*expm((tau1-beta_)*KABprime_); 
+            return expmKAB(-(beta_-tau2))*expmKABprime(-(tau1-beta_)); 
       }else{
-        return expm((tau1-tau2)*KAB_);
+        return expmKAB(-(tau1-tau2));
     }
    }
 
@@ -139,7 +153,19 @@ private:
     return res.inverse(); 
   }
 
-  Mat expm(const Mat& A) const {return A.exp();}
+  Mat expmKAB(const double tau) const {// exp(-tau * KAB)
+      Eigen::VectorXd v(ns_); 
+      for(site_t l=0; l<ns_; ++l) 
+          v(l) = exp(-tau * wKAB(l)); 
+      return uKAB * v.asDiagonal() * uKAB.adjoint(); 
+  }
+
+  Mat expmKABprime(const double tau) const {//exp(-tau* KABprime)
+      Eigen::VectorXd v(ns_); 
+      for(site_t l=0; l<ns_; ++l) 
+          v(l) = exp(-tau * wKABprime(l)); 
+      return uKABprime * v.asDiagonal() * uKABprime.adjoint(); 
+  }
 
 };
 
