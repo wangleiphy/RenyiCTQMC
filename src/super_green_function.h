@@ -41,7 +41,7 @@ public:
    }
    */
 
-   std::cout << "super_green_function done" << std::endl; 
+   //std::cout << "super_green_function done" << std::endl; 
 
    /*output gf for test 
    for(itime_index_t it=0; it<ntime; ++it){

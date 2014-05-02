@@ -50,7 +50,7 @@ public:
    abort();
    */
 
-   std::cout << "green_function done" << std::endl; 
+   //std::cout << "green_function done" << std::endl; 
 
   }
 
