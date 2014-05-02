@@ -37,6 +37,8 @@ public:
       }
    }
 
+   std::cout << "super_green_function done" << std::endl; 
+
    /*output gf for test 
    for(itime_index_t it=0; it<ntime; ++it){
        std::cout << it << " " << tau_[it] << " " << gf_[it](0,0) 
@@ -78,11 +80,11 @@ private:
   const Mat& KABprime_; 
 
   //helper functions 
-  Mat B(const double tau1, const double tau2){
-      assert(tau1>tau2); 
+  Mat B(const double tau1, const double tau2){ // B(tau1) ... Btau(tau2)
+      assert(tau1>=tau2); 
 
-      if (tau1>beta_){
-        if (tau2>beta_) 
+      if (tau1>=beta_){
+        if (tau2>=beta_) 
             return expm(-(tau1-tau2)*KABprime_) ;  
         else
             return expm(-(tau1-beta_)*KABprime_) * expm(-(beta_-tau2)*KAB_); 
@@ -92,10 +94,10 @@ private:
   }
 
   Mat Binv(const double tau1, const double tau2){
-      assert(tau1 > tau2); 
+      assert(tau1>=tau2); 
 
-      if (tau1>beta_){
-        if (tau2>beta_) 
+      if (tau1>=beta_){
+        if (tau2>=beta_) 
             return expm((tau1-tau2)*KABprime_) ;  
         else
             return expm((beta_-tau2)*KAB_)*expm((tau1-beta_)*KABprime_); 

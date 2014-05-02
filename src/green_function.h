@@ -50,6 +50,8 @@ public:
    abort();
    */
 
+   std::cout << "green_function done" << std::endl; 
+
   }
 
   ///destructor

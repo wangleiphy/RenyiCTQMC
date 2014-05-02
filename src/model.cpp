@@ -35,8 +35,8 @@ void InteractionExpansion::add()
 
     add_impl(tau, sites, false);
  
-    assert(M.creators().size() == M.matrix().rows()); 
-    assert(M.creators().size() == 2*M.num_vertices()); 
+    assert(Msuper.creators().size() == Msuper.matrix().rows()); 
+    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
 
     sign*=metropolis_weight<0.?-1.:1.;
     
@@ -49,8 +49,8 @@ void InteractionExpansion::add()
     measurements[obs_name.str().c_str()] << 0.;
 
 
-    assert(M.creators().size() == M.matrix().rows()); 
-    assert(M.creators().size() == 2*M.num_vertices()); 
+    assert(Msuper.creators().size() == Msuper.matrix().rows()); 
+    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
   }
 }
 
