@@ -33,12 +33,15 @@ std::vector<double> InteractionExpansion::remove_impl(const unsigned vertex, con
         unsigned icopy = table[vertex].first; 
         unsigned vert = table[vertex].second; 
 
-        table.erase(table.begin() + vertex);
-
-        //for that icopy decrease all the numbering after vert by one 
-        for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
-            if (it->first == icopy && it->second>vert)
-                --(it->second) ; 
+        std::swap(table[vertex], table.back());
+        table.pop_back(); 
+            
+        //find the one corroponds to the last vert in icopy 
+        for (unsigned v =0; v< table.size(); ++v){
+            if (table[v].first == icopy && table[v].second == M[icopy].num_vertices()){
+                table[v].second = vert;  
+                break; 
+            }
         }
     }
 

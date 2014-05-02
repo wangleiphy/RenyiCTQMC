@@ -36,9 +36,9 @@ void InteractionExpansion::build_matrix(){
     for (unsigned int i=0; i< Msuper.creators().size(); ++i){
         for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
             Msuper.matrix()(i,j) = super_bare_green_itime.gf(Msuper.creators()[i].t(), Msuper.creators()[j].t(), Msuper.creators()[i].s(), Msuper.creators()[j].s());  //super_green0_spline(Msuper.creators()[i], Msuper.creators()[j]); 
-            //Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*Msuper.creators()[j].parity()*Msuper.matrix()(i,j);//anti-symmetrization 
+            Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*Msuper.creators()[j].parity()*Msuper.matrix()(i,j);//anti-symmetrization 
             //Msuper.matrix()(j,i) = super_green0_spline(Msuper.creators()[j], Msuper.creators()[i]); 
-            Msuper.matrix()(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), Msuper.creators()[i].t(), Msuper.creators()[j].s(), Msuper.creators()[i].s());  
+            //Msuper.matrix()(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), Msuper.creators()[i].t(), Msuper.creators()[j].s(), Msuper.creators()[i].s());  
 
         }
     }

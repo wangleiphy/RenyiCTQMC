@@ -28,7 +28,6 @@ void InteractionExpansion::test(){
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
    }
 
-   /*
    {//this block adds vertex
       std::vector<site_t> sites;  
 
@@ -41,7 +40,6 @@ void InteractionExpansion::test(){
       std::cout << "add vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
    }
-
 
    {//this block adds vertex
       std::vector<site_t> sites;  
@@ -58,7 +56,7 @@ void InteractionExpansion::test(){
 
 
    {//this block removes vertex 
-      unsigned vertex = 1; 
+      unsigned vertex = 0; 
 
       remove_impl(vertex, false);
       std::cout << "remove vertex" << std::endl; 
@@ -78,7 +76,6 @@ void InteractionExpansion::test(){
       std::cout << "add vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
    }
-   */
 
    std::cerr << "cdag:" << std::endl ;
    for (int i=0; i< Msuper.creators().size(); ++i){
