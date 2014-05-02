@@ -49,8 +49,8 @@ Eigen::MatrixXd buildKABprime(const alps::graph_helper<>& lattice, const unsigne
 
     //swap B and Bprime  
     for (unsigned i=NA; i<lattice.num_sites(); ++i) {
-        KABprime.row(i).swap(KABprime).row(i+NB);
-        KABprime.col(i).swap(KABprime).col(i+NB);
+        KABprime.row(i).swap(KABprime.row(i+NB));
+        KABprime.col(i).swap(KABprime.col(i+NB));
     }
 
    return KABprime; 

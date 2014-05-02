@@ -18,7 +18,7 @@ NA(boost::lexical_cast<unsigned>(parms["NA"])),
 NB(boost::lexical_cast<unsigned>(parms["NB"])),  
 K_(buildK(lattice)), 
 KAB_(buildKAB(lattice, NA)), 
-KABprime_(buildKAbprime(lattice, NA)), 
+KABprime_(buildKABprime(lattice, NA)), 
 //n_site(KAB.rows()),
 n_bond(lattice.num_bonds()),
 //n_cell(n_site/2),
@@ -39,9 +39,10 @@ timestep(1./timestepinv),// beta/Ntau
 V(boost::lexical_cast<double>(parms["V"])),                        
 recalc_period(parms["RECALC_PERIOD"] | 500),
 measurement_period(parms["MEASUREMENT_PERIOD"] | 200),
-M(), 
+M(2),  // there are two copies of M 
+Msuper(), 
 bare_green_itime(n_tau+1, K_, beta, timestep),
-superbare_green_itime(2*n_tau+1, KAB_, KABprime_, beta, 2.*timestep),
+super_bare_green_itime(2*n_tau+1, KAB_, KABprime_, beta, timestep),
 sweeps(0),
 eta(boost::lexical_cast<double>(parms["eta"])),
 weight(1.),
@@ -51,7 +52,8 @@ Remove(boost::lexical_cast<double>(parms["Remove"])),
 ZtoW(boost::lexical_cast<double>(parms["ZtoW"])),
 WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
-sector(0) // initialy we are in Z space 
+sector(0), // initialy we are in Z space 
+table()
 //n_max(boost::lexical_cast<unsigned int>(parms["n_max"]))
 //measure_unequaltime(boost::lexical_cast<bool>(parms["MEASURE_UNEQUALTIME"]) | false)
 {

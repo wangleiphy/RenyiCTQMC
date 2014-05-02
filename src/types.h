@@ -44,6 +44,5 @@ typedef unsigned int itime_index_t;
 //typedef unsigned int frequency_t;
 
 typedef alps::graph_helper<>::site_descriptor site_descriptor; 
-typedef std::map<unsigned int, std::vector<site_descriptor> > DistanceMap;
 
 #endif /*TYPES_H_*/

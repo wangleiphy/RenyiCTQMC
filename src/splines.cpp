@@ -11,9 +11,9 @@ template<class X, class Y> inline Y linear_interpolate(const X x0, const X dxinv
 //http://en.wikipedia.org/wiki/Bilinear_interpolation
 template<class X, class F> inline F bilinear_interpolate(const X dxinv, const X dyinv, 
                                                          const X x1, const X y1, 
-                                                         const X y2, const X y2, 
+                                                         const X x2, const X y2, 
                                                          const F f11, const F f12, const F f21, const F f22, 
-                                                         const X x, const X y, 
+                                                         const X x, const X y
                                                          )
 {
   return dxinv * dyinv * (f11*(x2-x)*(y2-y) + f21*(x-x1)*(y2-y) + f12*(x2-x)*(y-y1) + f22*(x-x1)*(y-y1));
@@ -64,7 +64,7 @@ double InteractionExpansion::super_green0_spline(const creator &cdagger, const c
 
 
 ///Compute the bare green's function for a given site, and imaginary time.
-double InteractionExpansion::suepr_green0_spline(const itime_t tau1, const itime_t tau2, const site_t site1, const site_t site2) const
+double InteractionExpansion::super_green0_spline(const itime_t tau1, const itime_t tau2, const site_t site1, const site_t site2) const
 {
     int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
     int itau2 = static_cast<int>(std::floor(tau2*timestepinv));

@@ -8,6 +8,7 @@
 
 #include <cmath>
 #include "green_function.h"
+#include "super_green_function.h"
 #include "types.h"
 #include "mmatrix.hpp"
 #include "operator.hpp"
@@ -29,7 +30,7 @@ public:
   double fraction_completed() const;
 
   //print progress 
-  unsigned int pertorder() const {return M.num_vertices();}; 
+  unsigned pertorder() const {return Msuper.num_vertices();}; 
   unsigned long progress() const {return sweeps;};        
 
   void build_matrix(); 
@@ -49,6 +50,9 @@ private:
   // in file spines.cpp
   double green0_spline(const creator &cdagger, const creator &c) const;
   double green0_spline(const itime_t delta_t, const site_t site1, const site_t site2) const;
+
+  double super_green0_spline(const creator &cdagger, const creator &c) const;
+  double super_green0_spline(const itime_t tau1, const itime_t tau2, const site_t site1, const site_t site2) const;
   
   /*the actual solver functions*/
   // in file solver.cpp
@@ -77,9 +81,16 @@ private:
  
 
   // in file update.cpp:
-  // add or remove vertex in partition funciton sector  
-  double add_impl(const std::vector<double>& taus, const std::vector<site_t>& sites, const bool compute_only_weight); 
-  double remove_impl(const std::vector<unsigned int>& vertices, const bool compute_only_weight);
+  // add or remove vertex  
+  std::vector<double> add_impl(const double tau, const std::vector<site_t>& sites, const bool compute_only_weight); 
+  std::vector<double> remove_impl(const unsigned vertex, const bool compute_only_weight);
+
+  //partition funciton sector
+  double Zadd_impl(const double tau, const std::vector<site_t>& sites, const bool compute_only_weight); 
+  double Zremove_impl(const unsigned vertex, const bool compute_only_weight);
+  //worm sector 
+  double Wadd_impl(const double tau, const std::vector<site_t>& sites, const bool compute_only_weight); 
+  double Wremove_impl(const unsigned vertex, const bool compute_only_weight);
 
   //in file wormupdate.cpp:
   //create or destroy the worm
@@ -119,7 +130,7 @@ private:
   Eigen::MatrixXd KAB_;
   Eigen::MatrixXd KABprime_;
 
-  const site_t n_site;                               //number of sites
+  //const site_t n_site;                               //number of sites
   const site_t n_bond;                               //number of *interaction* bond (fine when n.n. hopping and V )
   //const site_t n_cell;                             //number of unit cells = n_site/2 
   
@@ -150,7 +161,7 @@ private:
   //const unsigned int convergence_check_period;        
   
   //M matrix  
-  std::vector<m_matrix> M(2);
+  std::vector<m_matrix> M;
   m_matrix Msuper; 
 
   green_function bare_green_itime;
@@ -170,7 +181,9 @@ private:
 
   unsigned sector; 
 
-  const unsigned int n_max; 
+  //const unsigned int n_max; 
+
+  std::vector<std::pair<unsigned, unsigned> > table; // index -> (icopy, vert)
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 

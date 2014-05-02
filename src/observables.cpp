@@ -35,7 +35,7 @@ void InteractionExpansion::initialize_observables()
 void InteractionExpansion::measure_observables() 
 {
   measurements["Sign"]<<sign;
-  measurements["PertOrder"] << double(M.num_vertices()); // the true pert order 
+  measurements["PertOrder"] << double(Msuper.num_vertices()); // the pert order in total 
 
   if (sector==0){
     measurements["Z"] << 1.;

@@ -19,8 +19,8 @@ void InteractionExpansion::add()
   sites.push_back(lattice.target(b));
 
   // true means compute_only_weight
-  std::vector<double> wratios = -V*add_impl(tau, sites, true);    // wratios in the Z and W sectors 
-  double metropolis_weight = (Remove/Add)*2.*beta*n_bond/(pert_order+1)* wratios[sector]; // sector =0 (Z) =1 (W)
+  std::vector<double> wratios = add_impl(tau, sites, true);    // wratios in the Z and W sectors 
+  double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratios[sector]; // sector =0 (Z) =1 (W)
 
   //if (metropolis_weight<0.){
   //  std::cout << metropolis_weight << " < 0 in add" << std::endl; 
@@ -33,7 +33,7 @@ void InteractionExpansion::add()
     obs_name<<"VertexAdd_"<<sector;
     measurements[obs_name.str().c_str()] << 1.;
 
-    add_impl(taus, sites, false);
+    add_impl(tau, sites, false);
  
     assert(M.creators().size() == M.matrix().rows()); 
     assert(M.creators().size() == 2*M.num_vertices()); 
@@ -63,10 +63,10 @@ void InteractionExpansion::remove()
     if(pert_order < 1)
       return;    
     
-    unsigned int vertex_nr=randomint( pert_order);// pickup a random vertex 
+    unsigned int vertex = randomint(pert_order);// pickup a random vertex 
 
-    std::vector<double> wratios = remove_impl(vertices, true)/(-V); 
-    double metropolis_weight = (Add/Remove)*pert_order/(beta*n_bond)* wratio[sector];
+    std::vector<double> wratios = remove_impl(vertex, true); 
+    double metropolis_weight = (Add/Remove)*pert_order/(-2.*beta*n_bond*V)* wratios[sector];
 
     //std::cout << "after remove_impl" << std::endl; 
     //if (metropolis_weight<0.){
@@ -80,12 +80,13 @@ void InteractionExpansion::remove()
       obs_name<<"VertexRemoval_"<<sector;
       measurements[obs_name.str().c_str()] << 1.;
 
-      remove_impl(vertices, false);  // false means really perform, not only compute weight
+      remove_impl(vertex, false);  // false means really perform, not only compute weight
 
       assert(Msuper.creators().size() == Msuper.matrix().rows()); 
       assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
 
       sign*=metropolis_weight<0.?-1.:1.;
+
       weight *= wratios[1]/wratios[0]; 
 
     }else{

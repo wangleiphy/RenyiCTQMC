@@ -3,8 +3,8 @@
 
 void InteractionExpansion::print(std::ostream &os) const{
   os<<"***********************************************************************************************************"<<std::endl;
-  os<<"***                                      CTQMC for spinless fermions                                    ***"<<std::endl;
-  os<<"***                                      Lei Wang, ETH Zurich, 2013                                     ***"<<std::endl;
+  os<<"***                                      CTQMC-EE for spinless fermions                                 ***"<<std::endl;
+  os<<"***                                      Lei Wang, ETH Zurich, 2013-2014                                ***"<<std::endl;
   os<<"***                                      lewang@phys.ethz.ch                                            ***"<<std::endl;
   os<<"***********************************************************************************************************"<<std::endl;
   os<<"n_bond: "<< n_bond << std::endl; 
@@ -19,8 +19,6 @@ void InteractionExpansion::print(std::ostream &os) const{
   copy(probs.begin(), probs.end(), out_it );
  }
   os<<"\teta: "<< eta <<std::endl;
-
-  os<<"n_max: "<< n_max <<std::endl;
 }
 
 

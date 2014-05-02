@@ -22,6 +22,7 @@ void InteractionExpansion::interaction_expansion_step()
 //        std::cout << "before M2wormdestroy" << std::endl; 
         W_to_Z(); 
 //        std::cout << "after wormremove" << std::endl; 
+    }
 }
 
 
@@ -33,7 +34,7 @@ void InteractionExpansion::build_matrix(){
     for (unsigned int i=0; i< Msuper.creators().size(); ++i){
         for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
             Msuper.matrix()(i,j) = super_green0_spline(Msuper.creators()[i], Msuper.creators()[j]); 
-            Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*M.creators()[j].parity()*Msuper.matrix()(i,j);//anti-symmetrization 
+            Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*Msuper.creators()[j].parity()*Msuper.matrix()(i,j);//anti-symmetrization 
         }
     }
 
@@ -50,7 +51,7 @@ void InteractionExpansion::build_matrix(){
     M[icopy].matrix() = Eigen::MatrixXd::Zero(M[icopy].creators().size(), M[icopy].creators().size());  
     for (unsigned int i=0; i< Msuper.creators().size(); ++i){
         for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
-            M[icopy].matrix()(i,j) = green0_spline(M.creators()[i], M[icopy].creators()[j]); 
+            M[icopy].matrix()(i,j) = green0_spline(M[icopy].creators()[i], M[icopy].creators()[j]); 
             M[icopy].matrix()(j,i) = -M[icopy].creators()[i].parity()*M[icopy].creators()[j].parity()*M[icopy].matrix()(i,j);//anti-symmetrization 
         }
     }
@@ -71,7 +72,7 @@ void InteractionExpansion::reset_perturbation_series()
   build_matrix(); // rebuild Msuper and M 
     
   //reset the weight ratio 
-  double new_weight = Msuper.matrix().determinant()/M[0].matrix().determinant()/M[1].matrix.determinant();  
+  double new_weight = Msuper.matrix().determinant()/M[0].matrix().determinant()/M[1].matrix().determinant();  
 
   if (fabs(new_weight/weight-1.)>1E-8) {
     std::cout<<"WARNING: roundoff errors " << weight << " " << new_weight << std::endl;
