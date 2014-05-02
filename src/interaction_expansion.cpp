@@ -42,7 +42,7 @@ measurement_period(parms["MEASUREMENT_PERIOD"] | 200),
 M(2),  // there are two copies of M 
 Msuper(), 
 bare_green_itime(n_tau+1, K_, beta, timestep),
-super_bare_green_itime(2*n_tau+1, KAB_, KABprime_, beta, timestep),
+super_bare_green_itime(2*n_tau+1, KAB_, KABprime_, beta, NA, NB, timestep),
 sweeps(0),
 eta(boost::lexical_cast<double>(parms["eta"])),
 weight(1.),

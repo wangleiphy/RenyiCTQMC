@@ -13,11 +13,11 @@ std::vector<double> InteractionExpansion::add_impl(const double tau, const std::
         table.push_back(std::make_pair(icopy, M[icopy].num_vertices()-1)); 
     }
     
-    std::cout << "begin table" << std::endl; 
+    std::cout << "begin table after add" << std::endl; 
     for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
         std::cout << it->first << " " << it->second << std::endl; 
     }
-    std::cout << "end table" << std::endl; 
+    std::cout << "end table after add" << std::endl; 
 
     return wratios; 
 }
@@ -32,9 +32,8 @@ std::vector<double> InteractionExpansion::remove_impl(const unsigned vertex, con
     if (not compute_only_weight) {
         unsigned icopy = table[vertex].first; 
         unsigned vert = table[vertex].second; 
-        
-        std::swap(table[vertex], table.back());
-        table.pop_back(); 
+
+        table.erase(table.begin() + vertex);
 
         //for that icopy decrease all the numbering after vert by one 
         for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
@@ -42,6 +41,12 @@ std::vector<double> InteractionExpansion::remove_impl(const unsigned vertex, con
                 --(it->second) ; 
         }
     }
+
+    std::cout << "begin table after remove" << std::endl; 
+    for (std::vector<std::pair<unsigned, unsigned> >::iterator it=table.begin(); it!=table.end(); ++it){
+        std::cout << it->first << " " << it->second << std::endl; 
+    }
+    std::cout << "end table after remove" << std::endl; 
 
     return wratios; 
 }
@@ -119,12 +124,14 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
     Eigen::MatrixXd RM(2, Msize), R(2, Msize);
     Eigen::MatrixXd Q(Msize, 2), MQ(Msize, 2);
  
-    Stilde(0, 1) = super_green0_spline(tau, tau, sites[0], sites[1]);  
+    //Stilde(0, 1) = super_green0_spline(tau, tau, sites[0], sites[1]);  
+    Stilde(0, 1) = super_bare_green_itime.gf(tau, tau, sites[0], sites[1]);  
     Stilde(1, 0) = -Stilde(0, 1)* lattice.parity(sites[0])* lattice.parity(sites[1]);   
        
     for(unsigned int i=0; i<2; ++i){
      for(unsigned int j=0; j< Msize; ++j){
-          Q(j,i) = super_green0_spline(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
+          //Q(j,i) = super_green0_spline(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
+          Q(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
           R(i,j) = -lattice.parity(sites[i]) * Msuper.creators()[j].parity()* Q(j,i);//anti-symmetrization 
       }
     }
@@ -231,7 +238,7 @@ double InteractionExpansion::Zremove_impl(const unsigned vertex, const bool comp
 double InteractionExpansion::Wremove_impl(const unsigned vertex, const bool compute_only_weight)
 {
 
-  unsigned int Msize = Msuper.matrix().rows();
+  unsigned Msize = Msuper.matrix().rows();
 
   // the block we want to remove
   Eigen::MatrixXd Stilde = Msuper.matrix().block<2,2>(2*vertex, 2*vertex);

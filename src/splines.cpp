@@ -70,14 +70,14 @@ double InteractionExpansion::super_green0_spline(const itime_t tau1, const itime
     int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
 
     //shift site if necessary 
-    //in beta < tau < 2*beta the Ham is HABprime 
+    //in beta <= tau < 2*beta the Ham is HABprime 
     site_t s1 = site1; 
     site_t s2 = site2; 
 
-    if (tau1>beta && site1 >= NA)
+    if (tau1>=beta && site1 >= NA)
          s1 = site1 + NB; 
 
-    if (tau2>beta && site2 >= NA)
+    if (tau2>=beta && site2 >= NA)
          s2 = site2 + NB;  
 
     return bilinear_interpolate(timestepinv, timestepinv,
