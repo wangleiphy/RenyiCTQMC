@@ -3,9 +3,9 @@
 
 void InteractionExpansion::print(std::ostream &os) const{
   os<<"***********************************************************************************************************"<<std::endl;
-  os<<"***                                      CTQMC-EE for spinless fermions                                 ***"<<std::endl;
-  os<<"***                                      Lei Wang, ETH Zurich, 2013-2014                                ***"<<std::endl;
-  os<<"***                                      lewang@phys.ethz.ch                                            ***"<<std::endl;
+  os<<"***                           CTQMC calculation of Renyi-EE for spinless fermions                       ***"<<std::endl;
+  os<<"***                                   Lei Wang, ETH Zurich, 2013-2014                                   ***"<<std::endl;
+  os<<"***                                         lewang@phys.ethz.ch                                         ***"<<std::endl;
   os<<"***********************************************************************************************************"<<std::endl;
   os<<"n_bond: "<< n_bond << std::endl; 
   os<<"n_tau: "<<n_tau << ",\tmax order: "<<max_order << std::endl; 

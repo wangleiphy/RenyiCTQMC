@@ -13,6 +13,7 @@
 #include "mmatrix.hpp"
 #include "operator.hpp"
 #include <boost/chrono.hpp>
+#include <boost/tuple/tuple_io.hpp>
 
 /*types*/
 class c_or_cdagger;
@@ -28,10 +29,15 @@ public:
   void update();
   void measure();
   double fraction_completed() const;
+    
+  //perterbation orders in super and 0, 1 sectors 
+  boost::tuple<unsigned, unsigned, unsigned> pertorders() const 
+      {return boost::make_tuple(Msuper.num_vertices(), M[0].num_vertices(), M[1].num_vertices());}
+  double get_weight() const {return weight;}
+  unsigned get_sector() const {return sector;}
 
   //print progress 
-  unsigned pertorder() const {return Msuper.num_vertices();}; 
-  unsigned long progress() const {return sweeps;};        
+  unsigned long progress() const {return sweeps;}
 
   void build_matrix(); 
   void test(); 

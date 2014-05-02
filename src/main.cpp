@@ -11,6 +11,7 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/tokenizer.hpp>
+#include <boost/tuple/tuple_io.hpp>
 #include <functional>  
 
 //#include <alps/hdf5.hpp>
@@ -19,6 +20,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+
 
 #include <time.h>
 
@@ -58,11 +60,15 @@ class MpiSimulation : public InteractionExpansion
                     done = (fraction >= 1.);
 
                     if( communicator.rank() == 0 )
+
                         std::cout << "Completed " << 100*fraction << "%. Next check in " << timing.first << "s. " 
                                   << "Finish in " << timing.second << "s. " 
                                   << "Time used " << schedule_checker.timespend() << "s. " 
                                   << "Sweeps " << progress()  << " "
-                                  << "PertOrder " << pertorder()  << std::endl;
+                                  << "PertOrder " << pertorders() << " "
+                                  << "weight " << get_weight() << " " 
+                                  << "sector " << get_sector() 
+                                  << std::endl;
 
                 }
             }
