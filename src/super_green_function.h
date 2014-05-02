@@ -28,23 +28,6 @@ public:
   ,uKABprime()
   {
    
-   //std::cout << "K:\n" << K << std::endl; 
-    
-   /*
-   //calculate bare_green function in imaginary time 
-   for(itime_index_t it1=0; it1<ntime; ++it1){
-      double tau1 =  (double)it1*timestep; 
-      tau_[it1] = tau1; 
-      for(itime_index_t it2=0; it2<ntime; ++it2){
-        double tau2 =  (double)it1*timestep; 
-        if (tau1 > tau2)   
-            gf_[it1][it2] = B(tau1, tau2)*G(tau2); 
-        else
-            gf_[it1][it2] = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
-      }
-   }
-   */
-
    //std::cout << "super_green_function done" << std::endl; 
 
    /*output gf for test 
@@ -67,8 +50,21 @@ public:
    ces.compute(KABprime_);
    wKABprime = ces.eigenvalues();  
    uKABprime = ces.eigenvectors(); 
+
+   //calculate bare_green function in imaginary time 
+   for(itime_index_t it1=0; it1<ntime; ++it1){
+      double tau1 = (double)it1*timestep; 
+      tau_[it1] = tau1; 
+      for(itime_index_t it2=0; it2<ntime; ++it2){
+        double tau2 =  (double)it2*timestep; 
+        if (tau1 >= tau2)   
+            gf_[it1][it2] = B(tau1, tau2)*G(tau2); 
+        else
+            gf_[it1][it2] = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
+      }
+   }
  
-  }
+}
 
   ///destructor
   ~super_green_function(){
@@ -93,7 +89,7 @@ public:
         if (tau2>=beta_ && site2 >= NA_)
              s2 = site2 + NB_;  
 
-        if (tau1 > tau2)   
+        if (tau1 >= tau2)   
             res = B(tau1, tau2)*G(tau2); 
         else
             res = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 

@@ -128,14 +128,14 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
     Eigen::MatrixXd RM(2, Msize), R(2, Msize);
     Eigen::MatrixXd Q(Msize, 2), MQ(Msize, 2);
  
-    //Stilde(0, 1) = super_green0_spline(tau, tau, sites[0], sites[1]);  
-    Stilde(0, 1) = super_bare_green_itime.gf(tau, tau, sites[0], sites[1]);  
+    Stilde(0, 1) = super_green0_spline(tau, tau, sites[0], sites[1]);  
+    //Stilde(0, 1) = super_bare_green_itime.gf(tau, tau, sites[0], sites[1]);  
     Stilde(1, 0) = -Stilde(0, 1)* lattice.parity(sites[0])* lattice.parity(sites[1]);   
        
     for(unsigned int i=0; i<2; ++i){
      for(unsigned int j=0; j< Msize; ++j){
-          //Q(j,i) = super_green0_spline(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
-          Q(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
+          Q(j,i) = super_green0_spline(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
+          //Q(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
           R(i,j) = -lattice.parity(sites[i]) * Msuper.creators()[j].parity()* Q(j,i);//anti-symmetrization 
       }
     }

@@ -35,10 +35,12 @@ void InteractionExpansion::build_matrix(){
     Msuper.matrix() = Eigen::MatrixXd::Zero(Msuper.creators().size(), Msuper.creators().size());  
     for (unsigned int i=0; i< Msuper.creators().size(); ++i){
         for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
-            Msuper.matrix()(i,j) = super_bare_green_itime.gf(Msuper.creators()[i].t(), Msuper.creators()[j].t(), Msuper.creators()[i].s(), Msuper.creators()[j].s());  //super_green0_spline(Msuper.creators()[i], Msuper.creators()[j]); 
+
+            Msuper.matrix()(i,j) = super_green0_spline(Msuper.creators()[i], Msuper.creators()[j]); 
+            //Msuper.matrix()(i,j) = super_bare_green_itime.gf(Msuper.creators()[i].t(), Msuper.creators()[j].t(), Msuper.creators()[i].s(), Msuper.creators()[j].s());  // recompute 
             Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*Msuper.creators()[j].parity()*Msuper.matrix()(i,j);//anti-symmetrization 
-            //Msuper.matrix()(j,i) = super_green0_spline(Msuper.creators()[j], Msuper.creators()[i]); 
-            //Msuper.matrix()(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), Msuper.creators()[i].t(), Msuper.creators()[j].s(), Msuper.creators()[i].s());  
+            //Msuper.matrix()(j,i) = super_green0_spline(Msuper.creators()[j], Msuper.creators()[i]); // compute using interpolation 
+            //Msuper.matrix()(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), Msuper.creators()[i].t(), Msuper.creators()[j].s(), Msuper.creators()[i].s());  // recompute 
 
         }
     }
@@ -50,7 +52,7 @@ void InteractionExpansion::build_matrix(){
    //std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 
 
     
-  for (unsigned icopy=0; icopy<2; ++icopy) {
+   for (unsigned icopy=0; icopy<2; ++icopy) {
 
     assert(M[icopy].creators().size() == 2*M[icopy].num_vertices()); 
 
