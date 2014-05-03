@@ -30,17 +30,6 @@ public:
    
    //std::cout << "super_green_function done" << std::endl; 
 
-   /*output gf for test 
-   for(itime_index_t it=0; it<ntime; ++it){
-       std::cout << it << " " << tau_[it] << " " << gf_[it](0,0) 
-                                          << " " << gf_[it](0,1) 
-                                          << " " << gf_[it](1,0) 
-                                          << " " << gf_[it](0,2) 
-                                          << " " << gf_[it](2,0) << std::endl; 
-   }
-   abort();
-   */
-
    Eigen::SelfAdjointEigenSolver<Mat> ces;
 
    ces.compute(KAB_);
@@ -63,7 +52,15 @@ public:
             gf_[it1][it2] = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
       }
    }
- 
+
+   //output gf for test 
+   for(itime_index_t it1=0; it1<ntime; ++it1){
+    for(itime_index_t it2=0; it2<ntime; ++it2){
+        std::cout << tau_[it1] << " "<< tau_[it2] << " " << gf_[it1][it2](0,5) << std::endl; 
+    }
+    std::cout << std::endl; 
+   }
+   abort();
 }
 
   ///destructor
