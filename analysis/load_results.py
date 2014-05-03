@@ -22,8 +22,9 @@ group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument("-show", action='store_true',  help="show figure right now")
 group.add_argument("-outname", default="result.pdf",  help="output pdf file")
 
-
 args = parser.parse_args()
+
+y = 'dS2'
 
 resultFiles = []
 for fileheader in args.fileheaders:
@@ -47,16 +48,16 @@ for fileheader in args.fileheaders:
 data = []
 print resultFiles 
 
-data = pyalps.loadMeasurements(resultFiles, 'Zratio')
+data = pyalps.loadMeasurements(resultFiles, y)
 data = pyalps.flatten(data)
 print data 
 
-res = pyalps.collectXY(data, x='V', y='Zratio', foreach = ['TEMPERATURE'])
+res = pyalps.collectXY(data, x='V', y=y, foreach = ['TEMPERATURE'])
 
 print res 
 
-for d in res:
-    d.y = log(1/d.y)
+#for d in res:
+#    d.y = log(1/d.y)
 
 print pyalps.plot.convertToText(res)
 pyalps.plot.plot(res)

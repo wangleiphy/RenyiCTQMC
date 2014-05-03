@@ -12,12 +12,12 @@ eta = 1.0
 
 latticename = 'open chain lattice'
 ###############################
-nickname = 'firsttry'
+nickname = 'interpgf'
 
 Llist = [8]
 NAlist = [4]
 
-Tlist = [0.25]
+Tlist = [0.5]
 Vlist = arange(0.1, 1.1, 0.1)
 
 
@@ -27,7 +27,7 @@ SWEEPS = 10**6
 Nscratch = 1000
 
 ##############################
-wtime = '2:00:00'
+wtime = '1:00:00'
 tmin = 300
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
