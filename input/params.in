@@ -1,6 +1,6 @@
 LATTICE_LIBRARY = "../input/mylattices.xml"
 LATTICE = "open chain lattice"
-L = 16 
+L = 8 
 MAX_ORDER = 8192
 N_TAU = 500
 TEMPERATURE = 1.0

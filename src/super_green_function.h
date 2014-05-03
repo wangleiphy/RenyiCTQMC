@@ -40,12 +40,14 @@ public:
    wKABprime = ces.eigenvalues();  
    uKABprime = ces.eigenvectors(); 
 
-   //calculate bare_green function in imaginary time use hirsch's direct inversion method 
+    
+   //taulist [0, 2*beta)
    for(itime_index_t it=0; it<nt_; ++it)
       tau_[it] = (double)it*dtau_;
- 
+    
+   //calculate bare_green function in imaginary time use hirsch's direct inversion method 
    Mat hirsch(Mat::Identity(nt_*ns_, nt_*ns_)); 
-   hirsch.block(0, (nt_-1)*ns_, ns_, ns_) = B(tau_[nt_-1]+dtau_, tau_[nt_-1]); 
+   hirsch.block(0, (nt_-1)*ns_, ns_, ns_) = B(2.*beta_, tau_[nt_-1]); 
    for(itime_index_t it=1; it<nt_; ++it)
       hirsch.block(it*ns_, (it-1)*ns_, ns_, ns_) = -B(tau_[it], tau_[it-1]); 
 
@@ -57,14 +59,24 @@ public:
       }
    }
 
+   /* 
+   for(itime_index_t it1=0; it1<ntime; ++it1){
+    for(itime_index_t it2=0; it2<ntime; ++it2){
+        gf_[it1][it2] = fromscratch(tau_[it1], tau_[it2]); 
+     }
+    } 
+   */
+
+   /*
    //output gf for test 
    for(itime_index_t it1=0; it1<ntime; ++it1){
     for(itime_index_t it2=0; it2<ntime; ++it2){
-        std::cout << tau_[it1] << " "<< tau_[it2] << " " << gf_[it1][it2](0, 5) << " " << fromscratch(tau_[it1], tau_[it2], 0, 5)  << std::endl; 
+        std::cout << tau_[it1] << " "<< tau_[it2] << " " << gf_[it1][it2](0, 5) << " " << fromscratch(tau_[it1], tau_[it2])(0,5)  << std::endl; 
    }
     std::cout << std::endl; 
    }
    abort();
+   */
 
    //std::cout << "super_green_function done" << std::endl; 
 }
@@ -77,19 +89,21 @@ public:
 
 
   //direct compute 
-  inline double fromscratch(const double tau1, const double tau2, const unsigned site1, const unsigned site2)const{
+  inline Mat fromscratch(const double tau1, const double tau2)const{
 
-        Mat res; 
-        if (tau1 >= tau2)   
-            res = B(tau1, tau2)*G(tau2); 
-        else
-            res = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
+      //site1 and site2 should be already shifted 
+      Mat res; 
+      if (tau1 >= tau2)   
+          res = B(tau1, tau2)*G(tau2); 
+      else
+          res = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
 
-        return res(site1, site2); 
+      return res; 
   }
 
-
+  //propagation from a given grid 
   inline double operator()(const double tau1, const double tau2, const unsigned site1, const unsigned site2)const{
+    //site1 and site2 should be already shifted 
     //find the nearest point then propagate  
     int it1 = static_cast<int>(std::floor(tau1/dtau_));
     int it2 = static_cast<int>(std::floor(tau2/dtau_));
@@ -148,7 +162,7 @@ private:
       }
    }
 
-  Mat G(const double tau) const {
+  Mat G(const double tau) const {// this is very expansive because of inverse; only called when doing initialization 
     Mat res = Eigen::MatrixXd::Identity(ns_, ns_) + B(tau, 0.) * B(2.*beta_, tau); 
     return res.inverse(); 
   }
