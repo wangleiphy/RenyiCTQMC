@@ -47,7 +47,7 @@ public:
    Mat hirsch(Mat::Identity(nt_*ns_, nt_*ns_)); 
    hirsch.block(0, (nt_-1)*ns_, ns_, ns_) = B(tau_[nt_-1]+dtau_, tau_[nt_-1]); 
    for(itime_index_t it=1; it<nt_; ++it)
-      hirsch.block(it*ns_, (it-1)*ns_, ns_, ns_) = -B(tau_[it]+dtau_, tau_[it]); 
+      hirsch.block(it*ns_, (it-1)*ns_, ns_, ns_) = -B(tau_[it], tau_[it-1]); 
 
    hirsch = hirsch.inverse().eval(); 
 
