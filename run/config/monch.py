@@ -8,26 +8,26 @@ Remove = 0.2
 
 ZtoW = 0.3
 WtoZ = 0.3
-eta = 1.0
+eta = 0.5
 
-latticename = 'open chain lattice'
+latticename = 'honeycomb lattice'
 ###############################
 nickname = 'hirsch'
 
-Llist = [8]
-NAlist = [4]
+Llist = [6]
+NAlist = [36]
 
 Tlist = [0.1]
-Vlist = arange(0.1, 1.1, 0.1)
+Vlist = arange(0.8, 1.6, 0.1)
 
 
-NSKIP = 500
+NSKIP = 100
 THERMALIZATION = 10**5
 SWEEPS = 10**6
 Nscratch = 1000
 
 ##############################
-wtime = '1:00:00'
+wtime = '12:00:00'
 tmin = 300
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 

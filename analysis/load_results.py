@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description='')
 parser.add_argument("-fileheaders", nargs='+', default="params", help="fileheaders")
 
 #parser.add_argument("-x", default="TEMPERATURE", help="variable")
-#parser.add_argument("-y", default="dS2", help="observable")
+parser.add_argument("-y", default="dS2", help="observable")
 parser.add_argument("-copydata", action='store_true',  help="copy data")
 
 group = parser.add_mutually_exclusive_group(required=True)
@@ -24,11 +24,11 @@ group.add_argument("-outname", default="result.pdf",  help="output pdf file")
 
 args = parser.parse_args()
 
-y = 'dS2'
-
 resultFiles = []
 for fileheader in args.fileheaders:
     resultFiles += pyalps.getResultFiles(prefix=fileheader)
+
+resultFiles = list(set(resultFiles))
 
 #filter resultFilies
 #for f in list(resultFiles):
@@ -48,11 +48,11 @@ for fileheader in args.fileheaders:
 data = []
 print resultFiles 
 
-data = pyalps.loadMeasurements(resultFiles, y)
+data = pyalps.loadMeasurements(resultFiles, args.y)
 data = pyalps.flatten(data)
 print data 
 
-res = pyalps.collectXY(data, x='V', y=y, foreach = ['TEMPERATURE'])
+res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE'])
 
 print res 
 

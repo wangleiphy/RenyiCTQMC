@@ -95,7 +95,7 @@ if __name__=='__main__':
 
     Kmat = sps.csr_matrix(Kmat)
 
-    beta = 2.
+    beta = 10.
     LA = L/2
     Snonint = S2(Kmat, 0.0, LA, beta)
 
