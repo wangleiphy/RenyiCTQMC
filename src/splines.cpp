@@ -77,10 +77,15 @@ double InteractionExpansion::super_green0_spline(const itime_t tau1, const itime
     if (tau2>=beta && site2 >= NA)
          s2 = site2 + NB;  
 
-  if(tau1 >= tau2){
+    //interpolate on a grind of (tau_avg , tau_diff) 
+    double tau_avg = 0.5*(tau1+tau2); 
+    double tau_diff = tau1 - tau2; 
 
-    int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
-    int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
+    int itau1 = static_cast<int>(std::floor(tau_avg*timestepinv));
+    
+
+  if(tau_diff>=0.){
+    int itau2 = static_cast<int>(std::floor(tau_diff*timestepinv));
 
     return bilinear_interpolate(timestepinv, timestepinv,
                                 super_bare_green_itime.tau(itau1), super_bare_green_itime.tau(itau2), 
@@ -89,20 +94,22 @@ double InteractionExpansion::super_green0_spline(const itime_t tau1, const itime
                                 super_bare_green_itime(itau1, itau2+1, s1, s2),
                                 super_bare_green_itime(itau1+1, itau2, s1, s2),
                                 super_bare_green_itime(itau1+1, itau2+1, s1, s2),
-                                tau1, tau2);
+                                tau_avg, tau_diff);
    }else{
 
-    int itau1 = static_cast<int>(std::floor(tau1*timestepinv));
-    int itau2 = static_cast<int>(std::floor(tau2*timestepinv));
+   int itau2 = static_cast<int>(std::floor(-tau_diff*timestepinv));
 
     return -bilinear_interpolate(timestepinv, timestepinv,
-                                super_bare_green_itime.tau(itau2), super_bare_green_itime.tau(itau1), 
-                                super_bare_green_itime.tau(itau2+1), super_bare_green_itime.tau(itau1+1), 
-                                super_bare_green_itime(itau2, itau1, s2, s1),
-                                super_bare_green_itime(itau2, itau1+1, s2, s1),
-                                super_bare_green_itime(itau2+1, itau1, s2, s1),
-                                super_bare_green_itime(itau2+1, itau1+1, s2, s1),
-                                tau2, tau1)*lattice.parity(site1) * lattice.parity(site2);
+                                super_bare_green_itime.tau(itau1), super_bare_green_itime.tau(itau2), 
+                                super_bare_green_itime.tau(itau1+1), super_bare_green_itime.tau(itau2+1), 
+                                super_bare_green_itime(itau1, itau2, s2, s1),
+                                super_bare_green_itime(itau1, itau2+1, s2, s1),
+                                super_bare_green_itime(itau1+1, itau2, s2, s1),
+                                super_bare_green_itime(itau1+1, itau2+1, s2, s1),
+                                tau_avg, -tau_diff)*lattice.parity(site1) * lattice.parity(site2);
    }
+    
+  //compare with direct calculation 
+  //std::cout << tau1 << " " << tau2 << " " << s1 << " " << s2 << " " << res << " " << super_bare_green_itime.gf(tau1, tau2, site1, site2) << std::endl;
+  //return res; 
 }
-

@@ -41,18 +41,21 @@ public:
    uKABprime = ces.eigenvectors(); 
 
    //calculate bare_green function in imaginary time 
-   for(itime_index_t it1=0; it1<ntime; ++it1){
-      double tau1 = (double)it1*timestep; 
-      tau_[it1] = tau1; 
-      for(itime_index_t it2=0; it2<ntime; ++it2){
-        double tau2 =  (double)it2*timestep; 
-        if (tau1 >= tau2)   
-            gf_[it1][it2] = B(tau1, tau2)*G(tau2); 
-        else
-            gf_[it1][it2] = (G(tau1)- Eigen::MatrixXd::Identity(ns_, ns_))*  Binv(tau2, tau1); 
+   for(itime_index_t it_avg=0; it_avg<ntime; ++it_avg){
+      double tau_avg = (double)it_avg*timestep; 
+      tau_[it_avg] = tau_avg; 
+
+      for(itime_index_t it_diff=0; it_diff<ntime; ++it_diff){
+        double tau_diff =  (double)it_diff*timestep;  // >=0 
+
+        double tau1 = tau_avg + 0.5*tau_diff; 
+        double tau2 = tau_avg - 0.5*tau_diff; 
+
+        gf_[it_avg][it_diff] = B(tau1, tau2)*G(tau2); 
       }
    }
 
+   /*
    //output gf for test 
    for(itime_index_t it1=0; it1<ntime; ++it1){
     for(itime_index_t it2=0; it2<ntime; ++it2){
@@ -61,6 +64,7 @@ public:
     std::cout << std::endl; 
    }
    abort();
+   */
 }
 
   ///destructor
@@ -69,8 +73,8 @@ public:
 
   inline double tau(const itime_index_t it) const {return tau_[it];}
 
-  inline double operator()(const unsigned it1, const unsigned it2, const unsigned s1, const unsigned s2)const{
-      return gf_[it1][it2](s1, s2);}
+  inline double operator()(const unsigned it_avg, const unsigned it_diff, const unsigned s1, const unsigned s2)const{
+      return gf_[it_avg][it_diff](s1, s2);}
 
 
   //direct compute 

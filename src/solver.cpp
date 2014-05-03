@@ -70,7 +70,7 @@ void InteractionExpansion::build_matrix(){
     //std::cout << "det(M"<< icopy <<") = " << M[icopy].matrix().determinant() << std::endl; 
   }
      
-   //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
+    //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
 
 }
 

@@ -41,7 +41,7 @@ void InteractionExpansion::test(){
       sites.push_back(12); 
       sites.push_back(13); 
 
-      double tau = 1.824; 
+      double tau = 1.9; 
 
       std::vector<double> wratio = add_impl(tau, sites, false); //actual update M.matrix() and M.num_vertices(), false means not only calculate weight 
       std::cout << "add vertex" << std::endl; 
@@ -67,7 +67,6 @@ void InteractionExpansion::test(){
  
    }
 
-
    {//this block removes vertex 
       unsigned vertex = 0; 
 
@@ -78,7 +77,7 @@ void InteractionExpansion::test(){
       std::cout << "weight: " << weight << std::endl; 
  
    }
-
+  /*
 
    {//this block adds vertex
       std::vector<site_t> sites;  
@@ -95,6 +94,7 @@ void InteractionExpansion::test(){
       std::cout << "weight: " << weight << std::endl; 
 
    }
+   */
 
    std::cerr << "cdag:" << std::endl ;
    for (int i=0; i< Msuper.creators().size(); ++i){
