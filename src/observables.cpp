@@ -54,4 +54,5 @@ void InteractionExpansion::evaluate(results_type& results){
      //results["IntE"] = (-1./beta)*results["IntE"]/results["Z"];
 
      results.insert("dS2", log(eta*results["Z"]/results["W"])); // dS2 = -log(W/Z)
+     results.insert("S2", S2 + results["dS2"]); 
 }

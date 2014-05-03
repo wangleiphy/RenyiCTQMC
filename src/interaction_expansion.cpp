@@ -6,6 +6,7 @@
 #include <boost/lexical_cast.hpp>
 #include <limits>
 #include "buildK.h"
+#include "nonintS2.h"
 //#include "bgl.hpp"
 
 InteractionExpansion::InteractionExpansion(alps::params &parms, int node)
@@ -53,7 +54,8 @@ ZtoW(boost::lexical_cast<double>(parms["ZtoW"])),
 WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
 sector(0), // initialy we are in Z space 
-table()
+table(),
+S2(nonintS2(K_, NA, beta))
 //n_max(boost::lexical_cast<unsigned int>(parms["n_max"]))
 //measure_unequaltime(boost::lexical_cast<bool>(parms["MEASURE_UNEQUALTIME"]) | false)
 {

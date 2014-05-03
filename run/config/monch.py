@@ -31,7 +31,7 @@ wtime = '12:00:00'
 tmin = 300
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
-prog = '../bin/hirsch'
+prog = '../bin/main'
 
 resfolder = '/mnt/lnec/lewang/renyidata/' + nickname  + '/'
 h, m, s = [int(i) for i in wtime.split(':')]

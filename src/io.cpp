@@ -8,6 +8,7 @@ void InteractionExpansion::print(std::ostream &os) const{
   os<<"***                                         lewang@phys.ethz.ch                                         ***"<<std::endl;
   os<<"***********************************************************************************************************"<<std::endl;
   os<<"n_bond: "<< n_bond << ",\tNA: " << NA << std::endl; 
+  os<<"noninteracting S2: "<< S2 << std::endl; 
   os<<"n_tau: "<<n_tau << ",\tmax order: "<<max_order << std::endl; 
   os<<"mc steps: "<<mc_steps << ",\ttherm steps: "<<therm_steps << std::endl;
   os<<"recalc period: "<<recalc_period<<",\tmeasurement period: "<< measurement_period << std::endl; 

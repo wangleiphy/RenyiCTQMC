@@ -187,9 +187,9 @@ private:
 
   unsigned sector; 
 
-  //const unsigned int n_max; 
-
   std::vector<std::pair<unsigned, unsigned> > table; // index -> (icopy, vert)
+
+  double S2;
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 
