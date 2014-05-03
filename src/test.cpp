@@ -20,6 +20,7 @@ void InteractionExpansion::test(){
       std::cout << "weight: " << weight << std::endl; 
    }
    
+  /*
    {//this block adds vertex
       std::vector<site_t> sites;  
       sites.push_back(3); 
@@ -77,7 +78,6 @@ void InteractionExpansion::test(){
       std::cout << "weight: " << weight << std::endl; 
  
    }
-  /*
 
    {//this block adds vertex
       std::vector<site_t> sites;  
