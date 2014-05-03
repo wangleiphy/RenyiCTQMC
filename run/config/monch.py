@@ -12,12 +12,12 @@ eta = 1.0
 
 latticename = 'open chain lattice'
 ###############################
-nickname = 'interpgf'
+nickname = 'hirsch'
 
 Llist = [8]
 NAlist = [4]
 
-Tlist = [0.5]
+Tlist = [0.1]
 Vlist = arange(0.1, 1.1, 0.1)
 
 
@@ -31,7 +31,7 @@ wtime = '1:00:00'
 tmin = 300
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
-prog = '../bin/main'
+prog = '../bin/hirsch'
 
 resfolder = '/mnt/lnec/lewang/renyidata/' + nickname  + '/'
 h, m, s = [int(i) for i in wtime.split(':')]
