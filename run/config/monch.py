@@ -17,8 +17,8 @@ nickname = 'firsttry'
 Llist = [8]
 NAlist = [4]
 
-Tlist = [0.5]
-Vlist = [0.5]
+Tlist = [0.25]
+Vlist = arange(0.1, 1.1, 0.1)
 
 
 NSKIP = 500
@@ -57,7 +57,7 @@ def submitJob(bin,args,jobname,wtime,run=False,ncores=20, wait=None):
 
     if wait is not None:
         dependency ='''
-#SBATCH --dependency=afterany:%g\n'''%(wait)
+#SBATCH --dependency=afterany:%d\n'''%(wait)
         job += dependency 
 
 
