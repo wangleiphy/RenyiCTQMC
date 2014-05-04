@@ -54,10 +54,24 @@ public:
       hirsch.block(it*ns_, (it-1)*ns_, ns_, ns_) = -B(tau_[it], tau_[it-1]); 
 
    hirsch = hirsch.inverse().eval(); 
-
+    
+   //we donot store gf but Udagger * gf * U 
+   Mat left, right;   
    for(itime_index_t it1=0; it1<nt_; ++it1){
     for(itime_index_t it2=0; it2<nt_; ++it2){
-        gf_[it1][it2] = hirsch.block(it1*ns_, it2*ns_, ns_, ns_); 
+
+        if (tau_[it1]>=beta_)
+            left = uKABprime.adjoint();
+        else 
+            left = uKAB.adjoint();
+
+        if (tau_[it2]>=beta_)
+            right = uKABprime;
+        else
+            right = uKAB; 
+
+         gf_[it1][it2] = left * hirsch.block(it1*ns_, it2*ns_, ns_, ns_) * right; 
+
       }
    }
 
@@ -112,7 +126,33 @@ public:
 
     //return B(tau1, tau_[it1]).row(site1) * gf_[it1][it2] * Binv(tau2, tau_[it2]).col(site2); 
     //return B(tau1, tau_[it1], site1) * gf_[it1][it2] * Binv(tau2, tau_[it2]).col(site2); 
-    return B(tau1, tau_[it1], site1)* gf_[it1][it2] * Binv(tau2, tau_[it2], site2); 
+    //return B(tau1, tau_[it1], site1)* gf_[it1][it2] * Binv(tau2, tau_[it2], site2); 
+
+      RowVector left; 
+      ColVector right; 
+
+      if(tau1>=beta_){
+           left = uKABprime.row(site1); 
+           for(site_t l=0; l<left.size(); ++l) 
+               left(l) *= exp(-(tau1-tau_[it1]) * wKABprime(l)); 
+      }else{
+            left = uKAB.row(site1); 
+            for(site_t l=0; l<left.size(); ++l) 
+                left(l) *= exp(-(tau1-tau_[it1]) * wKAB(l)); 
+      }
+
+      if (tau2>=beta_){
+            right  = uKABprime.adjoint().col(site2); 
+            for(site_t l=0; l<right.size(); ++l) 
+                right(l) *= exp((tau2-tau_[it2]) * wKABprime(l)); 
+      }else{
+            right = uKAB.adjoint().col(site2); 
+            for(site_t l=0; l<right.size(); ++l) 
+                right(l) *= exp((tau2-tau_[it2]) * wKAB(l)); 
+      }
+
+     return left* gf_[it1][it2] * right; 
+
   }
 
   //size information
