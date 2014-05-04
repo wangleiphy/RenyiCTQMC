@@ -10,6 +10,8 @@
 class super_green_function{
 public:
   typedef Eigen::MatrixXd  Mat;
+  typedef Eigen::Matrix< double , 1, Eigen::Dynamic >  RowVector; 
+  typedef Eigen::Matrix< double , Eigen::Dynamic, 1 >  ColVector; 
 
   ///constructor: how many time slices, how many sites
   super_green_function(unsigned ntime, const Mat& KAB, const Mat& KABprime, const itime_t beta)
@@ -108,7 +110,9 @@ public:
     int it1 = static_cast<int>(std::floor(tau1/dtau_));
     int it2 = static_cast<int>(std::floor(tau2/dtau_));
 
-    return B(tau1, tau_[it1]).row(site1) * gf_[it1][it2] * Binv(tau2, tau_[it2]).col(site2); 
+    //return B(tau1, tau_[it1]).row(site1) * gf_[it1][it2] * Binv(tau2, tau_[it2]).col(site2); 
+    //return B(tau1, tau_[it1], site1) * gf_[it1][it2] * Binv(tau2, tau_[it2]).col(site2); 
+    return B(tau1, tau_[it1], site1)* gf_[it1][it2] * Binv(tau2, tau_[it2], site2); 
   }
 
   //size information
@@ -149,6 +153,28 @@ private:
       }
   }
 
+  RowVector B(const double tau1, const double tau2, const unsigned row) const { //only compute a given row of B, tau1 is a bit bigger than tau2  
+
+      assert(tau1>=tau2); 
+
+      if (tau1>=beta_){
+        if (tau2>=beta_) {
+              RowVector v = uKABprime.row(row); 
+              for(site_t l=0; l<v.size(); ++l) 
+                  v(l) *= exp(-(tau1-tau2) * wKABprime(l)); 
+              return v* uKABprime.adjoint();
+        }else{
+            std::cout << "tau1>=beta but tau2< beta happened in B" << std::endl; 
+            abort(); // this should never happen 
+        }
+      }else{
+            RowVector v = uKAB.row(row); 
+            for(site_t l=0; l<v.size(); ++l) 
+                v(l) *= exp(-(tau1-tau2) * wKAB(l)); 
+            return v* uKAB.adjoint(); 
+      }
+  }
+
   Mat Binv(const double tau1, const double tau2) const {
       assert(tau1>=tau2); 
 
@@ -162,7 +188,30 @@ private:
       }
    }
 
-  Mat G(const double tau) const {// this is very expansive because of inverse; only called when doing initialization 
+
+  ColVector Binv(const double tau1, const double tau2, const unsigned col) const {
+      assert(tau1>=tau2); 
+
+      if (tau1>=beta_){
+        if (tau2>=beta_){
+            ColVector v = uKABprime.adjoint().col(col); 
+            for(site_t l=0; l<v.size(); ++l) 
+                v(l) *= exp((tau1-tau2) * wKABprime(l)); 
+            return uKABprime * v; 
+        }else{
+            std::cout << "tau1>=beta but tau2< beta happened in Binv" << std::endl; 
+            abort(); // this should never happen 
+        }
+      }else{
+            ColVector v = uKAB.adjoint().col(col); 
+            for(site_t l=0; l<v.size(); ++l) 
+                v(l) *= exp((tau1-tau2) * wKAB(l)); 
+            return uKAB * v; 
+      }
+   }
+
+
+  Mat G(const double tau) const {// this is very expansive because of inverse
     Mat res = Eigen::MatrixXd::Identity(ns_, ns_) + B(tau, 0.) * B(2.*beta_, tau); 
     return res.inverse(); 
   }
