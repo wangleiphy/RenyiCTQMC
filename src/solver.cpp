@@ -27,6 +27,31 @@ void InteractionExpansion::interaction_expansion_step()
 
 
 void InteractionExpansion::build_matrix(){
+  //rebuild matrix by adding vertices back one by one 
+    
+  //copy creators out as clear will destroy it  
+  std::vector<creator> creators = Msuper.creators(); 
+
+  Msuper.clear(); 
+  M[0].clear(); 
+  M[1].clear();  
+
+  logweight = 0.;  
+  for (unsigned i=0; i< creators.size()/2; ++i){
+     double tau = creators[2*i].t(); 
+
+     std::vector<site_t> sites; 
+     sites.push_back(creators[2*i].s());
+     sites.push_back(creators[2*i+1].s());
+
+     std::vector<double> wratios = add_impl(tau, sites, false);  
+     logweight += log(fabs(wratios[1])) - log(fabs(wratios[0]));  
+    }
+}
+
+/*
+void InteractionExpansion::build_matrix(){
+//rebuild matrix from scratch 
 
     //rebuild super Matrix 
     assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
@@ -73,6 +98,7 @@ void InteractionExpansion::build_matrix(){
     //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
 
 }
+*/
 
 ///Every now and then we have to recreate M from scratch to avoid roundoff error.
 void InteractionExpansion::reset_perturbation_series()
@@ -82,24 +108,31 @@ void InteractionExpansion::reset_perturbation_series()
   if (Msuper.creators().size()<1) return; //do not rebuilt for empty matrix 
 
   m_matrix::matrix_t Mdiff(Msuper.matrix()); //make a copy of M.matrix()
-  build_matrix(); // rebuild Msuper and M 
-    
-  //reset the weight ratio 
-  double new_logweight = log(fabs(M[0].matrix().determinant())) + log(fabs(M[1].matrix().determinant())) - log(fabs(Msuper.matrix().determinant()));  
-  if (fabs(new_logweight- logweight)>1E-8) {
-    std::cout<<"WARNING: roundoff errors in weight " << exp(logweight) << " " <<  exp(new_logweight) << std::endl;
+  double logweight_old = logweight; 
 
-    //std::cout << Mdiff << std::endl; 
-    //std::cout << "creators: ";  
-    //for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
-    //  std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
-    //}
-    //std::cout << std::endl; 
-    //abort(); 
-  }
+  build_matrix(); // rebuild Msuper and M and logweight 
+  
+  //if we add them back one by one, we are able to calculate detraio   
+  //reset the weight ratio 
+  //double new_logweight = log(fabs(M[0].matrix().determinant())) + log(fabs(M[1].matrix().determinant())) - log(fabs(Msuper.matrix().determinant()));  
+  //if (fabs(new_logweight- logweight)>1E-8) {
+  //std::cout<<"WARNING: roundoff errors in weight " << exp(logweight) << " " <<  exp(new_logweight) << std::endl;
+
+  //std::cout << Mdiff << std::endl; 
+  //std::cout << "creators: ";  
+  //for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
+  //  std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
+  //}
+  //std::cout << std::endl; 
+  //abort(); 
+  //}
   //logweight = new_logweight; 
 
-  //check the difference 
+  //check logweight 
+  if (fabs(logweight_old- logweight)>1E-8)
+      std::cout<<"WARNING: roundoff errors in weight " << exp(logweight_old) << " " <<  exp(logweight) << std::endl;
+
+  //check the difference of M matrix 
   Mdiff -= Msuper.matrix(); //subtract the new one 
   Mdiff = Mdiff.cwiseAbs(); //and take absolute value 
   double max_diff = Mdiff.maxCoeff(); 

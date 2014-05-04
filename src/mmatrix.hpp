@@ -16,8 +16,8 @@ public:
     {}
     
     void clear(){
-      num_vertices_ = 0; 
       creators_.clear();
+      num_vertices_ = 0; 
       matrix_.resize(0,0);  
     }
 
