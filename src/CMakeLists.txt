@@ -46,4 +46,7 @@ target_link_libraries(main ${ALPS_LIBRARIES})
 add_executable(test test.cpp ${SOURCE})
 target_link_libraries(test ${ALPS_LIBRARIES})
 
+add_executable(nonint nonint.cpp)
+target_link_libraries(nonint ${ALPS_LIBRARIES})
+
 install(TARGETS main DESTINATION bin)

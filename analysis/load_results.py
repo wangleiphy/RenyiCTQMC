@@ -52,7 +52,7 @@ data = pyalps.loadMeasurements(resultFiles, args.y)
 data = pyalps.flatten(data)
 print data 
 
-res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE'])
+res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE','L'])
 
 print res 
 

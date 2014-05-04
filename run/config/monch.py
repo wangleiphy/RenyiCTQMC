@@ -15,8 +15,8 @@ latticename = 'cylindrical honeycomb lattice'
 ###############################
 nickname = 'hirsch'
 
-Llist = [6]
-NAlist = [36]
+Llist = [9]
+NAlist = [81]
 
 Tlist = [0.1]
 Vlist = arange(0.8, 1.6, 0.1)
