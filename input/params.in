@@ -1,10 +1,10 @@
 LATTICE_LIBRARY = "../input/mylattices.xml"
-LATTICE = "open honeycomb lattice"
+LATTICE = "honeycomb lattice"
 L = 3
 NA = 9
 MAX_ORDER = 8192
 N_TAU = 500
-TEMPERATURE = 0.1
+TEMPERATURE = 0.5
 V = 0.5
 MEASUREMENT_PERIOD = 100
 THERMALIZATION = 10000
