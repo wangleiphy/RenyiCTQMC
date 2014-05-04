@@ -16,8 +16,9 @@ void InteractionExpansion::test(){
 
       std::cout << "add vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
-      weight *= wratio[1]/wratio[0]; 
-      std::cout << "weight: " << weight << std::endl; 
+
+      logweight += log(wratio[1]/wratio[0]); 
+      std::cout << "weight: " << exp(logweight) << std::endl; 
    }
    
    {//this block adds vertex
@@ -30,8 +31,8 @@ void InteractionExpansion::test(){
       std::vector<double> wratio = add_impl(tau, sites, false); //actual update M.matrix() and M.num_vertices(), false means not only calculate weight 
       std::cout << "add vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
-      weight *= wratio[1]/wratio[0]; 
-      std::cout << "weight: " << weight << std::endl; 
+      logweight += log(wratio[1]/wratio[0]); 
+      std::cout << "weight: " << exp(logweight) << std::endl; 
  
    }
 
@@ -46,8 +47,8 @@ void InteractionExpansion::test(){
       std::vector<double> wratio = add_impl(tau, sites, false); //actual update M.matrix() and M.num_vertices(), false means not only calculate weight 
       std::cout << "add vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
-      weight *= wratio[1]/wratio[0]; 
-      std::cout << "weight: " << weight << std::endl; 
+      logweight += log(wratio[1]/wratio[0]); 
+      std::cout << "weight: " << exp(logweight) << std::endl; 
  
    }
 
@@ -63,8 +64,9 @@ void InteractionExpansion::test(){
       std::vector<double> wratio = add_impl(tau, sites, false); //actual update M.matrix() and M.num_vertices(), false means not only calculate weight 
       std::cout << "add vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
-      weight *= wratio[1]/wratio[0]; 
-      std::cout << "weight: " << weight << std::endl; 
+      logweight += log(wratio[1]/wratio[0]); 
+      std::cout << "weight: " << exp(logweight) << std::endl; 
+ 
  
    }
 
@@ -74,8 +76,9 @@ void InteractionExpansion::test(){
       std::vector<double> wratio = remove_impl(vertex, false);
       std::cout << "remove vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
-      weight *= wratio[1]/wratio[0]; 
-      std::cout << "weight: " << weight << std::endl; 
+      logweight += log(wratio[1]/wratio[0]); 
+      std::cout << "weight: " << exp(logweight) << std::endl; 
+ 
  
    }
 
@@ -90,9 +93,9 @@ void InteractionExpansion::test(){
       std::vector<double> wratio = add_impl(tau, sites, false); //actual update M.matrix() and M.num_vertices(), false means not only calculate weight 
       std::cout << "add vertex" << std::endl; 
       std::cout << "number of vertices: " << Msuper.num_vertices() << std::endl; 
-      weight *= wratio[1]/wratio[0]; 
-      std::cout << "weight: " << weight << std::endl; 
-
+      logweight += log(wratio[1]/wratio[0]); 
+      std::cout << "weight: " << exp(logweight) << std::endl; 
+ 
    }
    */
 

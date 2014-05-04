@@ -19,7 +19,8 @@ Llist = [9]
 NAlist = [81]
 
 Tlist = [0.1]
-Vlist = arange(0.8, 1.6, 0.1)
+#Vlist = arange(0.8, 1.6, 0.1)
+Vlist = [0.8]
 
 NSKIP = 100
 THERMALIZATION = 10**5
@@ -28,7 +29,7 @@ Nscratch = 1000
 
 ##############################
 wtime = '12:00:00'
-tmin = 300
+tmin = 60
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
 prog = '../bin/main'

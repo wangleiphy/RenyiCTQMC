@@ -38,7 +38,7 @@ void InteractionExpansion::add()
 
     sign*=metropolis_weight<0.?-1.:1.;
     
-    weight *= wratios[1]/wratios[0]; 
+    logweight += log(fabs(wratios[1])) - log(fabs(wratios[0]));  // wratios individually may be negative 
 
   }else{
 
@@ -85,7 +85,7 @@ void InteractionExpansion::remove()
 
       sign*=metropolis_weight<0.?-1.:1.;
 
-      weight *= wratios[1]/wratios[0]; 
+      logweight += log(fabs(wratios[1])) - log(fabs(wratios[0]));  // wratios individually may be negative 
 
     }else{
 

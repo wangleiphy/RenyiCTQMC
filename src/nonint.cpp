@@ -19,7 +19,7 @@ int main(int argc, char** argv){
 
    double beta = 1./boost::lexical_cast<double>(params["TEMPERATURE"]); 
 
-   for (unsigned L =3; L<=45; L+=3){// scan system size 
+   for (unsigned L =3; L<=45; ++L){// scan system size 
 
        //update system size and rebuild lattice 
        params["L"] = L ; 

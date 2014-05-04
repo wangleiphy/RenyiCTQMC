@@ -33,7 +33,7 @@ public:
   //perterbation orders in super and 0, 1 sectors 
   boost::tuple<unsigned, unsigned, unsigned> pertorders() const 
       {return boost::make_tuple(Msuper.num_vertices(), M[0].num_vertices(), M[1].num_vertices());}
-  double get_weight() const {return weight;}
+  double get_weight() const {return exp(logweight);}
   unsigned get_sector() const {return sector;}
 
   //print progress 
@@ -176,7 +176,7 @@ private:
   unsigned long sweeps;        
 
   const double eta; //coef before W
-  double weight;
+  double logweight;
   double sign;
 
   const double Add; 

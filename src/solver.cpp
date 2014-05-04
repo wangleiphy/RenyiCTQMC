@@ -85,9 +85,9 @@ void InteractionExpansion::reset_perturbation_series()
   build_matrix(); // rebuild Msuper and M 
     
   //reset the weight ratio 
-  double new_weight = M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant();  
-  if (fabs(new_weight/weight-1.)>1E-8) {
-    std::cout<<"WARNING: roundoff errors in weight " << fabs(weight/new_weight-1.) << std::endl;
+  double new_logweight = log(fabs(M[0].matrix().determinant())) + log(fabs(M[1].matrix().determinant())) - log(fabs(Msuper.matrix().determinant()));  
+  if (fabs(new_logweight- logweight)>1E-8) {
+    std::cout<<"WARNING: roundoff errors in weight " << exp(logweight) << " " <<  exp(new_logweight) << std::endl;
 
     //std::cout << Mdiff << std::endl; 
     //std::cout << "creators: ";  
@@ -97,9 +97,8 @@ void InteractionExpansion::reset_perturbation_series()
     //std::cout << std::endl; 
     //abort(); 
   }
+  //logweight = new_logweight; 
 
-  weight = new_weight; 
-    
   //check the difference 
   Mdiff -= Msuper.matrix(); //subtract the new one 
   Mdiff = Mdiff.cwiseAbs(); //and take absolute value 

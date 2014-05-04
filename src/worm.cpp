@@ -7,13 +7,11 @@ void InteractionExpansion::Z_to_W()
 
   if (sector==1) return; 
 
-  double metropolis_weight = (WtoZ/ZtoW)*eta*weight;
+  double log_metropolis_weight =  log ((WtoZ/ZtoW)*eta) + logweight;
 
-  if(fabs(metropolis_weight) > random()){
+  if(exp(log_metropolis_weight) > random()){
     measurements["ZtoW"]<< 1.;
-
     sector = 1; 
-    sign*=metropolis_weight<0.?-1.:1.;
 
   }else{
 
@@ -27,13 +25,11 @@ void InteractionExpansion::W_to_Z()
 
     if (sector==0) return; 
 
-    double metropolis_weight = (ZtoW/WtoZ)/eta/weight;
+    double log_metropolis_weight = log( (ZtoW/WtoZ)/eta) - logweight;
 
-    if(fabs(metropolis_weight) > random()){ //do the actual update
+    if(exp(log_metropolis_weight) > random()){
       measurements["WtoZ"]<< 1.;
-
       sector = 0; 
-      sign*=metropolis_weight<0.?-1.:1.;
 
     }else{
       measurements["WtoZ"]<<0.;
