@@ -35,6 +35,7 @@ void InteractionExpansion::build_matrix(){
   Msuper.clear(); 
   M[0].clear(); 
   M[1].clear();  
+  table.clear(); 
 
   logweight = 0.;  
   for (unsigned i=0; i< creators.size()/2; ++i){
@@ -47,6 +48,18 @@ void InteractionExpansion::build_matrix(){
      std::vector<double> wratios = add_impl(tau, sites, false);  
      logweight += log(fabs(wratios[1])) - log(fabs(wratios[0]));  
     }
+
+   /*
+   std::cout << "Msuper from scratch:\n" << Msuper.matrix() << std::endl; 
+   std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 
+    
+   for (unsigned icopy = 0; icopy< 2; ++icopy){
+    std::cout << "M" << icopy << " from scratch:\n" << M[icopy].matrix() << std::endl; 
+    std::cout << "det(M"<< icopy <<") = " << M[icopy].matrix().determinant() << std::endl; 
+   }
+
+   std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
+   */
 }
 
 /*

@@ -52,7 +52,6 @@ void InteractionExpansion::test(){
  
    }
 
-  /*
    {//this block adds vertex
       std::vector<site_t> sites;  
 
@@ -97,15 +96,14 @@ void InteractionExpansion::test(){
       std::cout << "weight: " << exp(logweight) << std::endl; 
  
    }
-   */
 
    std::cerr << "cdag:" << std::endl ;
    for (int i=0; i< Msuper.creators().size(); ++i){
        std::cerr << "(" << Msuper.creators()[i].s() << "," << Msuper.creators()[i].t() << ") ";
    }
    std::cerr << std::endl;
-   std::cout << "Msuperinv.matrix() from fast update:\n" << Msuper.matrix().inverse() << std::endl; 
-   //std::cout << "Msuper.matrix() from fast update:\n" << Msuper.matrix() << std::endl; 
+   //std::cout << "Msuperinv.matrix() from fast update:\n" << Msuper.matrix().inverse() << std::endl; 
+   std::cout << "Msuper.matrix() from fast update:\n" << Msuper.matrix() << std::endl; 
    std::cout << "det(Msuper) from fast update= " << Msuper.matrix().determinant() << std::endl; 
     
    for (unsigned icopy=0; icopy<2; ++icopy){
