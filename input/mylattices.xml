@@ -696,6 +696,17 @@
   <UNITCELL ref="honeycomb"/>
 </LATTICEGRAPH>
 
+<LATTICEGRAPH name = "open honeycomb lattice">
+  <FINITELATTICE>
+    <LATTICE ref="triangular lattice"/>
+    <PARAMETER name="W" default="L"/>
+    <EXTENT dimension="1" size="L"/>
+    <EXTENT dimension="2" size="W"/>
+    <BOUNDARY type="open"/>
+  </FINITELATTICE>
+  <UNITCELL ref="honeycomb"/>
+</LATTICEGRAPH>
+
 <LATTICEGRAPH name = "nnhoneycomb lattice">
   <FINITELATTICE>
     <LATTICE ref="triangular lattice"/>

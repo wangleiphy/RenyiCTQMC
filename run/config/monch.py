@@ -8,9 +8,9 @@ Remove = 0.2
 
 ZtoW = 0.3
 WtoZ = 0.3
-eta = 0.5
+eta = 0.25
 
-latticename = 'honeycomb lattice'
+latticename = 'open honeycomb lattice'
 ###############################
 nickname = 'hirsch'
 
