@@ -10,7 +10,8 @@ ZtoW = 0.3
 WtoZ = 0.3
 eta = 0.25
 
-latticename = 'open honeycomb lattice'
+#latticename = 'open honeycomb lattice'
+latticename = 'cylindrical honeycomb lattice'
 ###############################
 nickname = 'hirsch'
 
@@ -19,7 +20,6 @@ NAlist = [36]
 
 Tlist = [0.1]
 Vlist = arange(0.8, 1.6, 0.1)
-
 
 NSKIP = 100
 THERMALIZATION = 10**5

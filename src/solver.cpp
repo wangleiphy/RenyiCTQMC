@@ -87,7 +87,7 @@ void InteractionExpansion::reset_perturbation_series()
   //reset the weight ratio 
   double new_weight = M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant();  
   if (fabs(new_weight/weight-1.)>1E-8) {
-    std::cout<<"WARNING: roundoff errors in weight " << fabs(weight-new_weight) << std::endl;
+    std::cout<<"WARNING: roundoff errors in weight " << fabs(weight/new_weight-1.) << std::endl;
 
     //std::cout << Mdiff << std::endl; 
     //std::cout << "creators: ";  
