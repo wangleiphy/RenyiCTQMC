@@ -99,7 +99,7 @@ if __name__=='__main__':
     LA = L/2
     Snonint = S2(Kmat, 0.0, LA, beta)
 
-    for V in arange(0.1, 1.1, 0.1):
+    for V in arange(0.1, 1.6, 0.1):
         print V, S2(Kmat, V, LA, beta) - Snonint  , Snonint  
 
 

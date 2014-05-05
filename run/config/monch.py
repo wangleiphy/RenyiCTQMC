@@ -3,32 +3,33 @@ import time
 import re 
 from numpy import arange
 
-Add  = 0.2
-Remove = 0.2
+Add  = 0.15
+Remove = 0.15
 
-ZtoW = 0.3
-WtoZ = 0.3
-eta = 0.25
+ZtoW = 0.35
+WtoZ = 0.35
+eta = 0.5
 
+#latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
 latticename = 'cylindrical honeycomb lattice'
 ###############################
-nickname = 'hirsch'
+nickname = 'logweight'
 
 Llist = [9]
 NAlist = [81]
 
 Tlist = [0.1]
-#Vlist = arange(0.8, 1.6, 0.1)
-Vlist = [0.8]
+#Vlist = arange(0.1, 1.6, 0.2)
+Vlist = [1.4, 1.5]
 
-NSKIP = 100
+NSKIP = 200
 THERMALIZATION = 10**5
 SWEEPS = 10**6
-Nscratch = 1000
+Nscratch = 500
 
 ##############################
-wtime = '12:00:00'
+wtime = '24:00:00'
 tmin = 60
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 

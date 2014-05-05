@@ -46,7 +46,7 @@ def params(lattice, L, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratch=5
 
     totalprob = Add + Remove+ ZtoW + WtoZ
 
-    if (totalprob !=1.):
+    if (abs(totalprob-1.)> 1E-8):
         print 'summation of probs ', totalprob , ' are you sure ?'
         sys.exit(1)
 
