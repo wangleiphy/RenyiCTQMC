@@ -46,11 +46,12 @@ if __name__=='__main__':
     jobid = input.waitfor 
 
     for L in Llist:
-        for NA in NAlist:
-            for V in Vlist:
-                for T in Tlist:
+        for W in Wlist:
+            for NA in NAlist:
+                for V in Vlist:
+                    for T in Tlist:
            
-                        inputfile = params(latticename, L , NA,   
+                        inputfile = params(latticename, L , W, NA,   
                                            V=V, T= T, 
                                            Maxorder = Maxorder, Ntau = Ntau, Nscratch = Nscratch, 
                                            SWEEPS=SWEEPS, THERMALIZATION=THERMALIZATION, NSKIP=NSKIP, 
@@ -65,4 +66,4 @@ if __name__=='__main__':
                         args = {}
                         jobname = jobdir + os.path.basename(inputfile).replace('.in','')
 
-                        jobid = submitJob(bin,args,jobname,wtime,ncores=ncores,run=input.run, wait=None)
+                        jobid = submitJob(bin,args,jobname,wtime,ncores=ncores,run=input.run, wait=jobid)

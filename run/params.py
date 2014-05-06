@@ -25,10 +25,11 @@ def writeParameterFile(fname,parms):
 write parameters for main 
 '''
 
-def params(lattice, L, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratch=5000, SWEEPS=1000000, THERMALIZATION=100000, NSKIP=200, Add=0.1, Remove = 0.2, ZtoW=0.1, WtoZ =0.1, eta=1., folder='../data/', textoutput=0):
+def params(lattice, L, W, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratch=5000, SWEEPS=1000000, THERMALIZATION=100000, NSKIP=200, Add=0.1, Remove = 0.2, ZtoW=0.1, WtoZ =0.1, eta=1., folder='../data/', textoutput=0):
     
     key = lattice.replace(' ','') 
     key += 'L' + str(L)\
+           +'W' + str(W)\
            +'NA' + str(NA)\
            +'V'+str(V)\
            +'T' + str(T)\
@@ -60,6 +61,7 @@ def params(lattice, L, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratch=5
             ,'filename' : outputname
             ,'textoutput' :textoutput 
             ,'L'  : L 
+            ,'W'  : W
             ,'NA'  : NA 
             ,'FLAVORS' : 1
             ,'MAX_ORDER' : Maxorder

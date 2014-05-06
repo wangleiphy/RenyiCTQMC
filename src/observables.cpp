@@ -5,7 +5,6 @@
 void InteractionExpansion::initialize_observables() 
 {
   measurements << alps::ngs::RealObservable("Sign")
-               << alps::ngs::RealObservable("PertOrder")
                << alps::ngs::RealObservable("ZtoW")
                << alps::ngs::RealObservable("WtoZ")
                ; 
@@ -27,6 +26,12 @@ void InteractionExpansion::initialize_observables()
     obs_name<<"VertexRemoval_"<<i;
     measurements << alps::ngs::RealObservable(obs_name.str().c_str());
    }
+
+   {
+    std::stringstream obs_name;
+    obs_name<<"PertOrder_"<<i;
+    measurements << alps::ngs::RealObservable(obs_name.str().c_str());
+   }
  }
 
 }
@@ -34,8 +39,11 @@ void InteractionExpansion::initialize_observables()
 //this function is called whenever measurements should be performed.
 void InteractionExpansion::measure_observables() 
 {
-  measurements["Sign"]<<sign;
-  measurements["PertOrder"] << double(Msuper.num_vertices()); // the pert order in total 
+    measurements["Sign"]<<sign;
+
+    std::stringstream obs_name;
+    obs_name<<"PertOrder_"<<sector;
+    measurements[obs_name.str().c_str()] << double(Msuper.num_vertices()); // the pert order in total 
 
   if (sector==0){
     measurements["Z"] << 1.;
