@@ -10,18 +10,21 @@ ZtoW = 0.35
 WtoZ = 0.35
 eta = 0.5
 
-#latticename = 'open chain lattice'
+latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
-latticename = 'cylindrical honeycomb lattice'
+#latticename = 'cylindrical honeycomb lattice'
 ###############################
 nickname = 'logweight'
 
-Llist = [9]
-NAlist = [81]
+Llist = [64]
+Wlist = [1]
 
-Tlist = [0.1]
+NAlist = [32]
+
+Tlist = [0.5]
 #Vlist = arange(0.1, 1.6, 0.2)
-Vlist = [1.4, 1.5]
+#Vlist = [1.4, 1.5]
+Vlist = arange(0.5, 10., 0.5)
 
 NSKIP = 200
 THERMALIZATION = 10**5
@@ -29,7 +32,7 @@ SWEEPS = 10**6
 Nscratch = 500
 
 ##############################
-wtime = '24:00:00'
+wtime = '4:00:00'
 tmin = 60
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 

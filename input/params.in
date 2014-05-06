@@ -1,7 +1,8 @@
 LATTICE_LIBRARY = "../input/mylattices.xml"
 LATTICE = "cylindrical honeycomb lattice"
-L = 9
-NA = 81
+L = 3
+W = 3
+NA = 9
 MAX_ORDER = 8192
 N_TAU = 500
 TEMPERATURE = 0.1
