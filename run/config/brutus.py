@@ -1,61 +1,42 @@
 import subprocess 
 from numpy import arange 
 
-measure_unequaltime = 0
+Add  = 0.15
+Remove = 0.15
 
-Zupdate = 0.1
-Wupdate = 0.1
+ZtoW = 0.35
+WtoZ = 0.35
+eta = 0.5
 
-ZtoW2 = 0.1
-W2toZ = 0.1
-W2toW4 = 0.1
-W4toW2 = 0.1
+latticename = 'open chain lattice'
+#latticename = 'open honeycomb lattice'
+#latticename = 'cylindrical honeycomb lattice'
+###############################
+nickname = 'logweight'
 
-ZtoW4 = 0.02
-W4toZ = 0.1
+Llist = [8]
+NAlist = [8]
 
-#nickname = 'firsttry'
-#nickname = 'secondtry'
-#nickname = 'scanTnew'
-#nickname = 'directmeasure'
-#nickname = 'worm'
-#nickname = 'M4worm_new'
-#nickname = 'scalelowerT'
-#nickname = 'largestep'
-#nickname = 'unequaltime'
-nickname = 'Kappa'
+Tlist = [0.1, 0.2, 0.3, 0.4, 0.5]
+Vlist = arange(0.1, 1.6, 0.1)
+#Vlist = arange(2., 11., 1.)
 
-nmaxlist = [2]
-
-#Nlist = [72]
-#Tlist = [3/(6.)]
-#expectedM2 = 0.1; expectedM4 = 0.02
-
-#Nlist = [162]
-#Tlist = [3/(9.)]
-#expectedM2 = 0.04; expectedM4 = 0.005
-
-Nlist = [288]
-Tlist = [3/(12.)]
-expectedM2 = 0.02; expectedM4 = 0.002
-
-Vlist = arange(0.1, 1.5, 0.1)
-
+NSKIP = 100 
 THERMALIZATION = 10**5
-SWEEPS = 10**6
-NSKIP = 100
-Nneighbors = 4
+SWEEPS = 10**7
+Nscratch = 500
+##############################
 
 tmin = 60
 tmax = 300
 ncores = 16
-wtime = '4:00'
+wtime = '8:00'
 
-resfolder = '/cluster/work/scr6/lewang/spinlessdata/' + nickname  + '/'
+resfolder = '/cluster/work/scr6/lewang/renyidata/' + nickname  + '/'
 #h, m = [int(i) for i in wtime.split(':')]
 #Tlimit = max(3600*h + 60*m - int(tmax*2) , 0)
 
-prog = 'mpirun ../bin/worm -i '+ str(tmin) + ' -a ' + str(tmax) 
+prog = 'mpirun ../bin/main -i '+ str(tmin) + ' -a ' + str(tmax) 
 
 def submitJob(bin,args,jobname,wtime,run=False,ncores=None, wait=[]):
 
