@@ -33,7 +33,7 @@ def buildH(Kmat, V):
     
     return H 
 
-def S2(Kmat, V, LA, beta):
+def calc_S2(Kmat, V, LA, beta):
     '''
     compute renyi EE S2 
     '''
@@ -42,7 +42,8 @@ def S2(Kmat, V, LA, beta):
     Hmat = buildH(Kmat, V)
 
     w, v = eigh(Hmat)
-
+        
+    w -= w[0]
     weights = exp(-beta * w)
     Z = weights.sum()  
     weights = weights/Z 
@@ -58,9 +59,10 @@ def S2(Kmat, V, LA, beta):
     for statei in range(Nstates):
         for statej in range(Nstates): # this is less efficient 
 
-            iB = int("{0:b}".format(statei).zfill(Nsite)[:-LA], 2)
-            jB = int("{0:b}".format(statej).zfill(Nsite)[:-LA], 2)
-            if (iB!=jB): continue
+            if (LA<Nsite):
+                iB = int("{0:b}".format(statei).zfill(Nsite)[:-LA], 2)
+                jB = int("{0:b}".format(statej).zfill(Nsite)[:-LA], 2)
+                if (iB!=jB): continue
 
             #state index first translate to binarty (with fixed site Nsite), we then just take the lowest LA bits then turn it to an interger
             iA = int("{0:b}".format(statei).zfill(Nsite)[-LA:], 2)
@@ -78,8 +80,17 @@ if __name__=='__main__':
     from numpy.linalg import eigh 
     import sys 
 
-    L = 8
+
+    import argparse
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument("-Temp", type = float, default=0.1, help="L")
+    args = parser.parse_args()
+
+
     Thop = 1.0
+
+    L = 8
+    LA = L/2
 
     #Kinetic energy matrix 
     Kmat = zeros((L, L),float)
@@ -95,12 +106,13 @@ if __name__=='__main__':
 
     Kmat = sps.csr_matrix(Kmat)
 
-    beta = 10.
-    LA = L/2
-    Snonint = S2(Kmat, 0.0, LA, beta)
+    beta = 1./args.Temp 
+    S2A_nonint = calc_S2(Kmat, 0.0, LA, beta)
 
-    for V in arange(0.1, 1.6, 0.1):
-        print V, S2(Kmat, V, LA, beta) - Snonint  , Snonint  
-
-
+    #for V in arange(0.1, 10.1, 0.1):
+    V = 10.0
+    if True:
+        S2A = calc_S2(Kmat, V, LA, beta) 
+        S2 = calc_S2(Kmat, V, L, beta) 
+        print V, S2A, S2A-S2A_nonint, 2.*S2A - S2 
 
