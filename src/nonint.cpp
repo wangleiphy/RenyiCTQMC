@@ -19,10 +19,11 @@ int main(int argc, char** argv){
 
    double beta = 1./boost::lexical_cast<double>(params["TEMPERATURE"]); 
 
-   for (unsigned W =3; W<=45; ++W){// scan system width but keep the length fixed 
+   for (unsigned W =3; W<=45; ++W){// scan system width  
 
        //update system size and rebuild lattice 
        params["W"] = W ; 
+       params["L"] = W ; // also change length 
 
        alps::Parameters Params(make_deprecated_parameters(params));
        alps::graph_helper<> lattice(Params); 

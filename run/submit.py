@@ -45,9 +45,8 @@ if __name__=='__main__':
     
     jobid = input.waitfor 
 
-    for L in Llist:
-        for W in Wlist:
-            for NA in NAlist:
+    for L, W, NA in zip(Llist, Wlist, NAlist):
+
                 for V in Vlist:
                     for T in Tlist:
            

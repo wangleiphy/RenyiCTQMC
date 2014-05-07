@@ -17,14 +17,13 @@ latticename = 'honeycomb lattice'
 ###############################
 nickname = 'logweight'
 
-Llist = [6]
-Wlist = [15]
+Llist = [12]
+Wlist = [12]
+NAlist = [144]
 
-NAlist = [90]
-
-Tlist = [0.1]
+Tlist = [0.5]
 #Vlist = arange(0.1, 1.6, 0.2)
-Vlist = [0.5, 1.0, 2.0]
+Vlist = [1.0, 2.0, 4.0]
 #Vlist = arange(0.5, 10., 0.5)
 
 NSKIP = 200
