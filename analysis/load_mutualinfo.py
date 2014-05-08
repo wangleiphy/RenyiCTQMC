@@ -14,8 +14,6 @@ import re
 parser = argparse.ArgumentParser(description='')
 parser.add_argument("-fileheaders", nargs='+', default="params", help="fileheaders")
 
-#parser.add_argument("-x", default="TEMPERATURE", help="variable")
-parser.add_argument("-y", default="dS2", help="observable")
 parser.add_argument("-copydata", action='store_true',  help="copy data")
 
 group = parser.add_mutually_exclusive_group(required=True)
@@ -30,41 +28,43 @@ for fileheader in args.fileheaders:
 
 resultFiles = list(set(resultFiles))
 
+
+Afiles = []
+ABfiles = []
 #filter resultFilies
-#for f in list(resultFiles):
-#    L = int(re.search('L([0-9]*)W',f).group(1)) 
-#    W = int(re.search('W([0-9]*)N',f).group(1)) 
-#    N = int(re.search('N([0-9]*)U',f).group(1)) 
-#    V= float(re.search('latticeV([0-9]*\.?[0-9]*)T',f).group(1)) 
-#    if (N!= L*W):  
-#        resultFiles.remove(f)
+for f in list(resultFiles):
+    L = int(re.search('L([0-9]*)W',f).group(1)) 
+    W = int(re.search('W([0-9]*)NA',f).group(1)) 
+    NA = int(re.search('NA([0-9]*)V',f).group(1)) 
 
-#    elif ('L3' in f) or ('L9' in f) or ('L15' in f):
-#    elif ('Theta155' in f):
-#        resultFiles.remove(f)
-#    if V not in [ 1.24,  1.26,  1.28,  1.3 ,  1.32,  1.34,  1.36,  1.38,  1.4 , 1.42]:
-#        resultFiles.remove(f)
+    if (NA == L*W):  
+        ABfiles.append(f)
+    else:
+        Afiles.append(f)
 
-data = []
-print resultFiles 
+Adata = pyalps.loadMeasurements(Afiles, 'S2')
+ABdata = pyalps.loadMeasurements(ABfiles, 'S2')
 
-data = pyalps.loadMeasurements(resultFiles, args.y)
-data = pyalps.flatten(data)
-print data 
+S2 = pyalps.collectXY(ABdata, x='TEMPERATURE', y='S2',  foreach = ['L','V'])
+S2A = pyalps.collectXY(Adata, x='TEMPERATURE', y='S2',  foreach = ['L','V'])
 
-#res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE','L'])
-#res = pyalps.collectXY(data, x='L', y=args.y,  foreach = ['TEMPERATURE','V'])
-res = pyalps.collectXY(data, x='TEMPERATURE', y=args.y,  foreach = ['L','V'])
+print S2 
+print S2A 
 
-print res 
+MI = []
+for d0, d1 in zip(S2, S2A):
+    d = pyalps.DataSet()
 
-#for d in res:
-#    d.y = log(1/d.y)
+    d.props = d0.props
+    d.props['label'] = '$I_2$'
 
-print pyalps.plot.convertToText(res)
-pyalps.plot.plot(res)
-#plt.xlim([0,0.18])
-#plt.ylim([0,0.4])
+    d.x = d0.x 
+    d.y = 2.*d1.y - d0.y 
+
+    MI.append(d)
+
+print pyalps.plot.convertToText(MI)
+pyalps.plot.plot(MI)
 
 plt.legend(loc='upper left')
 
