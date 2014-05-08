@@ -8,19 +8,21 @@ ZtoW = 0.35
 WtoZ = 0.35
 eta = 0.5
 
-latticename = 'open chain lattice'
+#latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
+latticename = 'square lattice'
 ###############################
-nickname = 'pertorder'
+nickname = 'square'
 
-Llist = [8]
-Wlist = [1]
-NAlist = [4]
+Llist = [6]
+Wlist = [6]
+NAlist = [36]
 
-Tlist = [0.2]
-Vlist = arange(0.1, 1.6, 0.1)
+Tlist = arange(0.2, 1.1, 0.1)
+#Vlist = arange(0.1, 1.6, 0.1)
 #Vlist = arange(2., 11., 1.)
+Vlist = [1.0]
 
 
 Ntau = 1000
