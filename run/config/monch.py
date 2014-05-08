@@ -10,21 +10,21 @@ ZtoW = 0.35
 WtoZ = 0.35
 eta = 0.5
 
-latticename = 'open chain lattice'
+#latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
+latticename = 'honeycomb lattice'
 ###############################
 nickname = 'logweight'
 
-Llist = [64]
-Wlist = [1]
-
-NAlist = [32]
+Llist = [12]
+Wlist = [12]
+NAlist = [144]
 
 Tlist = [0.5]
 #Vlist = arange(0.1, 1.6, 0.2)
-#Vlist = [1.4, 1.5]
-Vlist = arange(0.5, 10., 0.5)
+Vlist = [1.0, 2.0, 4.0]
+#Vlist = arange(0.5, 10., 0.5)
 
 NSKIP = 200
 THERMALIZATION = 10**5

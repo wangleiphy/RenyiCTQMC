@@ -45,10 +45,12 @@ void InteractionExpansion::build_matrix(){
      sites.push_back(creators[2*i].s());
      sites.push_back(creators[2*i+1].s());
 
-     std::vector<double> wratios = add_impl(tau, sites, false);  
+     std::vector<double> wratios = add_impl(tau, sites, true);  
+     add_impl(tau, sites, false);  
+
      logweight += log(fabs(wratios[1])) - log(fabs(wratios[0]));  
     }
-
+   
    /*
    std::cout << "Msuper from scratch:\n" << Msuper.matrix() << std::endl; 
    std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 

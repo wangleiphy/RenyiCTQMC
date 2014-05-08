@@ -19,22 +19,25 @@ int main(int argc, char** argv){
 
    double beta = 1./boost::lexical_cast<double>(params["TEMPERATURE"]); 
 
-   for (unsigned L =3; L<=45; ++L){// scan system size 
+   for (unsigned W =3; W<=45; ++W){// scan system width  
 
        //update system size and rebuild lattice 
-       params["L"] = L ; 
+       params["W"] = W ; 
+       params["L"] = W ; // also change length 
 
        alps::Parameters Params(make_deprecated_parameters(params));
        alps::graph_helper<> lattice(Params); 
 
-       unsigned NA =lattice.num_sites()/2; 
-
        //hamiltonian 
        Eigen::MatrixXd K(buildK(lattice)); 
 
+       unsigned NA =lattice.num_sites()/2; 
+       double S2A = nonintS2(K, NA, beta); 
+    
+       NA = lattice.num_sites(); 
        double S2 = nonintS2(K, NA, beta); 
  
-       std::cout << L << " " << NA << " " << S2 << std::endl ; 
+       std::cout << W << " " << S2A << " "<< 2.*S2A - S2 << std::endl ; 
    }
    return 0; 
 }

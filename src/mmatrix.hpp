@@ -30,12 +30,18 @@ public:
     unsigned int & num_vertices(){ return num_vertices_;}
     const unsigned int & num_vertices()const{ return num_vertices_;}
 
+    //workspace; avoid reconstruct them when accept a move  
+    Eigen::Matrix2d Stilde;  
+    Eigen::Matrix2Xd R;
+    Eigen::MatrixX2d MQ;
+
 private:
     unsigned int num_vertices_; 
 
     std::vector<creator> creators_;         //an array of creation operators c_dagger corresponding to the row of the matrix
 
     matrix_t matrix_;
+
 
 };
 
