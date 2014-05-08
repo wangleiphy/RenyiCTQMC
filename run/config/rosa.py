@@ -2,70 +2,44 @@ import subprocess
 import time 
 from numpy import arange 
 
-#nickname = 'M4worm'
-#nickname = 'fixT'
-#nickname = 'scaleT'
-#nickname = 'smartshift'
-#nickname = 'smartM4worm'
-#nickname = 'farthest'
-#nickname = 'supercell'
-#nickname = 'largestep'
-#nickname = 'unequaltime'
-#nickname = 'goldfine'
-nickname = 'largeV'
-measure_unequaltime = 0
+Add  = 0.15
+Remove = 0.15
 
-Zupdate = 0.1
-Wupdate = 0.1
+ZtoW = 0.35
+WtoZ = 0.35
+eta = 0.5
 
-ZtoW2 = 0.1
-W2toZ = 0.1
+#latticename = 'open chain lattice'
+#latticename = 'open honeycomb lattice'
+#latticename = 'cylindrical honeycomb lattice'
+#latticename = 'honeycomb lattice'
+latticename = 'square lattice'
+#######################################
+nickname = 'square'
 
-W2toW4 = 0.06
-W4toW2 = 0.12
+Llist = [8]
+Wlist = [8]
+NAlist = [32]
 
-ZtoW4 = 0.02
-W4toZ = 0.12
+Tlist = arange(0.2, 1.1, 0.1)
+#Vlist = arange(0.1, 1.6, 0.2)
+#Vlist = arange(0.5, 10., 0.5)
+Vlist = [1.0]
 
-#Nlist = [72]
-#Tlist = [3./(4*6.)]
-#expectedM2 = 0.13; expectedM4 = 0.035
-
-#Nlist = [162]
-#Tlist = [3./(4*9.)]
-#expectedM2 = 0.08; expectedM4 = 0.012
-
-#Nlist = [288]
-#Tlist = [3/(4.*12.)]
-#expectedM2 = 0.05; expectedM4 = 0.005
-
-Nlist = [450]
-Tlist = [3/(4.*15.)]
-expectedM2 = 0.04; expectedM4 = 0.004
-
-#Tlist = arange(0.44, 0.49, 0.01)
-#Tlist = [0.51, 0.53, 0.55, 0.57, 0.59] 
-#Vlist = arange(1.2, 1.5, 0.1)
-#Vlist = [1.2, 1.3, 1.4]
-#Vlist = arange(1.3, 1.52, 0.02)
-#Vlist = [1.24, 1.26, 1.28]
-
-Vlist = arange(1.4, 1.9, 0.1)
-Nneighbors = 3
-nmaxlist = [3] 
-
+NSKIP = 200
 THERMALIZATION = 10**5
 SWEEPS = 10**6
-NSKIP = 100
-Ntau = 500
+Nscratch = 200
+Ntau = 1000
 
-wtime = '24:00:00'
+wtime = '4:00:00'
 tmin = 300
 tmax = 600
 ncores = 640
-prog = '../bin/worm'
+prog = '../bin/main'
+#######################################
 
-resfolder = '/scratch/rosa/lewang/spinlessdata/' + nickname  + '/'
+resfolder = '/scratch/rosa/lewang/renyidata/' + nickname  + '/'
 h, m, s = [int(i) for i in wtime.split(':')]
 
 Tlimit = max(3600*h + 60*m + s - int(tmax*2.) , 0)
