@@ -63,7 +63,7 @@ for d in res:
     d.props['color'] = colors[icolor]
     d.props['line'] = 'o'
 
-    V, S2, dS2 =  loadtxt('../data/L8LA4T'+str(Temp)+'_exact.dat', unpack=True)
+    V, S2, dS2 =  loadtxt('../data/L8LA4T'+str(Temp)+'_exact.dat', unpack=True, usecols = (0,1,2))
 
     if args.y=='dS2':
         plt.plot(V, dS2, '-', c=colors[icolor])
