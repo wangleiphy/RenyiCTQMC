@@ -30,8 +30,10 @@ for fileheader in args.fileheaders:
 resultFiles = list(set(resultFiles))
 
 #filter resultFilies
-#for f in list(resultFiles):
-#    Temp= float(re.search('T([0-9]*\.?[0-9]*)Ntau',f).group(1)) 
+for f in list(resultFiles):
+    Temp= float(re.search('T([0-9]*\.?[0-9]*)Ntau',f).group(1)) 
+    if Temp not in [0.2, 0.4, 0.6, 0.8, 1.0]:
+        resultFiles.remove(f)
 
 data = []
 print resultFiles 
@@ -52,8 +54,8 @@ res1 = res1[::-1]
 icolor = 0
 for d0, d1 in zip(res0, res1):
     Temp = float(d0.props['TEMPERATURE'])
-    d0.props['label'] = r'$\langle k\rangle_{\mathcal{Z}^2},T=%g$'%(Temp)
-    d1.props['label'] = r'$\langle k\rangle_{\mathcal{Z}^A},T=%g$'%(Temp)
+    d0.props['label'] = r'$\langle k\rangle_{\mathcal{Z}^2},T=%.1f$'%(Temp)
+    d1.props['label'] = r'$\langle k\rangle_{\mathcal{Z}^A},T=%.1f$'%(Temp)
 
 
     d1.props['ylabel'] = 'Perturbation Orders'
@@ -73,7 +75,7 @@ pyalps.plot.plot(res1)
 print pyalps.plot.convertToText(res0)
 print pyalps.plot.convertToText(res1)
 
-plt.legend(loc='upper right')
+plt.legend(loc='upper left')
 #plt.subplots_adjust(left=0.15)
 
 

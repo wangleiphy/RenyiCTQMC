@@ -32,8 +32,11 @@ for fileheader in args.fileheaders:
 resultFiles = list(set(resultFiles))
 
 #filter resultFilies
-#for f in list(resultFiles):
-#    Temp= float(re.search('T([0-9]*\.?[0-9]*)Ntau',f).group(1)) 
+for f in list(resultFiles):
+    Temp= float(re.search('T([0-9]*\.?[0-9]*)Ntau',f).group(1)) 
+    if Temp not in [0.2, 0.4, 0.6, 0.8, 1.0]:
+        resultFiles.remove(f)
+
 
 data = []
 print resultFiles 
@@ -52,7 +55,7 @@ res = res[::-1]
 icolor = 0
 for d in res:
     Temp = float(d.props['TEMPERATURE'])
-    d.props['label'] = '$T=%g$'%(Temp)
+    d.props['label'] = '$T=%.1f$'%(Temp)
     if args.y=='dS2':
         d.props['ylabel'] = '$dS_2$'
     else:
@@ -78,13 +81,20 @@ pyalps.plot.plot(res)
 plt.legend(loc='upper right')
 #plt.subplots_adjust(left=0.15)
 
-plt.plot(V, zeros_like(V)+ log(2.), '--', c ='k', alpha=0.5)
+plt.ylim([0.2, 2.0])
 
+
+plt.plot(V, zeros_like(V)+ log(2.), '--', c ='k')
 #ugly hack to add one yticks 
-plt.yticks(list(plt.yticks()[0]) + [log(2.)])
+ax2 = plt.gca().twinx()
+plt.ylim([0.2, 2.0])
+plt.yticks([log(2.)])
 lab = plt.gca().get_yticks().tolist()
 lab[-1] = '$ln2$'
 plt.gca().set_yticklabels(lab)
+#for tl in ax2.get_yticklabels():
+#    tl.set_color('r')
+
 
 if args.copydata:
     for resultFile in resultFiles:

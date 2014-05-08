@@ -17,7 +17,6 @@ if __name__=='__main__':
     
     textoutput = 1 # 
 
-    Ntau = 500
     Maxorder = 8192
 
     Nscratch = 1000 # period to rebuilt M 

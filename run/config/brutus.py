@@ -18,13 +18,12 @@ Llist = [8]
 Wlist = [1]
 NAlist = [4]
 
-Tlist = [0.1]
-#Vlist = arange(0.1, 1.6, 0.1)
-#Vlist = arange(4., 11., 1.)
-#Vlist = arange(1., 4., 1.)
-Vlist = [4.0]
+Tlist = [0.2]
+Vlist = arange(0.1, 1.6, 0.1)
+#Vlist = arange(2., 11., 1.)
 
 
+Ntau = 1000
 NSKIP = 100 
 THERMALIZATION = 10**5
 SWEEPS = 10**6
@@ -33,7 +32,7 @@ Nscratch = 100
 
 tmin = 60
 tmax = 300
-ncores = 48 
+ncores = 16 
 wtime = '12:00'
 
 resfolder = '/cluster/work/scr6/lewang/renyidata/' + nickname  + '/'
