@@ -15,8 +15,6 @@ import re
 parser = argparse.ArgumentParser(description='')
 parser.add_argument("-fileheaders", nargs='+', default="params", help="fileheaders")
 
-#parser.add_argument("-x", default="TEMPERATURE", help="variable")
-parser.add_argument("-y", default="dS2", help="observable")
 parser.add_argument("-copydata", action='store_true',  help="copy data")
 
 group = parser.add_mutually_exclusive_group(required=True)
@@ -38,53 +36,46 @@ resultFiles = list(set(resultFiles))
 data = []
 print resultFiles 
 
-data = pyalps.loadMeasurements(resultFiles, args.y)
+data = pyalps.loadMeasurements(resultFiles, ['PertOrder_0', 'PertOrder_1'])
 data = pyalps.flatten(data)
 print data 
 
-res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE'])
-#res = pyalps.collectXY(data, x='L', y=args.y,  foreach = ['TEMPERATURE','V'])
+res0 = pyalps.collectXY(data, x='V', y='PertOrder_0',  foreach = ['TEMPERATURE'])
+res1 = pyalps.collectXY(data, x='V', y='PertOrder_1',  foreach = ['TEMPERATURE'])
 
-print res 
-pyalps.propsort(res,'TEMPERATURE')
-res = res[::-1]
+pyalps.propsort(res0,'TEMPERATURE')
+res0 = res0[::-1]
+
+pyalps.propsort(res1,'TEMPERATURE')
+res1 = res1[::-1]
 
 icolor = 0
-for d in res:
-    Temp = float(d.props['TEMPERATURE'])
-    d.props['label'] = '$T=%g$'%(Temp)
-    if args.y=='dS2':
-        d.props['ylabel'] = '$dS_2$'
-    else:
-        d.props['ylabel'] = '$S_2$'
+for d0, d1 in zip(res0, res1):
+    Temp = float(d0.props['TEMPERATURE'])
+    d0.props['label'] = r'$\langle k\rangle_{\mathcal{Z}^2},T=%g$'%(Temp)
+    d1.props['label'] = r'$\langle k\rangle_{\mathcal{Z}^A},T=%g$'%(Temp)
 
-    d.props['xlabel'] = '$V/t$'
 
-    d.props['color'] = colors[icolor]
-    d.props['line'] = 'o'
+    d1.props['ylabel'] = 'Perturbation Orders'
+    d1.props['xlabel'] = '$V/t$'
 
-    V, S2, dS2 =  loadtxt('../data/L8LA4T'+str(Temp)+'_exact.dat', unpack=True)
+    d0.props['color'] = colors[icolor]
+    d0.props['line'] = 'o'
 
-    if args.y=='dS2':
-        plt.plot(V, dS2, '-', c=colors[icolor])
-    else:
-        plt.plot(V, S2, '-', c='k')
+    d1.props['color'] = colors[icolor]
+    d1.props['line'] = 's'
 
     icolor += 1 
 
-print pyalps.plot.convertToText(res)
-pyalps.plot.plot(res)
+pyalps.plot.plot(res0)
+pyalps.plot.plot(res1)
+
+print pyalps.plot.convertToText(res0)
+print pyalps.plot.convertToText(res1)
 
 plt.legend(loc='upper right')
 #plt.subplots_adjust(left=0.15)
 
-plt.plot(V, zeros_like(V)+ log(2.), '--', c ='k', alpha=0.5)
-
-#ugly hack to add one yticks 
-plt.yticks(list(plt.yticks()[0]) + [log(2.)])
-lab = plt.gca().get_yticks().tolist()
-lab[-1] = '$ln2$'
-plt.gca().set_yticklabels(lab)
 
 if args.copydata:
     for resultFile in resultFiles:

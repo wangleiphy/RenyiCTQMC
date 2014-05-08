@@ -109,9 +109,7 @@ if __name__=='__main__':
     beta = 1./args.Temp 
     S2A_nonint = calc_S2(Kmat, 0.0, LA, beta)
 
-    #for V in arange(0.1, 10.1, 0.1):
-    V = 10.0
-    if True:
+    for V in arange(0.0, 20.01, 0.5):
         S2A = calc_S2(Kmat, V, LA, beta) 
         S2 = calc_S2(Kmat, V, L, beta) 
         print V, S2A, S2A-S2A_nonint, 2.*S2A - S2 

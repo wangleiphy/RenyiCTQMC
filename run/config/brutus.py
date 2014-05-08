@@ -12,16 +12,19 @@ latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
 ###############################
-nickname = 'logweight'
+nickname = 'pertorder'
 
 Llist = [8]
-NAlist = [8]
+Wlist = [1]
+NAlist = [4]
 
-Tlist = [0.1, 0.2, 0.3, 0.4, 0.5]
-Vlist = arange(0.1, 1.6, 0.1)
-#Vlist = arange(2., 11., 1.)
+Tlist = [0.2]
+#Vlist = arange(0.1, 1.6, 0.1)
+#Vlist = arange(4., 11., 1.)
+Vlist = [8.0]
 
-NSKIP = 100 
+
+NSKIP = 200 
 THERMALIZATION = 10**5
 SWEEPS = 10**7
 Nscratch = 500
@@ -29,8 +32,8 @@ Nscratch = 500
 
 tmin = 60
 tmax = 300
-ncores = 16
-wtime = '8:00'
+ncores = 48
+wtime = '24:00'
 
 resfolder = '/cluster/work/scr6/lewang/renyidata/' + nickname  + '/'
 #h, m = [int(i) for i in wtime.split(':')]
