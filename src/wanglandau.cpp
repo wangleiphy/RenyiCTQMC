@@ -39,10 +39,10 @@ void  InteractionExpansion::wanglandau(const int node)
  //estimate kc using a unmodified run 
  sector = 0; 
  wanglandau_run(0); // kc = 0 means we donot modify the dynamics at all 
- std::cout << "sector 0 done" << std::endl; 
+ //std::cout << "sector 0 done" << std::endl; 
  sector = 1; 
  wanglandau_run(0);  
- std::cout << "sector 1 done" << std::endl; 
+ //std::cout << "sector 1 done" << std::endl; 
  
  //pick the larger one as the cutoff 
  unsigned kc = std::max ( pertorder_hist[0].top_index(),  pertorder_hist[1].top_index()); 
