@@ -44,6 +44,7 @@ void InteractionExpansion::measure_observables()
     std::stringstream obs_name;
     obs_name<<"PertOrder_"<<sector;
     measurements[obs_name.str().c_str()] << double(Msuper.num_vertices()); // the pert order in total 
+    pertorder_hist[sector][Msuper.num_vertices()]++; 
 
   if (sector==0){
     measurements["Z"] << 1.;

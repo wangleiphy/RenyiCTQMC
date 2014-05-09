@@ -125,6 +125,8 @@ int main(int argc, char** argv){
  
       std::string filename = boost::lexical_cast<std::string>(params["filename"]);  
       std::string h5output_file = filename.substr(0, filename.find_last_of('.')) + ".out.h5"; // hdf5 output file 
+
+      sim.print_histogram(); 
      
       if (comm.rank() ==0) 
       {

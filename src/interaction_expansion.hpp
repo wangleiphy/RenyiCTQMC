@@ -9,6 +9,7 @@
 #include <cmath>
 #include "green_function.h"
 #include "super_green_function.h"
+#include "histogram.hpp"
 #include "types.h"
 #include "mmatrix.hpp"
 #include "operator.hpp"
@@ -38,6 +39,12 @@ public:
 
   //print progress 
   unsigned long progress() const {return sweeps;}
+
+  void print_histogram() const {
+     for(unsigned i=0;i<  std::max(pertorder_hist[0].top_index() , pertorder_hist[1].top_index()) ;++i){
+       std::cout<<i<<"\t"<<pertorder_hist[0][i] << "\t" << pertorder_hist[1][i] <<std::endl;
+     }
+  }
 
   void build_matrix(); 
   void test(); 
@@ -190,6 +197,8 @@ private:
   std::vector<std::pair<unsigned, unsigned> > table; // index -> (icopy, vert)
 
   double S2;
+
+  std::vector<histogram> pertorder_hist;
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 

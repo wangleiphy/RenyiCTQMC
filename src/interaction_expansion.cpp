@@ -7,7 +7,6 @@
 #include <limits>
 #include "buildK.h"
 #include "nonintS2.h"
-//#include "bgl.hpp"
 
 InteractionExpansion::InteractionExpansion(alps::params &parms, int node)
 :alps::mcbase(parms,node),
@@ -55,10 +54,10 @@ WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
 sector(0), // initialy we are in Z space 
 table(),
-S2(nonintS2(K_, NA, beta))
-//n_max(boost::lexical_cast<unsigned int>(parms["n_max"]))
-//measure_unequaltime(boost::lexical_cast<bool>(parms["MEASURE_UNEQUALTIME"]) | false)
+S2(nonintS2(K_, NA, beta)), 
+pertorder_hist(2)
 {
+   std::cout << "are we here ?" << std::endl; 
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
    probs.push_back(Add+Remove+ZtoW); 
@@ -66,6 +65,12 @@ S2(nonintS2(K_, NA, beta))
 
    //initialize ALPS observables
    initialize_observables();
+
+   std::cout << "are we here ?" << std::endl; 
+   for (unsigned i=0; i< 2; ++i) 
+       pertorder_hist[i].resize(max_order); 
+    
+   std::cout << "are we here ?" << std::endl; 
 
    if(node==0) {
        print(std::cout); // print parameters to screen 
