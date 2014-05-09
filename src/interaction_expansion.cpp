@@ -79,12 +79,12 @@ wanglandau_scalingfactor(max_order, 1.)
    reset(); // reset matrix, weight , sweeps ...  
     
    //set the wang-landau scaling factor g(i) / sum_i g(i)
-   double res = 0.0;
+   //double res = 0.0;
+   //for (unsigned i=0; i<max_order; ++i){
+   //    res += exp(lng[i]); 
+   //}
    for (unsigned i=0; i<max_order; ++i){
-       res += exp(lng[i]); 
-   }
-   for (unsigned i=0; i<max_order; ++i){
-        wanglandau_scalingfactor[i]  = exp(lng[i])/res; 
+        wanglandau_scalingfactor[i]  = exp(lng[i]); 
    }
 
 }

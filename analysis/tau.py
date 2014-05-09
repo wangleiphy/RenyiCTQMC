@@ -21,7 +21,7 @@ resultFiles = list(set(resultFiles))
 
 for filename in resultFiles:
 
-    obslist = ['Z','W','dS2','S2']
+    obslist = ['PertOrder_0', 'PertOrder_1', 'Z','W','dS2','S2']
 
     print filename, obslist 
     print pyalps.dwa.tau(filename, obslist)
