@@ -45,7 +45,7 @@ void  InteractionExpansion::wanglandau(const int node)
 
  //start wang-landau iteration 
  unsigned iter = 0; 
- while (lnf > 1E-8){
+ while (lnf > 1E-8 && iter < 100){
     wanglandau_run(kc); 
     ++iter; 
 
