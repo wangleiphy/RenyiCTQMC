@@ -41,9 +41,12 @@ public:
   unsigned long progress() const {return sweeps;}
 
   void print_histogram() const {
-       for(unsigned i=0;i<  std::max(lng.top_index(), lng.top_index()) ;++i){
+       double sum = 0.0; 
+       for(unsigned i=0;i<  std::max(pertorder_hist.top_index(), lng.top_index()) ;++i){
         std::cout<<i<<"\t"<<pertorder_hist[i] << "\t"  << lng[i] <<std::endl;
+        sum += pertorder_hist[i]; 
        }
+       std::cout <<  "sum: " << sum<< std::endl; 
   }
 
   void build_matrix(); 
@@ -55,7 +58,7 @@ public:
 
 private:
 
-  
+  void wanglandau_run(unsigned kc);   
   /*functions*/
   // in file io.cpp
   void print(std::ostream &os) const; //print parameters 
@@ -136,7 +139,7 @@ private:
   /*private member variables, constant throughout the simulation*/
   const alps::Parameters Params;
   const alps::graph_helper<> lattice; 
-  const unsigned int max_order;                        
+  const unsigned  max_order;                        
   //const spin_t n_flavors;                          //number of flavors 
  
   const unsigned NA;                                 // number of sites in partition A
@@ -163,6 +166,7 @@ private:
 //  const frequency_t n_self;                        //number of self energy (W) binning points
   const boost::uint64_t mc_steps;                        
   const unsigned long therm_steps;                
+  const unsigned long wanglandau_steps; 
   
   const itime_t temperature;                               
   const itime_t beta;  

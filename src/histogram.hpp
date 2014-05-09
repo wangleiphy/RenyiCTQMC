@@ -17,7 +17,7 @@ public:
   unsigned size() const{return hist_.size();}
 
 
-  double average() const
+  double mean() const
   {
       double up= 0.0; 
       double down = 0.0; 
@@ -76,7 +76,7 @@ public:
   void clear()
   {
     for(unsigned i=0;i<hist_.size();++i){
-      hist_[i]=0;
+      hist_[i]=0.;
     }
   }
 

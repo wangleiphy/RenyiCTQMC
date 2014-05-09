@@ -7,7 +7,7 @@ void InteractionExpansion::add()
 
   int pert_order = Msuper.num_vertices(); 
 
-  if(pert_order+1 > max_order) 
+  if(pert_order+1 >= max_order) 
     return; 
 
   itime_t tau = 2.*beta*random(); 
