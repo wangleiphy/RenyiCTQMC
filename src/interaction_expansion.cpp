@@ -55,9 +55,10 @@ probs(),// empty vector
 sector(0), // initialy we are in Z space 
 table(),
 S2(nonintS2(K_, NA, beta)), 
-pertorder_hist(2)
+pertorder_hist(2),
+lng(2),
+lnf(2, 1.)
 {
-   std::cout << "are we here ?" << std::endl; 
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
    probs.push_back(Add+Remove+ZtoW); 
@@ -66,12 +67,11 @@ pertorder_hist(2)
    //initialize ALPS observables
    initialize_observables();
 
-   std::cout << "are we here ?" << std::endl; 
-   for (unsigned i=0; i< 2; ++i) 
+   for (unsigned i=0; i< 2; ++i) {
        pertorder_hist[i].resize(max_order); 
+       lng[i].resize(max_order); 
+   }
     
-   std::cout << "are we here ?" << std::endl; 
-
    if(node==0) {
        print(std::cout); // print parameters to screen 
        update_params(parms); //write back a few generated params 

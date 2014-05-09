@@ -12,15 +12,15 @@ public:
       hist_.resize(N, 0); 
   }
   
-  unsigned long &operator[](unsigned int n){return hist_[n];}
-  const unsigned long &operator[](unsigned int n) const{return hist_[n];}
-  unsigned int size() const{return hist_.size();}
+  double &operator[](unsigned int n){return hist_[n];}
+  const double &operator[](unsigned int n) const{return hist_[n];}
+  unsigned size() const{return hist_.size();}
   
-  unsigned int max_index() const
+  unsigned max_index() const
   { 
-    unsigned int max_index=0; 
+    unsigned max_index=0; 
     double max=0; 
-    for(unsigned int i=0;i<hist_.size();++i){
+    for(unsigned i=0;i<hist_.size();++i){
       if(max<hist_[i]){
         max=hist_[i];
         max_index=i;
@@ -29,18 +29,18 @@ public:
     return max_index;
   }
   
-  unsigned int top_index() const
+  unsigned top_index() const
   { 
-    unsigned int top_index=0;
-    for(unsigned int i=0;i<hist_.size();++i){
-      if(hist_[i]!=0){
+    unsigned top_index=0;
+    for(unsigned i=0;i<hist_.size();++i){
+      if(hist_[i]>0.){
         top_index=i;
       }
     }
     return top_index;
   }
   
-  double max(const unsigned int index) const
+  double max(const unsigned index) const
   { 
     double max=0; 
     for(unsigned int i=0;i<index;++i){
@@ -51,26 +51,26 @@ public:
     return max;
   }
   
-  double average(const unsigned int index) const{ 
+  double average(const unsigned index) const{ 
     double average=0; 
-    for(unsigned int i=0;i<index;++i){
+    for(unsigned i=0;i<index;++i){
       average+=hist_[i];
     }
     return average/index;
   }
   
-  bool is_flat(const unsigned int index)const{return max(index)*0.8<average(index);}
+  bool is_flat(const unsigned index)const{return max(index)*0.8<average(index);}
   
   void clear()
   {
-    for(unsigned int i=0;i<hist_.size();++i){
+    for(unsigned i=0;i<hist_.size();++i){
       hist_[i]=0;
     }
   }
 
 private:
   
-  std::vector<unsigned long> hist_;
+  std::vector<double> hist_;
 };
 
 

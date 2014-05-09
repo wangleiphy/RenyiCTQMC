@@ -112,9 +112,16 @@ int main(int argc, char** argv){
             //std::cout << "L,W= " << params["L"] << ","<< params["W"] << std::endl;
         }
         broadcast(comm, params);
+    
+      MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
+
+      sim.wanglandau(); 
+      std::cout << "after wanglandau" << std::endl; 
+      sim.print_histogram(); 
+
+      abort(); 
 
       // Run simulation
-      MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
       sim.run(alps::stop_callback(options.timelimit)); //check stop time in each thread 
 
       time(&end);
@@ -126,7 +133,6 @@ int main(int argc, char** argv){
       std::string filename = boost::lexical_cast<std::string>(params["filename"]);  
       std::string h5output_file = filename.substr(0, filename.find_last_of('.')) + ".out.h5"; // hdf5 output file 
 
-      sim.print_histogram(); 
      
       if (comm.rank() ==0) 
       {
