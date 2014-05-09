@@ -6,7 +6,6 @@ import os , sys
 import argparse
 parser = argparse.ArgumentParser(description='')
 parser.add_argument("-fileheader",default="params", help="fileheader")
-parser.add_argument("-y", default="PertOrder", help="observable")
 
 group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument("-show", action='store_true',  help="show figure right now")
@@ -15,19 +14,18 @@ group.add_argument("-outname", default="result.pdf",  help="output pdf file")
 args = parser.parse_args()
 
 resultFiles = pyalps.getResultFiles(prefix=args.fileheader)
-timeseries = pyalps.loadTimeSeries(resultFiles[0], args.y)
 
-print timeseries
-if len(timeseries.shape) ==2: 
-    timeseries = timeseries[:,-1]
+pertorder = pyalps.loadTimeSeries(resultFiles[0], 'PertOrder')
+pertorder0 = pyalps.loadTimeSeries(resultFiles[0], 'PertOrder_0')
+pertorder1 = pyalps.loadTimeSeries(resultFiles[0], 'PertOrder_1')
 
-plt.figure()
-plt.xlabel('t')
-plt.ylabel(args.y)
-plt.plot(timeseries,'-o')
+pertmin = min(pertorder0.min(), pertorder0.min())
+pertmax = max(pertorder1.max(), pertorder1.max())
 
 plt.figure()
-n, bins, patches = plt.hist(timeseries, range=(timeseries.min(), timeseries.max()), bins =20)
+n, bins, patches = plt.hist(pertorder, range=(pertmin, pertmax), bins =20)
+n, bins, patches = plt.hist(pertorder0, range=(pertmin, pertmax), bins =20)
+n, bins, patches = plt.hist(pertorder1, range=(pertmin, pertmax), bins =20)
 
 
 if args.show:

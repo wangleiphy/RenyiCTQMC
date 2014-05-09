@@ -7,6 +7,7 @@ void InteractionExpansion::initialize_observables()
   measurements << alps::ngs::RealObservable("Sign")
                << alps::ngs::RealObservable("ZtoW")
                << alps::ngs::RealObservable("WtoZ")
+               << alps::ngs::RealObservable("PertOrder")
                ; 
 
  measurements  << alps::ngs::RealObservable("Z")
@@ -41,6 +42,8 @@ void InteractionExpansion::measure_observables()
 {
     measurements["Sign"]<<sign;
     unsigned pert_order = Msuper.num_vertices(); 
+    
+    measurements["PertOrder"] << double(pert_order); // the pert order in total
 
     std::stringstream obs_name;
     obs_name<<"PertOrder_"<<sector;
