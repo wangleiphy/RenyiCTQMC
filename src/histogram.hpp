@@ -15,6 +15,18 @@ public:
   double &operator[](unsigned int n){return hist_[n];}
   const double &operator[](unsigned int n) const{return hist_[n];}
   unsigned size() const{return hist_.size();}
+
+
+  double average() const
+  {
+      double up= 0.0; 
+      double down = 0.0; 
+      for(unsigned i=0;i<hist_.size();++i){
+          up += i * hist_[i]; 
+          down += hist_[i]; 
+      }
+      return up/down; 
+  } 
   
   unsigned max_index() const
   { 

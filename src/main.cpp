@@ -116,9 +116,6 @@ int main(int argc, char** argv){
       MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
 
       sim.wanglandau(); 
-      std::cout << "after wanglandau" << std::endl; 
-      sim.print_histogram(); 
-
       abort(); 
 
       // Run simulation

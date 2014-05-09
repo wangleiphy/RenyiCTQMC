@@ -41,11 +41,9 @@ public:
   unsigned long progress() const {return sweeps;}
 
   void print_histogram() const {
-     for(unsigned i=0;i<  std::max(pertorder_hist[0].top_index() , pertorder_hist[1].top_index()) ;++i){
-       std::cout<<i<<"\t"<<pertorder_hist[0][i] << "\t" << pertorder_hist[1][i] 
-                         <<"\t" << lng[0][i] << "\t" << lng[1][i]
-                         <<std::endl;
-     }
+       for(unsigned i=0;i<  std::max(lng.top_index(), lng.top_index()) ;++i){
+        std::cout<<i<<"\t"<<pertorder_hist[i] << "\t"  << lng[i] <<std::endl;
+       }
   }
 
   void build_matrix(); 
@@ -202,9 +200,9 @@ private:
 
   double S2;
 
-  std::vector<histogram> pertorder_hist;
-  std::vector<histogram> lng;
-  std::vector<double> lnf; 
+  histogram pertorder_hist;
+  histogram lng;
+  double lnf; 
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 

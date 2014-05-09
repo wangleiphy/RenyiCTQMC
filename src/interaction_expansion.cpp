@@ -55,9 +55,9 @@ probs(),// empty vector
 sector(0), // initialy we are in Z space 
 table(),
 S2(nonintS2(K_, NA, beta)), 
-pertorder_hist(2),
-lng(2),
-lnf(2, 1.)
+pertorder_hist(max_order),
+lng(max_order),
+lnf(1.)
 {
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
@@ -66,11 +66,6 @@ lnf(2, 1.)
 
    //initialize ALPS observables
    initialize_observables();
-
-   for (unsigned i=0; i< 2; ++i) {
-       pertorder_hist[i].resize(max_order); 
-       lng[i].resize(max_order); 
-   }
     
    if(node==0) {
        print(std::cout); // print parameters to screen 
@@ -97,6 +92,7 @@ void InteractionExpansion::measure(){
     measure_observables();
    } 
 }
+
 
 double InteractionExpansion::fraction_completed() const {
     return (sweeps < therm_steps ? 0. : ( sweeps - therm_steps )/double(measurement_period)/ double(mc_steps));
