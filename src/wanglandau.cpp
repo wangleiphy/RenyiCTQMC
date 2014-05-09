@@ -29,14 +29,17 @@ void InteractionExpansion::wanglandau_run(unsigned kc){
 
 //wanglandau before actual simuation 
 //here we also combine the simulation of two ensembles (in principle we can seperate them)
-void  InteractionExpansion::wanglandau() 
+void  InteractionExpansion::wanglandau(const int node) 
 {
 
  //estimate kc using a unmodified run 
  wanglandau_run(0); // kc = 0 means we donot modify the dynamics at all 
  unsigned kc = pertorder_hist.top_index(); //unsigned(2.*pertorder_hist.mean()); 
- std::cout << "kc: " << kc << " initial histogram" << std::endl;  
- print_histogram(); 
+
+ if (node ==0){
+    std::cout << "kc: " << kc << " initial histogram" << std::endl;  
+     print_histogram(); 
+ }
 
  pertorder_hist.clear(); 
 
@@ -44,9 +47,12 @@ void  InteractionExpansion::wanglandau()
  unsigned iter = 0; 
  while (lnf > 1E-8){
     wanglandau_run(kc); 
+    
+    if (node ==0){
+        std::cout << "#iteration: " << iter << ", flat: " << std::boolalpha <<  pertorder_hist.is_flat(kc)  << ", lnf: " << lnf << std::endl; 
+        print_histogram(); 
+    }
 
-    std::cout << "#iteration: " << iter << ", flat: " << std::boolalpha <<  pertorder_hist.is_flat(kc)  << " " << lnf << std::endl; 
-    print_histogram(); 
     ++iter; 
 
     //if it is flat enough, refine it  

@@ -114,11 +114,8 @@ int main(int argc, char** argv){
         broadcast(comm, params);
     
       MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
+        
 
-      sim.wanglandau(); 
-
-      sim.reset(); 
-      abort(); 
 
       // Run simulation
       sim.run(alps::stop_callback(options.timelimit)); //check stop time in each thread 

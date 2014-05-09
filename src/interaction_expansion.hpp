@@ -55,7 +55,7 @@ public:
 
   void evaluate(results_type& results);
 
-  void wanglandau(); 
+  void wanglandau(const int node); 
 
 private:
 

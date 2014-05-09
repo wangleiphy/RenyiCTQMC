@@ -72,6 +72,10 @@ lnf(1.)
        print(std::cout); // print parameters to screen 
        update_params(parms); //write back a few generated params 
    }
+
+   //perform wang-landau to get lng to flat the pertorder histogram  
+   wanglandau(node); 
+   reset(); // reset matrix, weight , sweeps ...  
 }
 
 
