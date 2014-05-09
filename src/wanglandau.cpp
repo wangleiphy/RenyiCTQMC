@@ -4,12 +4,11 @@ void InteractionExpansion::wanglandau_run(unsigned kc){
 
   sweeps =0; 
   //accumute hisogram 
-  do{
+  while (sweeps  < wanglandau_steps){
     sweeps++;
     interaction_expansion_step();                
 
     unsigned pert_order = Msuper.num_vertices(); 
-    //std::cout << "pert_order " <<  pert_order << std::endl; 
     pertorder_hist[pert_order] += 1.; 
 
     if (pert_order < kc) //only modify it upto kc 
@@ -25,7 +24,7 @@ void InteractionExpansion::wanglandau_run(unsigned kc){
     if(sweeps % recalc_period ==0)
          reset_perturbation_series();
 
-   }while (sweeps  < wanglandau_steps) ; 
+   }; 
 }
 
 //wanglandau before actual simuation 
@@ -33,26 +32,27 @@ void InteractionExpansion::wanglandau_run(unsigned kc){
 void  InteractionExpansion::wanglandau() 
 {
 
- //estimate kc 
+ //estimate kc using a unmodified run 
  wanglandau_run(0); // kc = 0 means we donot modify the dynamics at all 
  unsigned kc = pertorder_hist.top_index(); //unsigned(2.*pertorder_hist.mean()); 
- std::cout << "kc: " << kc << std::endl;  
+ std::cout << "kc: " << kc << " initial histogram" << std::endl;  
  print_histogram(); 
 
  pertorder_hist.clear(); 
 
- for (unsigned iter =0; iter< 50; ++iter) {
+ //start wang-landau iteration 
+ unsigned iter = 0; 
+ while (lnf > 1E-8){
     wanglandau_run(kc); 
 
     std::cout << "#iteration: " << iter << ", flat: " << std::boolalpha <<  pertorder_hist.is_flat(kc)  << " " << lnf << std::endl; 
     print_histogram(); 
+    ++iter; 
 
     //if it is flat enough, refine it  
     if (pertorder_hist.is_flat(kc)){ 
         pertorder_hist.clear(); 
         lnf /= 2.; 
     }
-
  }
-
 }

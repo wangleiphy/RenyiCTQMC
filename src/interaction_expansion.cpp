@@ -98,3 +98,17 @@ void InteractionExpansion::measure(){
 double InteractionExpansion::fraction_completed() const {
     return (sweeps < therm_steps ? 0. : ( sweeps - therm_steps )/double(measurement_period)/ double(mc_steps));
 }
+
+void InteractionExpansion::reset(){
+
+     Msuper.clear(); 
+     M[0].clear(); 
+     M[1].clear();  
+     table.clear(); 
+     
+     logweight = 0.;  
+
+     sweeps = 0; 
+} 
+
+

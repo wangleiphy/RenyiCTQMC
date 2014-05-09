@@ -116,6 +116,8 @@ int main(int argc, char** argv){
       MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
 
       sim.wanglandau(); 
+
+      sim.reset(); 
       abort(); 
 
       // Run simulation

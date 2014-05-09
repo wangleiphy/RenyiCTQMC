@@ -16,7 +16,7 @@ public:
   const double &operator[](unsigned int n) const{return hist_[n];}
   unsigned size() const{return hist_.size();}
 
-
+  /*
   double mean() const
   {
       double up= 0.0; 
@@ -40,8 +40,9 @@ public:
     }
     return max_index;
   }
+  */
   
-  unsigned top_index() const
+  unsigned top_index() const// the last nonvanishing element past one past one 
   { 
     unsigned top_index=0;
     for(unsigned i=0;i<hist_.size();++i){
@@ -49,7 +50,7 @@ public:
         top_index=i;
       }
     }
-    return top_index;
+    return top_index+1;
   }
   
   double max(const unsigned index) const

@@ -30,6 +30,7 @@ public:
   void update();
   void measure();
   double fraction_completed() const;
+  void reset();  
     
   //perterbation orders in super and 0, 1 sectors 
   boost::tuple<unsigned, unsigned, unsigned> pertorders() const 
@@ -42,7 +43,7 @@ public:
 
   void print_histogram() const {
        double sum = 0.0; 
-       for(unsigned i=0;i<  std::max(pertorder_hist.top_index(), lng.top_index()) ;++i){
+       for(unsigned i=0;i< pertorder_hist.top_index() ;++i){
         std::cout<<i<<"\t"<<pertorder_hist[i] << "\t"  << lng[i] <<std::endl;
         sum += pertorder_hist[i]; 
        }
