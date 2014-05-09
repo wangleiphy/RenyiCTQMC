@@ -50,13 +50,13 @@ void InteractionExpansion::measure_observables()
     measurements[obs_name.str().c_str()] << double(pert_order); // the pert order in total 
 
   if (sector==0){
-    measurements["Z"] << 1.*wanglandau_scalingfactor[pert_order];
+    measurements["Z"] << 1.*wanglandau_scalingfactor[sector][pert_order];
     measurements["W"] << 0.;
     //measurements["IntE"] << double(M.num_vertices());// the pert order measured in Z space 
 
   }else{
     measurements["Z"] << 0.;
-    measurements["W"] << 1.*wanglandau_scalingfactor[pert_order];
+    measurements["W"] << 1.*wanglandau_scalingfactor[sector][pert_order];
     //measurements["IntE"] << 0.; 
   }
 }

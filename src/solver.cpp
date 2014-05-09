@@ -64,57 +64,6 @@ void InteractionExpansion::build_matrix(){
    */
 }
 
-/*
-void InteractionExpansion::build_matrix(){
-//rebuild matrix from scratch 
-
-    //rebuild super Matrix 
-    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
-    assert(Msuper.creators().size() == M[0].creators().size() + M[1].creators().size()); 
-
-    Msuper.matrix() = Eigen::MatrixXd::Zero(Msuper.creators().size(), Msuper.creators().size());  
-    for (unsigned int i=0; i< Msuper.creators().size(); ++i){
-        for (unsigned int j=i+1; j< Msuper.creators().size(); ++j){ //do not fill diagonal 
-
-            Msuper.matrix()(i,j) = super_green0_spline(Msuper.creators()[i], Msuper.creators()[j]); 
-            //Msuper.matrix()(i,j) = super_bare_green_itime.gf(Msuper.creators()[i].t(), Msuper.creators()[j].t(), Msuper.creators()[i].s(), Msuper.creators()[j].s());  // recompute 
-            Msuper.matrix()(j,i) = -Msuper.creators()[i].parity()*Msuper.creators()[j].parity()*Msuper.matrix()(i,j);//anti-symmetrization 
-            //Msuper.matrix()(j,i) = super_green0_spline(Msuper.creators()[j], Msuper.creators()[i]); // compute using interpolation 
-            //Msuper.matrix()(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), Msuper.creators()[i].t(), Msuper.creators()[j].s(), Msuper.creators()[i].s());  // recompute 
-
-        }
-    }
-
-   //std::cout << "Msuperinv from scratch:\n" << Msuper.matrix() << std::endl; 
-   Msuper.matrix() = Msuper.matrix().inverse().eval();     
-
-   //std::cout << "Msuper from scratch:\n" << Msuper.matrix() << std::endl; 
-   //std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 
-
-    
-   for (unsigned icopy=0; icopy<2; ++icopy) {
-
-    assert(M[icopy].creators().size() == 2*M[icopy].num_vertices()); 
-
-    M[icopy].matrix() = Eigen::MatrixXd::Zero(M[icopy].creators().size(), M[icopy].creators().size());  
-    for (unsigned int i=0; i< M[icopy].creators().size(); ++i){
-        for (unsigned int j=i+1; j< M[icopy].creators().size(); ++j){ //do not fill diagonal 
-            M[icopy].matrix()(i,j) = green0_spline(M[icopy].creators()[i], M[icopy].creators()[j]); 
-            M[icopy].matrix()(j,i) = -M[icopy].creators()[i].parity()*M[icopy].creators()[j].parity()*M[icopy].matrix()(i,j);//anti-symmetrization 
-        }
-    }
-
-    M[icopy].matrix() = M[icopy].matrix().inverse().eval();     
-
-    //std::cout << "M" << icopy << " from scratch:\n" << M[icopy].matrix() << std::endl; 
-    //std::cout << "det(M"<< icopy <<") = " << M[icopy].matrix().determinant() << std::endl; 
-  }
-     
-    //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
-
-}
-*/
-
 ///Every now and then we have to recreate M from scratch to avoid roundoff error.
 void InteractionExpansion::reset_perturbation_series()
 {

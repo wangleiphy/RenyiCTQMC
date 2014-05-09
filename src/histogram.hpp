@@ -8,8 +8,8 @@ public:
   histogram():hist_(){}
   histogram(unsigned int N):hist_(N, 0){}
 
-  void resize(unsigned int N){
-      hist_.resize(N, 0); 
+  void resize(unsigned int N, const double val){
+      hist_.resize(N, val); 
   }
   
   double &operator[](unsigned int n){return hist_[n];}

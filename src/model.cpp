@@ -19,7 +19,7 @@ void InteractionExpansion::add()
 
   // true means compute_only_weight
   std::vector<double> wratios = add_impl(tau, sites, true);    // wratios in the Z and W sectors 
-  double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratios[sector] * exp(lng[pert_order]-lng[pert_order+1])    ; // sector =0 (Z) =1 (W)
+  double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratios[sector] * exp(lng[sector][pert_order]-lng[sector][pert_order+1])    ; // sector =0 (Z) =1 (W)
 
   //if (metropolis_weight<0.){
   //  std::cout << metropolis_weight << " < 0 in add" << std::endl; 
@@ -64,7 +64,7 @@ void InteractionExpansion::remove()
     unsigned int vertex = randomint(pert_order);// pickup a random vertex 
 
     std::vector<double> wratios = remove_impl(vertex, true); 
-    double metropolis_weight = (Add/Remove)*pert_order/(-2.*beta*n_bond*V)* wratios[sector] * exp(lng[pert_order]-lng[pert_order-1]);
+    double metropolis_weight = (Add/Remove)*pert_order/(-2.*beta*n_bond*V)* wratios[sector] * exp(lng[sector][pert_order]-lng[sector][pert_order-1]);
 
     //std::cout << "after remove_impl" << std::endl; 
     //if (metropolis_weight<0.){

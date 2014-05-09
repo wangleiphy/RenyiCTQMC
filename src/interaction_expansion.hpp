@@ -41,14 +41,16 @@ public:
   //print progress 
   unsigned long progress() const {return sweeps;}
 
+
   void print_histogram() const {
-       double sum = 0.0; 
-       for(unsigned i=0;i< pertorder_hist.top_index() ;++i){
-        std::cout<<i<<"\t"<<pertorder_hist[i] << "\t"  << lng[i] <<std::endl;
-        sum += pertorder_hist[i]; 
+  double sum = 0.0; 
+   for(unsigned i=0;i< pertorder_hist[sector].top_index() ;++i){
+        std::cout << sector << "\t" <<i<<"\t"<<pertorder_hist[sector][i] << "\t"  << lng[sector][i] <<std::endl;
+        sum += pertorder_hist[sector][i]; 
        }
        std::cout <<  "sum: " << sum<< std::endl; 
   }
+
 
   void build_matrix(); 
   void test(); 
@@ -57,9 +59,16 @@ public:
 
   void wanglandau(const int node); 
 
-private:
 
+
+private:
+  //in file wanglandau.cpp 
+  void wanglandau_rebuildmatrix(); 
   void wanglandau_run(unsigned kc);   
+  void wanglandau_add(); 
+  void wanglandau_remove(); 
+  void wanglandau_step();
+
   /*functions*/
   // in file io.cpp
   void print(std::ostream &os) const; //print parameters 
@@ -205,10 +214,10 @@ private:
 
   double S2;
 
-  histogram pertorder_hist;
-  histogram lng;
-  double lnf; 
-  std::vector<double> wanglandau_scalingfactor; 
+  std::vector<histogram> pertorder_hist;
+  std::vector<histogram> lng;
+  std::vector<double> lnf; 
+  std::vector<std::vector<double> > wanglandau_scalingfactor; 
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 

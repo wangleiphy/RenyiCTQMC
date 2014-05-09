@@ -56,15 +56,22 @@ probs(),// empty vector
 sector(0), // initialy we are in Z space 
 table(),
 S2(nonintS2(K_, NA, beta)), 
-pertorder_hist(max_order),
-lng(max_order),
-lnf(1.), 
-wanglandau_scalingfactor(max_order, 1.)
+pertorder_hist(2),
+lng(2),
+lnf(2, 1.),
+wanglandau_scalingfactor(2)
 {
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
    probs.push_back(Add+Remove+ZtoW); 
    probs.push_back(Add+Remove+ZtoW+WtoZ); 
+
+   for (unsigned i=0; i< 2; ++i){
+       pertorder_hist[i].resize(max_order, 0.); 
+       lng[i].resize(max_order, 0.); 
+       wanglandau_scalingfactor[i].resize(max_order, 1.); 
+   }
+
 
    //initialize ALPS observables
    initialize_observables();
@@ -79,12 +86,14 @@ wanglandau_scalingfactor(max_order, 1.)
    reset(); // reset matrix, weight , sweeps ...  
     
    //set the wang-landau scaling factor g(i) / sum_i g(i)
-   //double res = 0.0;
-   //for (unsigned i=0; i<max_order; ++i){
-   //    res += exp(lng[i]); 
-   //}
-   for (unsigned i=0; i<max_order; ++i){
-        wanglandau_scalingfactor[i]  = exp(lng[i]); 
+   for (unsigned i=0; i< 2; ++i){
+      double res = 0.0;
+      for (unsigned j=0; j<max_order; ++j){
+          res += exp(lng[i][j]); 
+      }
+      for (unsigned j=0; j<max_order; ++j){
+           wanglandau_scalingfactor[i][j]  = exp(lng[i][j])/res; 
+      }
    }
 
 }
@@ -124,6 +133,7 @@ void InteractionExpansion::reset(){
      logweight = 0.;  
 
      sweeps = 0; 
+     sector = 0; 
 } 
 
 
