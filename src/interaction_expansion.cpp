@@ -87,12 +87,12 @@ wanglandau_scalingfactor(2)
     
    //set the wang-landau scaling factor g(i) / sum_i g(i)
    for (unsigned i=0; i< 2; ++i){
-      double res = 0.0;
+      //double res = 0.0;
+      //for (unsigned j=0; j<max_order; ++j){
+      //    res += exp(lng[i][j]); 
+      //}
       for (unsigned j=0; j<max_order; ++j){
-          res += exp(lng[i][j]); 
-      }
-      for (unsigned j=0; j<max_order; ++j){
-           wanglandau_scalingfactor[i][j]  = exp(lng[i][j])/res; 
+           wanglandau_scalingfactor[i][j]  = exp(lng[i][j]); 
       }
    }
 
