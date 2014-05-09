@@ -39,8 +39,10 @@ void  InteractionExpansion::wanglandau(const int node)
  //estimate kc using a unmodified run 
  sector = 0; 
  wanglandau_run(0); // kc = 0 means we donot modify the dynamics at all 
+ std::cout << "sector 0 done" << std::endl; 
  sector = 1; 
  wanglandau_run(0);  
+ std::cout << "sector 1 done" << std::endl; 
  
  //pick the larger one as the cutoff 
  unsigned kc = std::max ( pertorder_hist[0].top_index(),  pertorder_hist[1].top_index()); 
@@ -52,7 +54,7 @@ void  InteractionExpansion::wanglandau(const int node)
         print_histogram(); 
     }
    
-    pertorder_hist.clear(); 
+    pertorder_hist[sector].clear(); 
    
     //start wang-landau iteration 
     unsigned iter = 0; 
@@ -92,7 +94,11 @@ void InteractionExpansion::wanglandau_add()
 {
   // add vertices
 
-  int pert_order = Msuper.num_vertices(); 
+  unsigned pert_order; 
+  if (sector==0)
+      pert_order = M[0].num_vertices() +  M[1].num_vertices(); 
+  else
+      pert_order = Msuper.num_vertices(); 
 
   if(pert_order+1 >= max_order) 
     return; 
@@ -110,15 +116,19 @@ void InteractionExpansion::wanglandau_add()
   else
       wratio =  Wadd_impl(tau, sites, true);
 
-  double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratio* exp(lng[sector][pert_order]-lng[sector][pert_order+1])    ; // sector =0 (Z) =1 (W)
+  double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratio* exp(lng[sector][pert_order]-lng[sector][pert_order+1]) ; // sector =0 (Z) =1 (W)
 
 
   if(fabs(metropolis_weight) > random()){
 
-    if (sector==0)
+    if (sector==0){
         Zadd_impl(tau, sites, false);
-    else
+        unsigned icopy = tau < beta ? 0 : 1;  
+        table.push_back(std::make_pair(icopy, M[icopy].num_vertices()-1)); 
+    }else{
         Wadd_impl(tau, sites, false);
+    }
+
 
   }else{
 
@@ -128,18 +138,23 @@ void InteractionExpansion::wanglandau_add()
 void InteractionExpansion::wanglandau_remove()
 {
 
-    unsigned int pert_order = Msuper.num_vertices(); 
+    unsigned pert_order; 
+    if (sector==0)
+        pert_order = M[0].num_vertices() +  M[1].num_vertices(); 
+    else
+        pert_order = Msuper.num_vertices(); 
 
     if(pert_order < 1)
       return;    
     
-    unsigned int vertex = randomint(pert_order);// pickup a random vertex 
+    unsigned vertex = randomint(pert_order);// pickup a random vertex 
 
     double wratio; 
-    if (sector==0)
+    if (sector==0){
         wratio =  Zremove_impl(vertex, true);
-    else
+    }else{
         wratio =  Wremove_impl(vertex, true);
+    }
 
     double metropolis_weight = (Add/Remove)*pert_order/(-2.*beta*n_bond*V)* wratio * exp(lng[sector][pert_order]-lng[sector][pert_order-1]);
 
@@ -149,10 +164,27 @@ void InteractionExpansion::wanglandau_remove()
       obs_name<<"VertexRemoval_"<<sector;
       measurements[obs_name.str().c_str()] << 1.;
 
-    if (sector==0)
+    if (sector==0){
         Zremove_impl(vertex, false);
-    else
+
+        unsigned icopy = table[vertex].first; 
+        unsigned vert = table[vertex].second; 
+ 
+        std::swap(table[vertex], table.back());
+        table.pop_back(); 
+            
+        //find the one corroponds to the last vert in icopy 
+        for (unsigned v =0; v< table.size(); ++v){
+            if (table[v].first == icopy && table[v].second == M[icopy].num_vertices()){
+                table[v].second = vert;  
+                break; 
+            }
+        }
+
+    }else{
         Wremove_impl(vertex, false);
+    }
+
 
     }else{
 
@@ -180,7 +212,6 @@ void InteractionExpansion::wanglandau_rebuildmatrix(){
     
          //rebuild super Matrix 
          assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
-         assert(Msuper.creators().size() == M[0].creators().size() + M[1].creators().size()); 
 
           Msuper.matrix() = Eigen::MatrixXd::Zero(Msuper.creators().size(), Msuper.creators().size());  
           for (unsigned int i=0; i< Msuper.creators().size(); ++i){
