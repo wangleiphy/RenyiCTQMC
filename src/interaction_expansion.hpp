@@ -208,6 +208,7 @@ private:
   histogram pertorder_hist;
   histogram lng;
   double lnf; 
+  std::vector<double> wanglandau_scalingfactor; 
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 

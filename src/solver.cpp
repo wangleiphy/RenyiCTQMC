@@ -144,7 +144,7 @@ void InteractionExpansion::reset_perturbation_series()
   //logweight = new_logweight; 
 
   //check logweight 
-  if ( fabs(exp(logweight_old-logweight)-1.) >1E-8)
+  if ( fabs(exp(logweight_old-logweight)-1.) >1E-6)
       std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight_old-logweight)-1.)   << std::endl;
 
   //check the difference of M matrix 
@@ -152,7 +152,7 @@ void InteractionExpansion::reset_perturbation_series()
   Mdiff = Mdiff.cwiseAbs(); //and take absolute value 
   double max_diff = Mdiff.maxCoeff(); 
 
-  if(max_diff > 1.e-8){
+  if(max_diff > 1.e-6){
     std::cout<<"WARNING: roundoff errors in Msuper " <<max_diff << std::endl;
 
     //std::cout << Mdiff << std::endl; 

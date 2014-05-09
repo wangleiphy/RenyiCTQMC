@@ -47,16 +47,15 @@ void  InteractionExpansion::wanglandau(const int node)
  unsigned iter = 0; 
  while (lnf > 1E-8){
     wanglandau_run(kc); 
-    
-    if (node ==0){
-        std::cout << "#iteration: " << iter << ", flat: " << std::boolalpha <<  pertorder_hist.is_flat(kc)  << ", lnf: " << lnf << std::endl; 
-        print_histogram(); 
-    }
-
     ++iter; 
 
     //if it is flat enough, refine it  
     if (pertorder_hist.is_flat(kc)){ 
+
+        if (node ==0){
+            std::cout << "#iteration: " << iter << ", flat: " << std::boolalpha <<  pertorder_hist.is_flat(kc)  << ", lnf: " << lnf << std::endl; 
+            print_histogram(); 
+        }
         pertorder_hist.clear(); 
         lnf /= 2.; 
     }

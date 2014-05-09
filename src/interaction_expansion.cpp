@@ -58,7 +58,8 @@ table(),
 S2(nonintS2(K_, NA, beta)), 
 pertorder_hist(max_order),
 lng(max_order),
-lnf(1.)
+lnf(1.), 
+wanglandau_scalingfactor(max_order, 1.)
 {
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
@@ -76,6 +77,16 @@ lnf(1.)
    //perform wang-landau to get lng to flat the pertorder histogram  
    wanglandau(node); 
    reset(); // reset matrix, weight , sweeps ...  
+    
+   //set the wang-landau scaling factor g(i) / sum_i g(i)
+   double res = 0.0;
+   for (unsigned i=0; i<max_order; ++i){
+       res += exp(lng[i]); 
+   }
+   for (unsigned i=0; i<max_order; ++i){
+        wanglandau_scalingfactor[i]  = exp(lng[i])/res; 
+   }
+
 }
 
 
