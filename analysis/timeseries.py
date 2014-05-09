@@ -17,7 +17,7 @@ args = parser.parse_args()
 resultFiles = pyalps.getResultFiles(prefix=args.fileheader)
 timeseries = pyalps.loadTimeSeries(resultFiles[0], args.y)
 
-print timeseries
+#print timeseries
 if len(timeseries.shape) ==2: 
     timeseries = timeseries[:,-1]
 

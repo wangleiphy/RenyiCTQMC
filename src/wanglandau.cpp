@@ -54,11 +54,11 @@ void  InteractionExpansion::wanglandau(const int node)
         print_histogram(); 
     }
    
-    pertorder_hist[sector].clear(); 
    
     //start wang-landau iteration 
     unsigned iter = 0; 
-    while (lnf[sector] > 1E-8 && iter < 100){
+    while (lnf[sector] > 1E-9 && iter < 100){
+       pertorder_hist[sector].clear(); 
        wanglandau_run(kc); 
        ++iter; 
    
@@ -69,11 +69,23 @@ void  InteractionExpansion::wanglandau(const int node)
                std::cout << "#iteration: " << iter << ", lnf: " << lnf[sector] << std::endl; 
                print_histogram(); 
            }
-           pertorder_hist[sector].clear(); 
            lnf[sector] /= 2.; 
        }
     }
  }
+ //calculate the ratio
+ double up = 0.0; 
+ for (unsigned i = 0; i<  pertorder_hist[0].top_index() ; ++i){
+     up += (pertorder_hist[0][i]/pertorder_hist[0][0])  * exp(lng[0][i]- lng[0][0]); 
+ }
+
+ double down = 0.0; 
+ for (unsigned i = 0; i<  pertorder_hist[1].top_index() ; ++i){
+     down += (pertorder_hist[1][i]/pertorder_hist[1][0])  * exp(lng[1][i]- lng[1][0]); 
+ }
+
+ std::cout << "wang-landau results: "  << log(eta *up /down) <<  "  "  << S2 + log(eta *up /down) << std::endl; 
+
 }
 
 

@@ -83,6 +83,7 @@ wanglandau_scalingfactor(2)
 
    //perform wang-landau to get lng to flat the pertorder histogram  
    wanglandau(node); 
+   abort(); 
    reset(); // reset matrix, weight , sweeps ...  
     
    //set the wang-landau scaling factor g(i) / sum_i g(i)
