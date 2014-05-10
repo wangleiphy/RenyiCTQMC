@@ -54,11 +54,10 @@ void  InteractionExpansion::wanglandau(const int node)
         print_histogram(); 
     }
    
-   
+    pertorder_hist[sector].clear(); 
     //start wang-landau iteration 
     unsigned iter = 0; 
     while (lnf[sector] > 1E-9 && iter < 100){
-       pertorder_hist[sector].clear(); 
        wanglandau_run(kc); 
        ++iter; 
    
@@ -69,6 +68,8 @@ void  InteractionExpansion::wanglandau(const int node)
                std::cout << "#iteration: " << iter << ", lnf: " << lnf[sector] << std::endl; 
                print_histogram(); 
            }
+
+           pertorder_hist[sector].clear(); 
            lnf[sector] /= 2.; 
        }
     }
