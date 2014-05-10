@@ -73,6 +73,7 @@ void  InteractionExpansion::wanglandau(const int node)
        }
     }
  }
+ /*
  //calculate the ratio
  double up = 0.0; 
  for (unsigned i = 0; i<  pertorder_hist[0].top_index() ; ++i){
@@ -83,9 +84,8 @@ void  InteractionExpansion::wanglandau(const int node)
  for (unsigned i = 0; i<  pertorder_hist[1].top_index() ; ++i){
      down += (pertorder_hist[1][i]/pertorder_hist[1][0])  * exp(lng[1][i]- lng[1][0]); 
  }
-
  std::cout << "wang-landau results: "  << log(eta *up /down) <<  "  "  << S2 + log(eta *up /down) << std::endl; 
-
+ */
 }
 
 
