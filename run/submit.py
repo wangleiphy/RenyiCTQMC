@@ -17,7 +17,7 @@ if __name__=='__main__':
     
     textoutput = 1 # 
 
-    Maxorder = 8192
+    Maxorder = 2048
 
     Nscratch = 1000 # period to rebuilt M 
     THERMALIZATION = 10**5
@@ -55,7 +55,7 @@ if __name__=='__main__':
                                            SWEEPS=SWEEPS, THERMALIZATION=THERMALIZATION, NSKIP=NSKIP, 
                                            Add = Add, Remove = Remove, 
                                            ZtoW = ZtoW, WtoZ = WtoZ, 
-                                           eta = eta, 
+                                           eta = eta, WLSteps = WLSteps, 
                                            folder=resfolder, textoutput=textoutput)
 
 

@@ -25,7 +25,7 @@ def writeParameterFile(fname,parms):
 write parameters for main 
 '''
 
-def params(lattice, L, W, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratch=5000, SWEEPS=1000000, THERMALIZATION=100000, NSKIP=200, Add=0.1, Remove = 0.2, ZtoW=0.1, WtoZ =0.1, eta=1., folder='../data/', textoutput=0):
+def params(lattice, L, W, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratch=5000, SWEEPS=1000000, THERMALIZATION=100000, NSKIP=200, Add=0.1, Remove = 0.2, ZtoW=0.1, WtoZ =0.1, eta=1., WLSteps = 10**5, folder='../data/', textoutput=0):
     
     key = lattice.replace(' ','') 
     key += 'L' + str(L)\
@@ -43,7 +43,8 @@ def params(lattice, L, W, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratc
            +'Remove'+str(Remove)\
            +'ZtoW'+str(ZtoW)\
            +'WtoZ'+str(WtoZ)\
-           +'eta'+str(eta)
+           +'eta'+str(eta)\
+           +'WLSteps' +str(WLSteps)
 
     totalprob = Add + Remove+ ZtoW + WtoZ
 
@@ -77,6 +78,7 @@ def params(lattice, L, W, NA, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, Nscratc
             ,'ZtoW': ZtoW
             ,'WtoZ': WtoZ 
             ,'eta' : eta 
+            ,'WL_STEPS': WLSteps
             }
 
     writeParameterFile(inputname, parms)

@@ -3,6 +3,8 @@ import time
 import re 
 from numpy import arange
 
+WLSteps = 10**5 
+
 Add  = 0.15
 Remove = 0.15
 
@@ -10,33 +12,34 @@ ZtoW = 0.35
 WtoZ = 0.35
 eta = 0.5
 
-#latticename = 'open chain lattice'
+latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
-latticename = 'honeycomb lattice'
+#latticename = 'honeycomb lattice'
 ###############################
-nickname = 'logweight'
+nickname = 'wl_plus_worm'
 
-Llist = [12]
-Wlist = [12]
-NAlist = [144]
+Llist = [8]
+Wlist = [1]
+NAlist = [4]
 
-Tlist = [0.5]
+Tlist = [0.1]
 #Vlist = arange(0.1, 1.6, 0.2)
-Vlist = [1.0, 2.0, 4.0]
 #Vlist = arange(0.5, 10., 0.5)
+Vlist = arange(1., 11., 1.0)
 
 NSKIP = 200
+Ntau = 1000
 THERMALIZATION = 10**5
 SWEEPS = 10**6
 Nscratch = 500
 
 ##############################
-wtime = '4:00:00'
+wtime = '12:00:00'
 tmin = 60
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
-prog = '../bin/main'
+prog = '../bin/wl_plus_worm'
 
 resfolder = '/mnt/lnec/lewang/renyidata/' + nickname  + '/'
 h, m, s = [int(i) for i in wtime.split(':')]
