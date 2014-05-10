@@ -15,7 +15,7 @@ void InteractionExpansion::initialize_observables()
                //<< alps::ngs::RealObservable("IntE")
                ; 
 
- for (unsigned int i=0; i<2; ++i){
+ for (unsigned i=0; i<2; ++i){
    {
     std::stringstream obs_name;
     obs_name<<"VertexAdd_"<<i;
@@ -42,29 +42,27 @@ void InteractionExpansion::measure_observables()
 {
     measurements["Sign"]<<sign;
     unsigned pert_order = Msuper.num_vertices(); 
+
+    pertorder_hist[sector][pert_order] += 1.;
     
-    measurements["PertOrder"] << double(pert_order); // the pert order in total
+    measurements["PertOrder"] << double(pert_order); 
 
     std::stringstream obs_name;
     obs_name<<"PertOrder_"<<sector;
-    measurements[obs_name.str().c_str()] << double(pert_order); // the pert order in total 
+    measurements[obs_name.str().c_str()] << double(pert_order);  
 
   if (sector==0){
-    measurements["Z"] << 1.*wanglandau_scalingfactor[sector][pert_order];
+    measurements["Z"] << wanglandau_scalingfactor[sector][pert_order];
     measurements["W"] << 0.;
-    //measurements["IntE"] << double(M.num_vertices());// the pert order measured in Z space 
 
   }else{
     measurements["Z"] << 0.;
-    measurements["W"] << 1.*wanglandau_scalingfactor[sector][pert_order];
-    //measurements["IntE"] << 0.; 
+    measurements["W"] << wanglandau_scalingfactor[sector][pert_order];
   }
 }
 
 //finial evaluation 
 void InteractionExpansion::evaluate(results_type& results){
-     //results["IntE"] = (-1./beta)*results["IntE"]/results["Z"];
-
      results.insert("dS2", log(eta*results["Z"]/results["W"])); // dS2 = -log(W/Z)
      results.insert("S2", S2 + results["dS2"]); 
 }

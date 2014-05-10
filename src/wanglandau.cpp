@@ -57,7 +57,7 @@ void  InteractionExpansion::wanglandau(const int node)
     pertorder_hist[sector].clear(); 
     //start wang-landau iteration 
     unsigned iter = 0; 
-    while (lnf[sector] > 1E-9 && iter < 100){
+    while (lnf[sector] > wanglandau_convg){
        wanglandau_run(kc); 
        ++iter; 
    

@@ -33,6 +33,7 @@ n_tau(boost::lexical_cast<unsigned>(parms["N_TAU"])),
 mc_steps((boost::uint64_t)parms["SWEEPS"]),
 therm_steps((unsigned long)parms["THERMALIZATION"]),        
 wanglandau_steps((unsigned long)parms["WL_STEPS"]),
+wanglandau_convg((double)parms["WL_CONVG"]),
 temperature(boost::lexical_cast<double>(parms["TEMPERATURE"])),                        
 beta(1./temperature),  
 timestepinv(n_tau*temperature),  
@@ -85,14 +86,14 @@ wanglandau_scalingfactor(2)
    wanglandau(node); 
    reset(); // reset matrix, weight , sweeps ...  
     
-   //set the wang-landau scaling factor g(i) / sum_i g(i)
-   for (unsigned i=0; i< 2; ++i){
+   //set the wang-landau scaling factor exp(lng)
+   for (unsigned s=0; s< 2; ++s){
       //double res = 0.0;
       //for (unsigned j=0; j<max_order; ++j){
       //    res += exp(lng[i][j]); 
       //}
-      for (unsigned j=0; j<max_order; ++j){
-           wanglandau_scalingfactor[i][j]  = exp(lng[i][j]); 
+      for (unsigned i=0; i<max_order; ++i){
+           wanglandau_scalingfactor[s][i]  = exp(lng[s][i]); 
       }
    }
 

@@ -137,6 +137,7 @@ int main(int argc, char** argv){
                alps::hdf5::archive ar(h5output_file, "w");
                ar["/parameters"] << params;
                ar["/simulation/results"] << results;
+               sim.save_histogram(ar); 
                ar.close(); 
 
                std::ofstream outfile;
