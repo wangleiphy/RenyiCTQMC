@@ -37,7 +37,7 @@ public:
       {return boost::make_tuple(Msuper.num_vertices(), M[0].num_vertices(), M[1].num_vertices());}
   double get_weight() const {// this is the modified weight 
       unsigned pert_order = Msuper.num_vertices(); 
-      return exp(logweight-lng[sector][pert_order]);
+      return (WtoZ/ZtoW)*eta*exp(logweight-lng[sector][pert_order]);
   }
 
   unsigned get_sector() const {return sector;}

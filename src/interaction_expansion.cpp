@@ -81,18 +81,16 @@ wanglandau_scalingfactor(2)
        print(std::cout); // print parameters to screen 
        update_params(parms); //write back a few generated params 
    }
-
+    
    //perform wang-landau to get lng to flat the pertorder histogram  
-   wanglandau(node); 
+   if (wanglandau_steps > 0)
+       wanglandau(node); 
+
    reset(); // reset matrix, weight , sweeps ...  
     
    //set the wang-landau scaling factor exp(lng)
    for (unsigned s=0; s< 2; ++s){
-      //double res = 0.0;
-      //for (unsigned j=0; j<max_order; ++j){
-      //    res += exp(lng[i][j]); 
-      //}
-      for (unsigned i=0; i<max_order; ++i){
+     for (unsigned i=0; i<max_order; ++i){
            wanglandau_scalingfactor[s][i]  = exp(lng[s][i]); 
       }
    }
