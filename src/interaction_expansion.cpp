@@ -60,7 +60,7 @@ S2(nonintS2(K_, NA, beta)),
 pertorder_hist(2),
 lng(2),
 lnf(2, 1.),
-wanglandau_scalingfactor(2)
+wanglandau_scalingfactor(2)// g = exp(lng)
 {
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 

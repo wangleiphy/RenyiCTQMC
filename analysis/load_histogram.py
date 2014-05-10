@@ -21,12 +21,14 @@ if __name__=='__main__':
 
     #load kilst and rhok from file 
     h5file = h5py.File(args.filename, 'r')
+    hists = []
     for s in range(2):
         #hist = array(h5file['lng'][str(s)]) 
-        hist = array(h5file['pertorder_histogram'][str(s)]) 
+        hists.append ( array(h5file['pertorder_histogram'][str(s)]))  
         #print hist 
 
-        plt.plot(hist, '-o')
+    plt.plot(hists[0],  '-o')
+    plt.plot(hists[1],  '-o')
 
     h5file.close()
 
