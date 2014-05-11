@@ -1,7 +1,7 @@
 import h5py 
 import pyalps 
 import argparse
-from numpy import array 
+from numpy import array , exp 
 
 import matplotlib.pyplot as plt
 import pyalps.plot
@@ -23,12 +23,13 @@ if __name__=='__main__':
     h5file = h5py.File(args.filename, 'r')
     hists = []
     for s in range(2):
-        #hist = array(h5file['lng'][str(s)]) 
+        #hists.append ( exp( array(h5file['lng'][str(s)]) )) 
         hists.append ( array(h5file['pertorder_histogram'][str(s)]))  
         #print hist 
 
     plt.plot(hists[0],  '-o')
     plt.plot(hists[1],  '-o')
+
 
     h5file.close()
 

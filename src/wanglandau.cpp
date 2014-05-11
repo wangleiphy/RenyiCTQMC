@@ -95,10 +95,13 @@ void  InteractionExpansion::wanglandau(const int node)
 /////////////////////////////////////////////////////
 void InteractionExpansion::wanglandau_step()
 {
-    if(random()< 0.5){     
-        wanglandau_add();
-    }else{
-        wanglandau_remove(); 
+
+    for (unsigned i = 0; i < measurement_period; ++i){
+      if(random()< 0.5){     
+          wanglandau_add();
+      }else{
+          wanglandau_remove(); 
+      }
     }
 }
 
