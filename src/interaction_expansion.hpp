@@ -35,7 +35,11 @@ public:
   //perterbation orders in super and 0, 1 sectors 
   boost::tuple<unsigned, unsigned, unsigned> pertorders() const 
       {return boost::make_tuple(Msuper.num_vertices(), M[0].num_vertices(), M[1].num_vertices());}
-  double get_weight() const {return exp(logweight);}
+  double get_weight() const {// this is the modified weight 
+      unsigned pert_order = Msuper.num_vertices(); 
+      return (WtoZ/ZtoW)*eta*exp(logweight-lng[sector][pert_order]);
+  }
+
   unsigned get_sector() const {return sector;}
 
   //print progress 
@@ -51,6 +55,15 @@ public:
        std::cout <<  "sum: " << sum<< std::endl; 
   }
 
+  void save_histogram(alps::hdf5::archive & ar){
+       ar.set_context("/pertorder_histogram");
+       ar["0"] << pertorder_hist[0].data();  
+       ar["1"] << pertorder_hist[1].data();  
+
+       ar.set_context("/lng");
+       ar["0"] << lng[0].data();  
+       ar["1"] << lng[1].data();  
+  }
 
   void build_matrix(); 
   void test(); 
@@ -177,6 +190,7 @@ private:
   const boost::uint64_t mc_steps;                        
   const unsigned long therm_steps;                
   const unsigned long wanglandau_steps; 
+  const double wanglandau_convg; 
   
   const itime_t temperature;                               
   const itime_t beta;  

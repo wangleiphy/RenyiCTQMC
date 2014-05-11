@@ -8,6 +8,8 @@ public:
   histogram():hist_(){}
   histogram(unsigned int N):hist_(N, 0){}
 
+  const std::vector<double>& data(){return hist_;}
+
   void resize(unsigned int N, const double val){
       hist_.resize(N, val); 
   }
