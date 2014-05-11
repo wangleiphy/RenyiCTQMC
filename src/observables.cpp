@@ -35,6 +35,13 @@ void InteractionExpansion::initialize_observables()
    }
  }
 
+
+ for (unsigned i=0; i< 10; ++i){
+    std::stringstream obs_name;
+    obs_name<<"Weight_"<<i;
+    measurements << alps::ngs::RealObservable(obs_name.str().c_str());
+ }
+
 }
 
 //this function is called whenever measurements should be performed.
@@ -46,10 +53,22 @@ void InteractionExpansion::measure_observables()
     pertorder_hist[sector][pert_order] += 1.;
     
     measurements["PertOrder"] << double(pert_order); 
+    
+    {
+        std::stringstream obs_name;
+        obs_name<<"PertOrder_"<<sector;
+        measurements[obs_name.str().c_str()] << double(pert_order);  
+    }
 
-    std::stringstream obs_name;
-    obs_name<<"PertOrder_"<<sector;
-    measurements[obs_name.str().c_str()] << double(pert_order);  
+    if (pert_order < 10){
+        std::stringstream obs_name;
+        obs_name<<"Weight_"<<pert_order;
+    
+        if (pert_order ==9 )
+            std::cout << pert_order << " " << exp(logweight+ lng[0][pert_order]-lng[1][pert_order]) << std::endl; 
+        measurements[obs_name.str().c_str()] << exp(logweight+ lng[0][pert_order]-lng[1][pert_order]);  
+    }
+
 
   if (sector==0){
     measurements["Z"] << wanglandau_scalingfactor[sector][pert_order];
