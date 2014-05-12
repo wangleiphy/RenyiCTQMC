@@ -3,32 +3,36 @@ import time
 import re 
 from numpy import arange
 
-WLSteps = 10**5 
+WLSteps = 10000
+WLConvg = 1E-9
 
 Add  = 0.15
 Remove = 0.15
 
 ZtoW = 0.35
 WtoZ = 0.35
-eta = 0.5
+eta = 0.1
 
-latticename = 'open chain lattice'
+#latticename = 'open chain lattice'
+latticename = 'square lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
 #latticename = 'honeycomb lattice'
 ###############################
 nickname = 'wl_plus_worm'
 
-Llist = [8]
-Wlist = [1]
-NAlist = [4]
+Llist = [4]
+Wlist = [4]
+NAlist = [16]
 
-Tlist = [0.1]
+#Tlist = [0.1]
+Tlist = arange(0.2, 1.1, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
-Vlist = arange(1., 11., 1.0)
+#Vlist = arange(1., 11., 1.0)
+Vlist = [1.0]
 
-NSKIP = 200
+NSKIP = 100
 Ntau = 1000
 THERMALIZATION = 10**5
 SWEEPS = 10**6

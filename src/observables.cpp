@@ -36,11 +36,13 @@ void InteractionExpansion::initialize_observables()
  }
 
 
+ /*
  for (unsigned i=0; i< 10; ++i){
     std::stringstream obs_name;
     obs_name<<"Weight_"<<i;
     measurements << alps::ngs::RealObservable(obs_name.str().c_str());
  }
+ */
 
 }
 
@@ -60,14 +62,13 @@ void InteractionExpansion::measure_observables()
         measurements[obs_name.str().c_str()] << double(pert_order);  
     }
 
+    /*
     if (pert_order < 10){
         std::stringstream obs_name;
         obs_name<<"Weight_"<<pert_order;
-    
-        if (pert_order ==9 )
-            std::cout << pert_order << " " << exp(logweight+ lng[0][pert_order]-lng[1][pert_order]) << std::endl; 
         measurements[obs_name.str().c_str()] << exp(logweight+ lng[0][pert_order]-lng[1][pert_order]);  
     }
+    */
 
 
   if (sector==0){
