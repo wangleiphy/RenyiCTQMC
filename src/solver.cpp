@@ -8,19 +8,19 @@ void InteractionExpansion::interaction_expansion_step()
 
     if(update_type < probs[0]){     
 //        std::cout << "before add" << std::endl; 
-        add();
+      add();
 //        std::cout << "after add" << std::endl; 
-    }else if(update_type < probs[1]){
+  }else if(update_type < probs[1]){
 //        std::cout << "before remove" << std::endl; 
-        remove(); 
+      remove(); 
 //        std::cout << "after remove" << std::endl; 
-    }else if(update_type < probs[2]){
+  }else if(update_type < probs[2]){
 //        std::cout << "before Z2W" << std::endl; 
-        Z_to_W(); 
+      Z_to_W(); 
 //        std::cout << "after Z2W" << std::endl; 
-    }else if(update_type < probs[3]){
+  }else if(update_type < probs[3]){
 //        std::cout << "before W2Z" << std::endl; 
-        W_to_Z(); 
+      W_to_Z(); 
 //        std::cout << "after W2Z" << std::endl; 
     }
 }

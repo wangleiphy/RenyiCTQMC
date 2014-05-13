@@ -38,7 +38,6 @@ set (SOURCE
      model.cpp
      worm.cpp 
      observables.cpp
-     wanglandau.cpp 
      )
 
 add_executable(main main.cpp ${SOURCE})

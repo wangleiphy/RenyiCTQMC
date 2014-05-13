@@ -184,7 +184,7 @@ private:
 
   //std::vector<std::pair<unsigned, unsigned> > table; // index -> (icopy, vert)
 
-  double S2;
+  double S2; 
 
   //std::vector<histogram> pertorder_hist;
   //std::vector<histogram> lng;

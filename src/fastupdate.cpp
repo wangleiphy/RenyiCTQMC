@@ -6,12 +6,8 @@ std::vector<double> InteractionExpansion::add_impl(const double tau, const std::
     
     std::vector<double> wratios(2); 
 
-    if (compute_only_weight){
-        wratios[sector] = Wadd_impl(tau, sites, sector, compute_only_weight); 
-    }else{
-        for (unsigned i=0; i<2; ++i)
-            wratios[i] = Wadd_impl(tau, sites, i, compute_only_weight); 
-    }
+    for (unsigned sec=0; sec<2; ++sec)
+         wratios[sec] = Wadd_impl(tau, sites, sec, compute_only_weight); 
 
     return wratios; 
 }
@@ -20,12 +16,8 @@ std::vector<double> InteractionExpansion::add_impl(const double tau, const std::
 std::vector<double> InteractionExpansion::remove_impl(const unsigned vertex, const bool compute_only_weight)
 {
     std::vector<double> wratios(2); 
-    if (compute_only_weight){
-        wratios[sector] = Wremove_impl(vertex, sector, compute_only_weight); 
-    }else{
-        for (unsigned i=0; i<2; ++i)
-        wratios[i] = Wremove_impl(vertex, i, compute_only_weight); 
-    }
+    for (unsigned sec=0; sec<2; ++sec)
+        wratios[sec] = Wremove_impl(vertex, sec, compute_only_weight); 
 
     return wratios; 
 }
@@ -48,7 +40,7 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
         Msuper[sec].MQ.resize(Msize, 2);
        
         Msuper[sec].Stilde(0, 1) = super_green0_spline(sec, tau, tau, sites[0], sites[1]);  
-        Msuper[sec].Stilde(1, 0) = -Msuper[sec].Stilde(1, 1)* lattice.parity(sites[0])* lattice.parity(sites[1]);   
+        Msuper[sec].Stilde(1, 0) = -Msuper[sec].Stilde(0, 1)* lattice.parity(sites[0])* lattice.parity(sites[1]);   
            
         for(unsigned i=0; i<2; ++i){
          for(unsigned j=0; j< Msize; ++j){
@@ -62,6 +54,7 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
           Msuper[sec].MQ.noalias() = Msuper[sec].matrix() * Q; 
           Msuper[sec].Stilde.noalias() -= Msuper[sec].R * Msuper[sec].MQ; 
         }
+
         
         return  Msuper[sec].Stilde.determinant();// we have not yet perform the inverse, so it is actually 1./det(Stilde)
   }

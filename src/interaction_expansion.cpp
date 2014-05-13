@@ -6,7 +6,7 @@
 #include <boost/lexical_cast.hpp>
 #include <limits>
 #include "buildK.h"
-//#include "nonintS2.h"
+#include "nonintS2.h"
 
 InteractionExpansion::InteractionExpansion(alps::params &parms, int node)
 :alps::mcbase(parms,node),
@@ -51,8 +51,7 @@ ZtoW(boost::lexical_cast<double>(parms["ZtoW"])),
 WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
 sector(0), // initialy we are in Z space 
-//S2(nonintS2(K_, NA, beta))
-S2(0.)
+S2(0)
 {
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
@@ -69,12 +68,14 @@ S2(0.)
 
        Eigen::MatrixXd KAB = buildKAB(lattice, NA[i]); 
        Eigen::MatrixXd KABprime = buildKABprime(lattice, NA[i]); 
-       super_bare_green_itime.push_back(super_green_function(n_tau+1, KAB, KABprime, beta)); 
+       super_bare_green_itime.push_back(super_green_function(16, KAB, KABprime, beta)); 
    }
 
    //initialize ALPS observables
    initialize_observables();
-    
+
+   S2 = nonintS2(K_, NA[1], beta) - (NA[0]==0? 0. : nonintS2(K_, NA[0], beta)); 
+
    if(node==0) {
        print(std::cout); // print parameters to screen 
        update_params(parms); //write back a few generated params 

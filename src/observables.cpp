@@ -50,10 +50,8 @@ void InteractionExpansion::initialize_observables()
 void InteractionExpansion::measure_observables() 
 {
     measurements["Sign"]<<sign;
-    unsigned pert_order = Msuper.num_vertices(); 
+    unsigned pert_order = Msuper[sector].num_vertices(); 
 
-    pertorder_hist[sector][pert_order] += 1.;
-    
     measurements["PertOrder"] << double(pert_order); 
     
     {
@@ -72,12 +70,12 @@ void InteractionExpansion::measure_observables()
 
 
   if (sector==0){
-    measurements["Z"] << wanglandau_scalingfactor[sector][pert_order];
+    measurements["Z"] << 1.;
     measurements["W"] << 0.;
 
   }else{
     measurements["Z"] << 0.;
-    measurements["W"] << wanglandau_scalingfactor[sector][pert_order];
+    measurements["W"] << 1.;
   }
 }
 
