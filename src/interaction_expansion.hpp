@@ -7,14 +7,12 @@
 #include <alps/alea.h>
 
 #include <cmath>
-#include "green_function.h"
 #include "super_green_function.h"
 #include "histogram.hpp"
 #include "types.h"
 #include "mmatrix.hpp"
 #include "operator.hpp"
 #include <boost/chrono.hpp>
-#include <boost/tuple/tuple_io.hpp>
 
 /*types*/
 class c_or_cdagger;
@@ -32,15 +30,10 @@ public:
   double fraction_completed() const;
   void reset();  
     
-  //perterbation orders in super and 0, 1 sectors 
-  boost::tuple<unsigned, unsigned, unsigned> pertorders() const 
+  //perterbation orders 
+  unsigned pertorders() const 
   {
-      return boost::make_tuple(Msuper.num_vertices(), M[0].num_vertices(), M[1].num_vertices());
-  }
-
-  double get_weight() const {// this is the modified weight 
-      unsigned pert_order = Msuper.num_vertices(); 
-      return (WtoZ/ZtoW)*eta*exp(logweight+ lng[0][pert_order]-lng[1][pert_order]);
+      return Msuper[0].num_vertices();
   }
 
   unsigned get_sector() const {return sector;}
@@ -48,43 +41,12 @@ public:
   //print progress 
   unsigned long progress() const {return sweeps;}
 
-
-  void print_histogram() const {
-  double sum = 0.0; 
-   for(unsigned i=0;i< pertorder_hist[sector].top_index() ;++i){
-        std::cout << sector << "\t" <<i<<"\t"<<pertorder_hist[sector][i] << "\t"  << lng[sector][i] <<std::endl;
-        sum += pertorder_hist[sector][i]; 
-       }
-       std::cout <<  "sum: " << sum<< std::endl; 
-  }
-
-  void save_histogram(alps::hdf5::archive & ar){
-       ar.set_context("/pertorder_histogram");
-       ar["0"] << pertorder_hist[0].data();  
-       ar["1"] << pertorder_hist[1].data();  
-
-       ar.set_context("/lng");
-       ar["0"] << lng[0].data();  
-       ar["1"] << lng[1].data();  
-  }
-
   void build_matrix(); 
   void test(); 
 
   void evaluate(results_type& results);
 
-  void wanglandau(const int node); 
-
-
-
 private:
-  //in file wanglandau.cpp 
-  void wanglandau_rebuildmatrix(); 
-  void wanglandau_run(unsigned kc);   
-  void wanglandau_add(); 
-  void wanglandau_remove(); 
-  void wanglandau_step();
-
   /*functions*/
   // in file io.cpp
   void print(std::ostream &os) const; //print parameters 
@@ -95,8 +57,8 @@ private:
   double green0_spline(const creator &cdagger, const creator &c) const;
   double green0_spline(const itime_t delta_t, const site_t site1, const site_t site2) const;
 
-  double super_green0_spline(const creator &cdagger, const creator &c) const;
-  double super_green0_spline(const itime_t tau1, const itime_t tau2, const site_t site1, const site_t site2) const;
+  double super_green0_spline(const unsigned sec, const creator &cdagger, const creator &c) const;
+  double super_green0_spline(const unsigned sec, const itime_t tau1, const itime_t tau2, const site_t site1, const site_t site2) const;
   
   /*the actual solver functions*/
   // in file solver.cpp
@@ -130,11 +92,9 @@ private:
   std::vector<double> remove_impl(const unsigned vertex, const bool compute_only_weight);
 
   //partition funciton sector
-  double Zadd_impl(const double tau, const std::vector<site_t>& sites, const bool compute_only_weight); 
-  double Zremove_impl(const unsigned vertex, const bool compute_only_weight);
   //worm sector 
-  double Wadd_impl(const double tau, const std::vector<site_t>& sites, const bool compute_only_weight); 
-  double Wremove_impl(const unsigned vertex, const bool compute_only_weight);
+  double Wadd_impl(const double tau, const std::vector<site_t>& sites, const unsigned sec, const bool compute_only_weight); 
+  double Wremove_impl(const unsigned vertex, const unsigned sec, const bool compute_only_weight);
 
   //in file wormupdate.cpp:
   //create or destroy the worm
@@ -168,11 +128,11 @@ private:
   const unsigned  max_order;                        
   //const spin_t n_flavors;                          //number of flavors 
  
-  const unsigned NA;                                 // number of sites in partition A
-  const unsigned NB;                                 // 
+  std::vector<unsigned> NA;                          // number of sites in partition A
+  std::vector<unsigned> NB;                          // 
   Eigen::MatrixXd K_;                                //the kinetic energy matrix of ABB' system 
-  Eigen::MatrixXd KAB_;
-  Eigen::MatrixXd KABprime_;
+  //Eigen::MatrixXd KAB_;
+  //Eigen::MatrixXd KABprime_;
 
   //const site_t n_site;                               //number of sites
   const site_t n_bond;                               //number of *interaction* bond (fine when n.n. hopping and V )
@@ -192,8 +152,6 @@ private:
 //  const frequency_t n_self;                        //number of self energy (W) binning points
   const boost::uint64_t mc_steps;                        
   const unsigned long therm_steps;                
-  const unsigned long wanglandau_steps; 
-  const double wanglandau_convg; 
   
   const itime_t temperature;                               
   const itime_t beta;  
@@ -207,11 +165,8 @@ private:
   //const unsigned int convergence_check_period;        
   
   //M matrix  
-  std::vector<m_matrix> M;
-  m_matrix Msuper; 
-
-  green_function bare_green_itime;
-  super_green_function super_bare_green_itime;
+  std::vector<m_matrix> Msuper;
+  std::vector<super_green_function> super_bare_green_itime;
     
   unsigned long sweeps;        
 
@@ -227,14 +182,14 @@ private:
 
   unsigned sector; 
 
-  std::vector<std::pair<unsigned, unsigned> > table; // index -> (icopy, vert)
+  //std::vector<std::pair<unsigned, unsigned> > table; // index -> (icopy, vert)
 
   double S2;
 
-  std::vector<histogram> pertorder_hist;
-  std::vector<histogram> lng;
-  std::vector<double> lnf; 
-  std::vector<std::vector<double> > wanglandau_scalingfactor; 
+  //std::vector<histogram> pertorder_hist;
+  //std::vector<histogram> lng;
+  //std::vector<double> lnf; 
+  //std::vector<std::vector<double> > wanglandau_scalingfactor; 
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 

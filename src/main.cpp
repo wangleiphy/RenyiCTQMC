@@ -66,7 +66,6 @@ class MpiSimulation : public InteractionExpansion
                                   << "Time used " << schedule_checker.timespend() << "s. " 
                                   << "Sweeps " << progress()  << " "
                                   << "PertOrder " << pertorders() << " "
-                                  << "weight " << get_weight() << " " 
                                   << "sector " << get_sector() 
                                   << std::endl;
 
@@ -115,8 +114,6 @@ int main(int argc, char** argv){
     
       MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
         
-
-
       // Run simulation
       sim.run(alps::stop_callback(options.timelimit)); //check stop time in each thread 
 
@@ -137,7 +134,6 @@ int main(int argc, char** argv){
                alps::hdf5::archive ar(h5output_file, "w");
                ar["/parameters"] << params;
                ar["/simulation/results"] << results;
-               sim.save_histogram(ar); 
                ar.close(); 
 
                std::ofstream outfile;

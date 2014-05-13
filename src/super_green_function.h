@@ -14,7 +14,7 @@ public:
   typedef Eigen::Matrix< double , Eigen::Dynamic, 1 >  ColVector; 
 
   ///constructor: how many time slices, how many sites
-  super_green_function(unsigned ntime, const Mat& KAB, const Mat& KABprime, const itime_t beta)
+  super_green_function(unsigned ntime, const Mat KAB, const Mat KABprime, const itime_t beta)
   :nt_(ntime)
   ,ns_(KAB.rows())
   ,tau_(ntime)
@@ -163,22 +163,22 @@ public:
 private:
 
   //const values
-  const unsigned int nt_; //imag time points
-  const unsigned int ns_; //totoal number of sites ABBprime 
+  unsigned int nt_; //imag time points
+  unsigned int ns_; //totoal number of sites ABBprime 
   std::vector<double> tau_; // from 0 to 2*beta 
   boost::multi_array<Mat, 2> gf_;  // gf_[tau1][tau2] is the gf matrix 
 
-  const double beta_; 
-  const double dtau_; 
+  double beta_; 
+  double dtau_; 
 
-//  const unsigned NA_, NB_; 
-  const Mat& KAB_; 
-  const Mat& KABprime_; 
+  Mat KAB_; 
+  Mat KABprime_; 
 
   //eigen value and vectors of KAB and KABprime 
   Eigen::VectorXd wKAB, wKABprime; 
   Mat uKAB, uKABprime; 
-
+    
+  ////////////////////////////////////////////////////
   //helper functions 
   Mat B(const double tau1, const double tau2) const { // B(tau1) ... Btau(tau2)
       assert(tau1>=tau2); 

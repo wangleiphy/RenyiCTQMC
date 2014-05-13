@@ -5,6 +5,7 @@
 #include <alps/lattice.h>
 #include "types.h"
 
+
 Eigen::MatrixXd buildK(const alps::graph_helper<>& lattice){
 
     //construct the hamiltonian K 

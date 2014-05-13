@@ -5,7 +5,7 @@ void InteractionExpansion::add()
 {
   // add vertices
 
-  int pert_order = Msuper.num_vertices(); 
+  int pert_order = Msuper[sector].num_vertices(); 
 
   if(pert_order+1 >= max_order) 
     return; 
@@ -19,7 +19,7 @@ void InteractionExpansion::add()
 
   // true means compute_only_weight
   std::vector<double> wratios = add_impl(tau, sites, true);    // wratios in the Z and W sectors 
-  double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratios[sector] * exp(lng[sector][pert_order]-lng[sector][pert_order+1]); // sector =0 (Z) =1 (W)
+  double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratios[sector]; // sector =0 (Z) =1 (W)
 
   //if (metropolis_weight<0.){
   //  std::cout << metropolis_weight << " < 0 in add" << std::endl; 
@@ -33,8 +33,8 @@ void InteractionExpansion::add()
     measurements[obs_name.str().c_str()] << 1.;
     add_impl(tau, sites, false);
 
-    assert(Msuper.creators().size() == Msuper.matrix().rows()); 
-    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
+    assert(Msuper[sector].creators().size() == Msuper[sector].matrix().rows()); 
+    assert(Msuper[sector].creators().size() == 2*Msuper[sector].num_vertices()); 
 
     sign*=metropolis_weight<0.?-1.:1.;
     
@@ -47,8 +47,8 @@ void InteractionExpansion::add()
     measurements[obs_name.str().c_str()] << 0.;
 
 
-    assert(Msuper.creators().size() == Msuper.matrix().rows()); 
-    assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
+    assert(Msuper[sector].creators().size() == Msuper[sector].matrix().rows()); 
+    assert(Msuper[sector].creators().size() == 2*Msuper[sector].num_vertices()); 
   }
 }
 
@@ -56,7 +56,7 @@ void InteractionExpansion::add()
 void InteractionExpansion::remove()
 {
 
-    unsigned int pert_order = Msuper.num_vertices(); 
+    unsigned int pert_order = Msuper[sector].num_vertices(); 
 
     if(pert_order < 1)
       return;    
@@ -64,7 +64,7 @@ void InteractionExpansion::remove()
     unsigned int vertex = randomint(pert_order);// pickup a random vertex 
 
     std::vector<double> wratios = remove_impl(vertex, true); 
-    double metropolis_weight = (Add/Remove)*pert_order/(-2.*beta*n_bond*V)* wratios[sector] * exp(lng[sector][pert_order]-lng[sector][pert_order-1]);
+    double metropolis_weight = (Add/Remove)*pert_order/(-2.*beta*n_bond*V)* wratios[sector];
 
     //std::cout << "after remove_impl" << std::endl; 
     //if (metropolis_weight<0.){
@@ -80,8 +80,8 @@ void InteractionExpansion::remove()
 
       remove_impl(vertex, false);  // false means really perform, not only compute weight
 
-      assert(Msuper.creators().size() == Msuper.matrix().rows()); 
-      assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
+      assert(Msuper[sector].creators().size() == Msuper[sector].matrix().rows()); 
+      assert(Msuper[sector].creators().size() == 2*Msuper[sector].num_vertices()); 
 
       sign*=metropolis_weight<0.?-1.:1.;
 
@@ -94,8 +94,8 @@ void InteractionExpansion::remove()
       measurements[obs_name.str().c_str()] << 0.;
 
       //do nothing
-      assert(Msuper.creators().size() == Msuper.matrix().rows()); 
-      assert(Msuper.creators().size() == 2*Msuper.num_vertices()); 
+      assert(Msuper[sector].creators().size() == Msuper[sector].matrix().rows()); 
+      assert(Msuper[sector].creators().size() == 2*Msuper[sector].num_vertices()); 
 
     }
 }

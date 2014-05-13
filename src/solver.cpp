@@ -30,12 +30,10 @@ void InteractionExpansion::build_matrix(){
   //rebuild matrix by adding vertices back one by one 
     
   //copy creators out as clear will destroy it  
-  std::vector<creator> creators = Msuper.creators(); 
+  std::vector<creator> creators = Msuper[0].creators(); 
 
-  Msuper.clear(); 
-  M[0].clear(); 
-  M[1].clear();  
-  table.clear(); 
+  Msuper[0].clear(); 
+  Msuper[1].clear();  
 
   logweight = 0.;  
   for (unsigned i=0; i< creators.size()/2; ++i){
@@ -69,40 +67,28 @@ void InteractionExpansion::reset_perturbation_series()
 {
   sign=1.;
   
-  if (Msuper.creators().size()<1) return; //do not rebuilt for empty matrix 
-
-  m_matrix::matrix_t Mdiff(Msuper.matrix()); //make a copy of M.matrix()
+  if (Msuper[0].creators().size()<1) return; //do not rebuilt for empty matrix 
+  
+  std::vector<m_matrix::matrix_t> Mdiff(2); 
+  for (unsigned i=0; i<2; ++i)
+    Mdiff[i] = Msuper[i].matrix(); //make a copy of M.matrix()
   double logweight_old = logweight; 
 
   build_matrix(); // rebuild Msuper and M and logweight 
   
-  //if we add them back one by one, we are able to calculate detraio   
-  //reset the weight ratio 
-  //double new_logweight = log(fabs(M[0].matrix().determinant())) + log(fabs(M[1].matrix().determinant())) - log(fabs(Msuper.matrix().determinant()));  
-  //if (fabs(new_logweight- logweight)>1E-8) {
-  //std::cout<<"WARNING: roundoff errors in weight " << exp(logweight) << " " <<  exp(new_logweight) << std::endl;
-
-  //std::cout << Mdiff << std::endl; 
-  //std::cout << "creators: ";  
-  //for (unsigned  i=0; i< Msuper.creators().size(); ++i) {
-  //  std::cout << Msuper.creators()[i].s()<< "("<< Msuper.creators()[i].t() << ")"  << ","; 
-  //}
-  //std::cout << std::endl; 
-  //abort(); 
-  //}
-  //logweight = new_logweight; 
-
   //check logweight 
   if ( fabs(exp(logweight_old-logweight)-1.) >1E-6)
       std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight_old-logweight)-1.)   << std::endl;
 
-  //check the difference of M matrix 
-  Mdiff -= Msuper.matrix(); //subtract the new one 
-  Mdiff = Mdiff.cwiseAbs(); //and take absolute value 
-  double max_diff = Mdiff.maxCoeff(); 
-
-  if(max_diff > 1.e-6){
-    std::cout<<"WARNING: roundoff errors in Msuper " <<max_diff << std::endl;
+  for (unsigned i=0; i<2; ++i) {
+      //check the difference of M matrix 
+      Mdiff[i] -= Msuper[i].matrix(); //subtract the new one 
+      Mdiff[i] = Mdiff[i].cwiseAbs(); //and take absolute value 
+   }
+   double max_diff = Mdiff[0].maxCoeff() + Mdiff[1].maxCoeff() ; 
+ 
+   if(max_diff > 1.e-6){
+     std::cout<<"WARNING: roundoff errors " <<max_diff << std::endl;
 
     //std::cout << Mdiff << std::endl; 
     //std::cout << "creators: ";  
