@@ -17,7 +17,7 @@ if __name__=='__main__':
     
     textoutput = 1 # 
 
-    Maxorder = 2048
+    Maxorder = 1024
 
     Nscratch = 1000 # period to rebuilt M 
     THERMALIZATION = 10**5
@@ -44,18 +44,18 @@ if __name__=='__main__':
     
     jobid = input.waitfor 
 
-    for L, W, NA in zip(Llist, Wlist, NAlist):
+    for L, W, NA0, NA1 in zip(Llist, Wlist, NA0list, NA1list):
 
                 for V in Vlist:
                     for T in Tlist:
            
-                        inputfile = params(latticename, L , W, NA,   
+                        inputfile = params(latticename, L , W, NA0, NA1,   
                                            V=V, T= T, 
                                            Maxorder = Maxorder, Ntau = Ntau, Nscratch = Nscratch, 
                                            SWEEPS=SWEEPS, THERMALIZATION=THERMALIZATION, NSKIP=NSKIP, 
                                            Add = Add, Remove = Remove, 
                                            ZtoW = ZtoW, WtoZ = WtoZ, 
-                                           eta = eta, WLSteps = WLSteps, 
+                                           eta = eta, 
                                            folder=resfolder, textoutput=textoutput)
 
 

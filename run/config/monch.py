@@ -3,9 +3,6 @@ import time
 import re 
 from numpy import arange
 
-WLSteps = 10000
-WLConvg = 1E-9
-
 Add  = 0.15
 Remove = 0.15
 
@@ -23,7 +20,8 @@ nickname = 'wl_plus_worm'
 
 Llist = [4]
 Wlist = [4]
-NAlist = [16]
+NA0list = [16]
+NA1list = [16]
 
 #Tlist = [0.1]
 Tlist = arange(0.2, 1.1, 0.1)
