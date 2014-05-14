@@ -64,10 +64,10 @@ print res
 #res = pyalps.collectXY(data, x='TEMPERATURE', y=args.y,  foreach = ['L','V'])
 
 print pyalps.plot.convertToText(res)
-#pyalps.plot.plot(res)
+pyalps.plot.plot(res)
 #plt.xlim([0,0.18])
 #plt.ylim([0,0.4])
-#plt.legend(loc='upper left')
+plt.legend(loc='upper left')
 
 
 if args.copydata:

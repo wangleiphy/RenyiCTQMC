@@ -13,17 +13,16 @@ eta = 0.5
 #latticename = 'cylindrical honeycomb lattice'
 latticename = 'square lattice'
 ###############################
-nickname = 'square'
+nickname = 'ratiotrick'
 
-Llist = [6]
-Wlist = [6]
-NAlist = [36]
+Llist = [4]
+Wlist = [4]
+NAstep = 4 
 
-Tlist = arange(0.2, 1.1, 0.1)
+Tlist = arange(0.3, 1.1, 0.1)
 #Vlist = arange(0.1, 1.6, 0.1)
 #Vlist = arange(2., 11., 1.)
 Vlist = [1.0]
-
 
 Ntau = 1000
 NSKIP = 100 
@@ -41,7 +40,7 @@ resfolder = '/cluster/work/scr6/lewang/renyidata/' + nickname  + '/'
 #h, m = [int(i) for i in wtime.split(':')]
 #Tlimit = max(3600*h + 60*m - int(tmax*2) , 0)
 
-prog = 'mpirun ../bin/main -i '+ str(tmin) + ' -a ' + str(tmax) 
+prog = 'mpirun ../bin/ratiotrick -i '+ str(tmin) + ' -a ' + str(tmax) 
 
 def submitJob(bin,args,jobname,wtime,run=False,ncores=None, wait=[]):
 

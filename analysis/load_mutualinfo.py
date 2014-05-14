@@ -8,7 +8,7 @@ import os, sys
 import subprocess 
 import socket
 import argparse
-from numpy import array , linspace , sqrt , arange , log 
+from numpy import array , linspace , sqrt , arange , log , cumsum 
 import re 
 
 parser = argparse.ArgumentParser(description='')
@@ -25,45 +25,47 @@ args = parser.parse_args()
 resultFiles = []
 for fileheader in args.fileheaders:
     resultFiles += pyalps.getResultFiles(prefix=fileheader)
-
 resultFiles = list(set(resultFiles))
 
 
-Afiles = []
-ABfiles = []
+#Afiles = []
+#ABfiles = []
 #filter resultFilies
-for f in list(resultFiles):
-    L = int(re.search('L([0-9]*)W',f).group(1)) 
-    W = int(re.search('W([0-9]*)NA',f).group(1)) 
-    NA = int(re.search('NA([0-9]*)V',f).group(1)) 
+#for f in list(resultFiles):
+#    L = int(re.search('L([0-9]*)W',f).group(1)) 
+#    W = int(re.search('W([0-9]*)NA',f).group(1)) 
+#    NA = int(re.search('NA([0-9]*)V',f).group(1)) 
 
-    if (NA == L*W):  
-        ABfiles.append(f)
-    else:
-        Afiles.append(f)
+#    if (NA == L*W):  
+#        ABfiles.append(f)
+#    else:
+#        Afiles.append(f)
 
-Adata = pyalps.loadMeasurements(Afiles, 'S2')
-ABdata = pyalps.loadMeasurements(ABfiles, 'S2')
+data = pyalps.loadMeasurements(resultFiles, 'S2')
+data = pyalps.flatten(data)
 
-S2 = pyalps.collectXY(ABdata, x='TEMPERATURE', y='S2',  foreach = ['L','V'])
-S2A = pyalps.collectXY(Adata, x='TEMPERATURE', y='S2',  foreach = ['L','V'])
+#first collect using NA1 and perform the cumulative sum 
+data = pyalps.collectXY(data, x='NA1', y='S2',  foreach = ['TEMPERATURE','L','V'])
+for d in data:
+    d.y = cumsum(d.y)
 
-print S2 
-print S2A 
+#print data 
 
 MI = []
-for d0, d1 in zip(S2, S2A):
-    d = pyalps.DataSet()
+for d in data:
+    r = pyalps.DataSet()
 
-    d.props = d0.props
-    d.props['label'] = '$I_2$'
+    r.props = d.props
+    r.props['label'] = '$I_2$'
+    r.props['observable'] = 'I2'
+    r.y = array([2.*d.y[len(d.y)/2-1] - d.y[-1] ]) 
 
-    d.x = d0.x 
-    d.y = 2.*d1.y - d0.y 
+    MI.append(r)
 
-    MI.append(d)
+MI = pyalps.collectXY(MI, x='TEMPERATURE', y='I2',  foreach = ['L','V'])
 
-print pyalps.plot.convertToText(MI)
+print MI 
+#print pyalps.plot.convertToText(MI)
 pyalps.plot.plot(MI)
 
 plt.legend(loc='upper left')
