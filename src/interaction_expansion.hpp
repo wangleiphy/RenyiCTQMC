@@ -37,7 +37,7 @@ public:
   }
 
   unsigned get_sector() const {return sector;}
-  double get_weight() const {return weight;}
+  double get_weight() const {return exp(logweight);}
 
   //print progress 
   unsigned long progress() const {return sweeps;}
