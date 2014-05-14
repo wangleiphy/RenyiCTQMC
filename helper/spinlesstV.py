@@ -90,7 +90,7 @@ if __name__=='__main__':
     Thop = 1.0
 
     L = 8
-    LA = L/2
+    LA = 6
 
     #Kinetic energy matrix 
     Kmat = zeros((L, L),float)
@@ -109,7 +109,9 @@ if __name__=='__main__':
     beta = 1./args.Temp 
     S2A_nonint = calc_S2(Kmat, 0.0, LA, beta)
 
-    for V in arange(0.0, 10.01, 0.1):
+    #for V in arange(0.0, 10.01, 0.1):
+    if True:
+        V = 4.0
         S2A = calc_S2(Kmat, V, LA, beta) 
         S2 = calc_S2(Kmat, V, L, beta) 
         print V, S2A, S2A-S2A_nonint, 2.*S2A - S2 

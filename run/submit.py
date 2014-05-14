@@ -42,11 +42,12 @@ if __name__=='__main__':
     cmd = ['mkdir', '-p', resfolder]
     subprocess.check_call(cmd)
     
-    jobid = input.waitfor 
 
     for L, W in zip(Llist, Wlist):
         for V in Vlist:
             for T in Tlist:
+
+                jobid = input.waitfor 
                 for NA0 in range(0, L*W, NAstep):
 
                         NA1 = NA0 + NAstep 
