@@ -10,21 +10,21 @@ ZtoW = 0.35
 WtoZ = 0.35
 eta = 0.1
 
-#latticename = 'open chain lattice'
-latticename = 'square lattice'
+latticename = 'open chain lattice'
+#latticename = 'square lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
 #latticename = 'honeycomb lattice'
 ###############################
-nickname = 'wl_plus_worm'
+nickname = 'ratiotrick'
 
-Llist = [4]
-Wlist = [4]
-NA0list = [16]
-NA1list = [16]
+Llist = [8]
+Wlist = [1]
+NAstep = 2 
 
-#Tlist = [0.1]
-Tlist = arange(0.2, 1.1, 0.1)
+
+Tlist = [0.1]
+#Tlist = arange(0.2, 1.1, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
 #Vlist = arange(1., 11., 1.0)
@@ -37,11 +37,11 @@ SWEEPS = 10**6
 Nscratch = 500
 
 ##############################
-wtime = '12:00:00'
+wtime = '1:00:00'
 tmin = 60
 tmax = 600
-ncores = 400  # a multiply of ntasks_per_node 
-prog = '../bin/wl_plus_worm'
+ncores = 100  # a multiply of ntasks_per_node 
+prog = '../bin/ratiotrick'
 
 resfolder = '/mnt/lnec/lewang/renyidata/' + nickname  + '/'
 h, m, s = [int(i) for i in wtime.split(':')]
@@ -57,7 +57,7 @@ def submitJob(bin,args,jobname,wtime,run=False,ncores=20, wait=None):
 #SBATCH --exclusive
 #SBATCH --nodes=%g
 #SBATCH --time=%s
-#SBATCH --partition=dphys_compute
+#SBATCH --partition=dphys_hugemem
 #SBATCH --ntasks-per-node=20
 #SBATCH --ntasks-per-socket=10
 #SBATCH --cpus-per-task=1

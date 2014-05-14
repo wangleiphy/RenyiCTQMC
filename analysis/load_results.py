@@ -8,14 +8,14 @@ import os, sys
 import subprocess 
 import socket
 import argparse
-from numpy import array , linspace , sqrt , arange , log 
+from numpy import array , linspace , sqrt , arange , log , cumsum
 import re 
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument("-fileheaders", nargs='+', default="params", help="fileheaders")
 
 #parser.add_argument("-x", default="TEMPERATURE", help="variable")
-parser.add_argument("-y", default="dS2", help="observable")
+parser.add_argument("-y", default="S2", help="observable")
 parser.add_argument("-copydata", action='store_true',  help="copy data")
 
 group = parser.add_mutually_exclusive_group(required=True)
@@ -52,21 +52,22 @@ data = pyalps.loadMeasurements(resultFiles, args.y)
 data = pyalps.flatten(data)
 print data 
 
-#res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE','L'])
-#res = pyalps.collectXY(data, x='L', y=args.y,  foreach = ['TEMPERATURE','V'])
-res = pyalps.collectXY(data, x='TEMPERATURE', y=args.y,  foreach = ['L','V'])
+#first collect using NA1 and perform the cumulative sum 
+res = pyalps.collectXY(data, x='NA1', y=args.y,  foreach = ['TEMPERATURE','L','V'])
+for r in res:
+    r.y = cumsum(r.y)
 
 print res 
 
-#for d in res:
-#    d.y = log(1/d.y)
+#res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE','L'])
+#res = pyalps.collectXY(data, x='L', y=args.y,  foreach = ['TEMPERATURE','V'])
+#res = pyalps.collectXY(data, x='TEMPERATURE', y=args.y,  foreach = ['L','V'])
 
 print pyalps.plot.convertToText(res)
-pyalps.plot.plot(res)
+#pyalps.plot.plot(res)
 #plt.xlim([0,0.18])
 #plt.ylim([0,0.4])
-
-plt.legend(loc='upper left')
+#plt.legend(loc='upper left')
 
 
 if args.copydata:

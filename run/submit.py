@@ -44,11 +44,13 @@ if __name__=='__main__':
     
     jobid = input.waitfor 
 
-    for L, W, NA0, NA1 in zip(Llist, Wlist, NA0list, NA1list):
+    for L, W in zip(Llist, Wlist):
+        for V in Vlist:
+            for T in Tlist:
+                for NA0 in range(0, L*W, NAstep):
 
-                for V in Vlist:
-                    for T in Tlist:
-           
+                        NA1 = NA0 + NAstep 
+
                         inputfile = params(latticename, L , W, NA0, NA1,   
                                            V=V, T= T, 
                                            Maxorder = Maxorder, Ntau = Ntau, Nscratch = Nscratch, 

@@ -30,8 +30,8 @@ def params(lattice, L, W, NA0, NA1, V=1.0, T = 0.1, Maxorder = 2048, Ntau=500, N
     key = lattice.replace(' ','') 
     key += 'L' + str(L)\
            +'W' + str(W)\
-           +'NA0' + str(NA0)\
-           +'NA1' + str(NA1)\
+           +'NA0_' + str(NA0)\
+           +'NA1_' + str(NA1)\
            +'V'+str(V)\
            +'T' + str(T)\
            +'Ntau'+str(Ntau)\
