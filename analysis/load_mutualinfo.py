@@ -58,7 +58,9 @@ for d in data:
     r.props = d.props
     r.props['label'] = '$I_2$'
     r.props['observable'] = 'I2'
-    r.y = array([2.*d.y[len(d.y)/2-1] - d.y[-1] ]) 
+
+    L = int(d.props['L'])
+    r.y = array([2.*d.y[len(d.y)/2-1] - d.y[-1]])/(2.*L)
 
     MI.append(r)
 
