@@ -18,16 +18,16 @@ latticename = 'square lattice'
 ###############################
 nickname = 'ratiotrick'
 
-Llist = [6]
-Wlist = [6]
-NAstep = 4
+Llist = [12]
+Wlist = [12]
+NAstep = 12
 
 #Tlist = [0.1]
-Tlist = arange(0.3, 1.1, 0.1)
+Tlist = arange(0.6, 2.1, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
 #Vlist = arange(1., 11., 1.0)
-Vlist = [1.0]
+Vlist = [2.0]
 
 NSKIP = 100
 Ntau = 1000
@@ -36,7 +36,7 @@ SWEEPS = 10**6
 Nscratch = 500
 
 ##############################
-wtime = '12:00:00'
+wtime = '24:00:00'
 tmin = 60
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
