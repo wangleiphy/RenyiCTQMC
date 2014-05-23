@@ -67,7 +67,7 @@ for d in data:
 MI = pyalps.collectXY(MI, x='TEMPERATURE', y='I2',  foreach = ['L','V'])
 
 print MI 
-#print pyalps.plot.convertToText(MI)
+print pyalps.plot.convertToText(MI)
 pyalps.plot.plot(MI)
 
 plt.legend(loc='upper left')
