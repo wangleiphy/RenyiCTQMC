@@ -161,6 +161,14 @@
   <EDGE type="1"><SOURCE vertex="1" offset="0"/><TARGET vertex="1" offset="2"/></EDGE>
 </UNITCELL>
 
+<UNITCELL name="ricemele" dimension="1">
+  <VERTEX type="0"><COORDINATE>0</COORDINATE></VERTEX>
+  <VERTEX type="1"><COORDINATE>0.5</COORDINATE></VERTEX>
+
+  <EDGE type="0"><SOURCE vertex="1"/><TARGET vertex="2"/></EDGE>
+  <EDGE type="1"><SOURCE vertex="2"/><TARGET vertex="1" offset="1"/></EDGE>
+</UNITCELL>
+
 <UNITCELL name="simple2d" dimension="2">
   <VERTEX/>
   <EDGE><SOURCE vertex="1" offset="0 0"/><TARGET vertex="1" offset="0 1"/></EDGE>
@@ -574,6 +582,16 @@
     <BOUNDARY type="open"/>
   </FINITELATTICE>
   <UNITCELL ref="simple1d"/>
+</LATTICEGRAPH>
+
+<LATTICEGRAPH name = "ricemele lattice">
+  <FINITELATTICE>
+    <LATTICE ref="chain lattice"/>
+    <EXTENT dimension="1" size ="L"/>
+    <PARAMETER name="BC" default="periodic"/>
+    <BOUNDARY type="BC" />
+  </FINITELATTICE>
+  <UNITCELL ref="ricemele"/>
 </LATTICEGRAPH>
 
 <LATTICEGRAPH name = "nnn chain lattice" vt_name="NNNChainLattice">
