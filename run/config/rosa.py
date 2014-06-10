@@ -15,28 +15,30 @@ eta = 0.5
 #latticename = 'honeycomb lattice'
 latticename = 'square lattice'
 #######################################
-nickname = 'square'
+nickname = 'ratiotrick'
 
-Llist = [8]
-Wlist = [8]
-NAlist = [32]
+Llist = [10]
+Wlist = [10]
+NAstep = 10
 
-Tlist = arange(0.2, 1.1, 0.1)
-#Vlist = arange(0.1, 1.6, 0.2)
-#Vlist = arange(0.5, 10., 0.5)
-Vlist = [1.0]
+#Tlist = [0.5]
+Tlist =[0.85, 0.95, 1.05, 1.15]
+#Tlist = arange(0.6, 2.1, 0.1)
+#Vlist = arange(0.2, 1.6, 0.2)
+#Vlist = arange(2., 11., 1.)
+Vlist = [2.]
 
-NSKIP = 200
+NSKIP = 100
 THERMALIZATION = 10**5
 SWEEPS = 10**6
-Nscratch = 200
+Nscratch = 100
 Ntau = 1000
 
-wtime = '4:00:00'
+wtime = '24:00:00'
 tmin = 300
 tmax = 600
-ncores = 640
-prog = '../bin/main'
+ncores = 160
+prog = '../bin/ratiotrick'
 #######################################
 
 resfolder = '/scratch/rosa/lewang/renyidata/' + nickname  + '/'
