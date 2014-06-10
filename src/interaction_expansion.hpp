@@ -148,7 +148,7 @@ private:
 
 //  const frequency_t n_matsubara;        //number of matsubara freq
 //  const frequency_t n_matsubara_measurements;        //number of measured matsubara freq
-  const itime_index_t n_tau;                        //number of imag time slices
+//  const itime_index_t n_tau;                        //number of imag time slices
 //  const itime_index_t n_taumeasure;                 // number of imag time where we do measurement 
 //  const frequency_t n_self;                        //number of self energy (W) binning points
   const boost::uint64_t mc_steps;                        
@@ -156,8 +156,8 @@ private:
   
   const itime_t temperature;                               
   const itime_t beta;  
-  const itime_t timestepinv;// n_tau * temperature 
-  const itime_t timestep;   // 1/(n_tau * temperature) = beta/ n_tau  
+//  const itime_t timestepinv;// n_tau * temperature 
+//  const itime_t timestep;   // 1/(n_tau * temperature) = beta/ n_tau  
   const double V;                        
   //const double delta; 
   

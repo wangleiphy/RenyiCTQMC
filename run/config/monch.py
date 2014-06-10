@@ -8,7 +8,7 @@ Remove = 0.15
 
 ZtoW = 0.35
 WtoZ = 0.35
-eta = 0.1
+eta = 1.0
 
 #latticename = 'open chain lattice'
 latticename = 'square lattice'
@@ -23,7 +23,7 @@ Wlist = [12]
 NAstep = 12
 
 #Tlist = [0.1]
-Tlist = arange(0.6, 2.1, 0.1)
+Tlist = arange(0.6, 1.2, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
 #Vlist = arange(1., 11., 1.0)
@@ -33,7 +33,7 @@ NSKIP = 100
 Ntau = 1000
 THERMALIZATION = 10**5
 SWEEPS = 10**6
-Nscratch = 500
+Nscratch = 100
 
 ##############################
 wtime = '24:00:00'

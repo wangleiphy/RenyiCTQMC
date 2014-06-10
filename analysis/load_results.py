@@ -59,7 +59,7 @@ for r in res:
 
 print res 
 
-#res = pyalps.collectXY(data, x='V', y=args.y,  foreach = ['TEMPERATURE','L'])
+#res = pyalps.collectXY(res, x='V', y='S2',  foreach = ['TEMPERATURE','L'])
 #res = pyalps.collectXY(data, x='L', y=args.y,  foreach = ['TEMPERATURE','V'])
 #res = pyalps.collectXY(data, x='TEMPERATURE', y=args.y,  foreach = ['L','V'])
 

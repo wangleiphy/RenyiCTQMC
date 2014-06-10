@@ -58,14 +58,16 @@ for d in data:
     r.props = d.props
     r.props['label'] = '$I_2$'
     r.props['observable'] = 'I2'
-    r.y = array([2.*d.y[len(d.y)/2-1] - d.y[-1] ]) 
+
+    L = int(d.props['L'])
+    r.y = array([2.*d.y[len(d.y)/2-1] - d.y[-1]])/(2.*L)
 
     MI.append(r)
 
 MI = pyalps.collectXY(MI, x='TEMPERATURE', y='I2',  foreach = ['L','V'])
 
 print MI 
-#print pyalps.plot.convertToText(MI)
+print pyalps.plot.convertToText(MI)
 pyalps.plot.plot(MI)
 
 plt.legend(loc='upper left')

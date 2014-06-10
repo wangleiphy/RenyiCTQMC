@@ -9,20 +9,28 @@ WtoZ = 0.35
 eta = 0.5
 
 #latticename = 'open chain lattice'
+latticename = 'honeycomb lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
-latticename = 'square lattice'
+#latticename = 'square lattice'
 ###############################
 nickname = 'ratiotrick'
 
-Llist = [4]
-Wlist = [4]
-NAstep = 4 
+Llist = [6]
+Wlist = [6]
+NAstep = 12 
 
-Tlist = arange(0.3, 1.1, 0.1)
+#NA0list= [0,6,12,18,24,30]
+#NA1list= [6,12,18,24,30,36]
+
+Tlist = [0.1]
+#Tlist =[0.85, 0.95, 1.05, 1.15]
+#Tlist = arange(0.6, 2.1, 0.1)
 #Vlist = arange(0.1, 1.6, 0.1)
 #Vlist = arange(2., 11., 1.)
-Vlist = [1.0]
+Vlist = arange(1.0, 1.6, 0.1)
+
+#Vlist = [2.]
 
 Ntau = 1000
 NSKIP = 100 
@@ -34,7 +42,7 @@ Nscratch = 100
 tmin = 60
 tmax = 300
 ncores = 16 
-wtime = '12:00'
+wtime = '18:00'
 
 resfolder = '/cluster/work/scr6/lewang/renyidata/' + nickname  + '/'
 #h, m = [int(i) for i in wtime.split(':')]
