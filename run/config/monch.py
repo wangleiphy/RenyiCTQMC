@@ -16,18 +16,18 @@ latticename = 'square lattice'
 #latticename = 'cylindrical honeycomb lattice'
 #latticename = 'honeycomb lattice'
 ###############################
-nickname = 'ratiotrick'
+nickname = 'ratiotrick_scanV'
 
-Llist = [12]
-Wlist = [12]
-NAstep = 12
+Llist = [6]
+Wlist = [6]
+NAstep = 6
 
-#Tlist = [0.1]
-Tlist = arange(0.6, 1.2, 0.1)
+Tlist = [1.0]
+#Tlist = arange(0.6, 1.2, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
-#Vlist = arange(1., 11., 1.0)
-Vlist = [2.0]
+Vlist = arange(1.7, 2.4, 0.1)
+#Vlist = [2.0]
 
 NSKIP = 100
 Ntau = 1000
@@ -36,7 +36,7 @@ SWEEPS = 10**6
 Nscratch = 100
 
 ##############################
-wtime = '24:00:00'
+wtime = '12:00:00'
 tmin = 60
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
