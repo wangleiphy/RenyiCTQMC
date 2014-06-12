@@ -9,6 +9,7 @@ import subprocess
 import socket
 import argparse
 from numpy import array , linspace , sqrt , arange , log , cumsum
+from mpl_toolkits.axes_grid.anchored_artists import AnchoredText
 from config import * 
 import re 
 
@@ -53,6 +54,11 @@ for f in list(resultFiles2):
 
 plt.figure(figsize=(8,8))
 ax1 = plt.subplot(211)
+#########################
+at = AnchoredText("a",prop=dict(size=20), frameon=True,loc=3,)
+at.patch.set_boxstyle("round,pad=0.,rounding_size=0.2")
+plt.gca().add_artist(at)
+#########################
 
 data = pyalps.loadMeasurements(resultFiles1, args.y)
 data = pyalps.flatten(data)
@@ -88,6 +94,11 @@ plt.title('$T=0.5t$')
 
 ################################################################
 ax2 = plt.subplot(212, sharex=ax1)
+#########################
+at = AnchoredText("b",prop=dict(size=20), frameon=True,loc=3,)
+at.patch.set_boxstyle("round,pad=0.,rounding_size=0.2")
+plt.gca().add_artist(at)
+#########################
 
 data = pyalps.loadMeasurements(resultFiles2, args.y)
 data = pyalps.flatten(data)

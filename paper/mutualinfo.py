@@ -29,18 +29,14 @@ for fileheader in args.fileheaders:
 resultFiles = list(set(resultFiles))
 print resultFiles
 
-#Afiles = []
-#ABfiles = []
 #filter resultFilies
 #for f in list(resultFiles):
-#    L = int(re.search('L([0-9]*)W',f).group(1)) 
-#    W = int(re.search('W([0-9]*)NA',f).group(1)) 
-#    NA = int(re.search('NA([0-9]*)V',f).group(1)) 
-
-#    if (NA == L*W):  
-#        ABfiles.append(f)
-#    else:
-#        Afiles.append(f)
+    #L = int(re.search('L([0-9]*)W',f).group(1)) 
+    #W = int(re.search('W([0-9]*)NA',f).group(1)) 
+    #NA = int(re.search('NA([0-9]*)V',f).group(1)) 
+    #Temp= float(re.search('T([0-9]*\.?[0-9]*)Ntau',f).group(1)) 
+    #if Temp not in [0.8, 0.9, 1.0, 1.1, 1.2]:
+    #    resultFiles.remove(f)
 
 data = pyalps.loadMeasurements(resultFiles, 'S2')
 data = pyalps.flatten(data)
@@ -63,8 +59,8 @@ for d in data:
 
     MI.append(r)
 
-#MI = pyalps.collectXY(MI, x='TEMPERATURE', y='I2',  foreach = ['L','V'])
-MI = pyalps.collectXY(MI, x='V', y='I2',  foreach = ['L','TEMPERATURE'])
+MI = pyalps.collectXY(MI, x='TEMPERATURE', y='I2',  foreach = ['L','V'])
+#MI = pyalps.collectXY(MI, x='V', y='I2',  foreach = ['L','TEMPERATURE'])
 
 
 icolor = 0
