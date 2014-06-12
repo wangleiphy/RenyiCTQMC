@@ -17,7 +17,6 @@ parser = argparse.ArgumentParser(description='')
 parser.add_argument("-f1", nargs='+', default="params", help="fileheaders")
 parser.add_argument("-f2", nargs='+', default="params", help="fileheaders")
 
-
 parser.add_argument("-y", default="S2", help="observable")
 parser.add_argument("-copydata", action='store_true',  help="copy data")
 
