@@ -77,8 +77,8 @@ for r in res:
 
     Temp = float(r.props['TEMPERATURE'])
     V = float(r.props['V'])
-    #r.props['label'] = '$T=%.1f$'%(Temp)
-    r.props['label'] = '$V=%.1f$'%(V)
+    r.props['label'] = '$T=%.1f$'%(Temp)
+    #r.props['label'] = '$V=%.1f$'%(V)
 
     r.props['ylabel'] = '$S_2$'
     r.props['xlabel'] = '$N_A$'
@@ -98,7 +98,7 @@ pyalps.plot.plot(res)
 #plt.xlim([0,0.18])
 #plt.ylim([0,0.4])
 
-plt.xticks([8, 16, 24, 32, 40, 48, 56, 64], ['8', '16', '24', '32', '40', '48', '56', '64'])
+#plt.xticks([8, 16, 24, 32, 40, 48, 56, 64], ['8', '16', '24', '32', '40', '48', '56', '64'])
 plt.legend(loc='upper left')
 
 
