@@ -17,17 +17,17 @@ latticename = 'square lattice'
 #######################################
 nickname = 'ratiotrick'
 
-Llist = [4]
-Wlist = [4]
-NAstep = 4 
+Llist = [12]
+Wlist = [12]
+NAstep = 12
 
-Tlist = [0.5]
-#Tlist =[0.85, 0.95, 1.05, 1.15]
+#Tlist = [0.5]
+Tlist =[0.9, 1.0]
 #Tlist = arange(0.6, 2.1, 0.1)
 #Vlist = arange(0.5, 3.0, 0.5)
 #Vlist = arange(2., 11., 1.)
-#Vlist = [2.]
-Vlist = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
+Vlist = [2.]
+#Vlist = [1.1, 1.2, 1.3, 1.4, 1.5]
 
 NSKIP = 100
 THERMALIZATION = 10**5
@@ -35,10 +35,10 @@ SWEEPS = 10**6
 Nscratch = 1000
 Ntau = 1000
 
-wtime = '4:00:00'
+wtime = '24:00:00'
 tmin = 300
 tmax = 600
-ncores = 160
+ncores = 256 
 prog = '../bin/ratiotrick'
 #######################################
 
