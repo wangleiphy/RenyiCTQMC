@@ -48,9 +48,9 @@ if __name__=='__main__':
             for T in Tlist:
 
                 jobid = input.waitfor 
-                #for NA0, NA1 in zip(NA0list, NA1list):
-                for NA0 in range(0, L*W, NAstep):
-                        NA1 = NA0 + NAstep 
+                for NA0, NA1 in zip(NA0list, NA1list):
+                #for NA0 in range(0, L*W, NAstep):
+                #        NA1 = NA0 + NAstep 
 
                         inputfile = params(latticename, L , W, NA0, NA1,   
                                            V=V, T= T, 
@@ -58,7 +58,6 @@ if __name__=='__main__':
                                            SWEEPS=SWEEPS, THERMALIZATION=THERMALIZATION, NSKIP=NSKIP, 
                                            Add = Add, Remove = Remove, 
                                            ZtoW = ZtoW, WtoZ = WtoZ, 
-                                           eta = eta, 
                                            folder=resfolder, textoutput=textoutput)
 
 

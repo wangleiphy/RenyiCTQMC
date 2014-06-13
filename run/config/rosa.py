@@ -7,26 +7,28 @@ Remove = 0.15
 
 ZtoW = 0.35
 WtoZ = 0.35
-eta = 0.5
 
-#latticename = 'open chain lattice'
+latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
 #latticename = 'honeycomb lattice'
-latticename = 'square lattice'
+#latticename = 'square lattice'
 #######################################
-nickname = 'ratiotrick'
+nickname = 'benchmark'
 
-Llist = [12]
-Wlist = [12]
-NAstep = 12
+Llist = [8]
+Wlist = [1]
+#NAstep = 4 
+NA0list = [0]
+NA1list = [1]
 
 #Tlist = [0.5]
-Tlist =[0.9, 1.0]
+#Tlist =[0.9, 1.0]
 #Tlist = arange(0.6, 2.1, 0.1)
+Tlist = arange(0.2, 1.2, 0.2)
 #Vlist = arange(0.5, 3.0, 0.5)
-#Vlist = arange(2., 11., 1.)
-Vlist = [2.]
+Vlist = arange(1., 11., 1.)
+#Vlist = [2.]
 #Vlist = [1.1, 1.2, 1.3, 1.4, 1.5]
 
 NSKIP = 100
@@ -35,10 +37,10 @@ SWEEPS = 10**6
 Nscratch = 1000
 Ntau = 1000
 
-wtime = '24:00:00'
+wtime = '12:00:00'
 tmin = 300
 tmax = 600
-ncores = 256 
+ncores = 128  
 prog = '../bin/ratiotrick'
 #######################################
 
