@@ -19,7 +19,7 @@ void InteractionExpansion::print(std::ostream &os) const{
   std::ostream_iterator<double> out_it (os,", ");
   copy(probs.begin(), probs.end(), out_it );
  }
-  os<<"\teta: "<< eta <<std::endl;
+  //os<<"\teta: "<< eta <<std::endl;
 }
 
 
