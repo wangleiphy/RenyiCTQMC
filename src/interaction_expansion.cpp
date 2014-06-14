@@ -42,7 +42,7 @@ measurement_period(parms["MEASUREMENT_PERIOD"] | 200),
 Msuper(2), 
 super_bare_green_itime(), 
 sweeps(0),
-eta(boost::lexical_cast<double>(parms["eta"])),
+eta(1.), 
 logweight(0.),
 sign(1.),
 Add(boost::lexical_cast<double>(parms["Add"])),
@@ -51,7 +51,8 @@ ZtoW(boost::lexical_cast<double>(parms["ZtoW"])),
 WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
 sector(0), // initialy we are in Z space 
-S2(0)
+S2(0),
+estimating(true) // initially we do estimation of eta 
 {
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
@@ -95,16 +96,20 @@ void InteractionExpansion::update()
 }
 
 void InteractionExpansion::measure(){
-  if (sweeps  <  therm_steps) 
-   {
-    //do nothing 
-   }else{
+  if (estimating || sweeps  >= therm_steps) 
     measure_observables();
-   } 
 }
 
 
 double InteractionExpansion::fraction_completed() const {
     return (sweeps < therm_steps ? 0. : ( sweeps - therm_steps )/double(measurement_period)/ double(mc_steps));
 }
+
+
+void InteractionExpansion::estimate_done(double neweta) {
+    sweeps = 0; Msuper[0].clear(); Msuper[1].clear(); sector = 0; logweight= 0., sign = 1., eta= neweta;  measurements.reset(false); estimating = false; 
+
+    //std::cout << "eta: " <<  eta << std::endl; 
+}
+
 

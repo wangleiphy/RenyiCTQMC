@@ -20,6 +20,12 @@
         {
         }
 
+        void reset(){
+            time_start_ = clock::now(); 
+            last_check_time_ = clock::now(); 
+            old_fraction_ = 0.; 
+        }
+
         bool pending() const
         {
             time_point now = clock::now();
@@ -40,7 +46,7 @@
             
             if( fraction > old_fraction_ )
             {
-                // estimate remaining time; propose to run 1/4 of that time
+                //estimate remaining time; propose to run 1/4 of that time
                 remaining = (1. - fraction) * (now-last_check_time_)/ (fraction - old_fraction_);
                 old_fraction_ = fraction;  
                 check_duration_ = 0.25 * remaining;  

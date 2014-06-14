@@ -28,7 +28,7 @@ public:
   void update();
   void measure();
   double fraction_completed() const;
-  void reset();  
+  void estimate_done(double neweta); 
     
   //perterbation orders 
   unsigned pertorders() const 
@@ -171,7 +171,7 @@ private:
     
   unsigned long sweeps;        
 
-  const double eta; //coef before W
+  double eta; //coef before W
   double logweight;
   double sign;
 
@@ -186,6 +186,7 @@ private:
   //std::vector<std::pair<unsigned, unsigned> > table; // index -> (icopy, vert)
 
   double S2; 
+  bool estimating; 
 
   //std::vector<histogram> pertorder_hist;
   //std::vector<histogram> lng;

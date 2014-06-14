@@ -4,7 +4,7 @@ size(200);
 import solids;
 import graph3;
 import settings;
-dotfactor=6;
+dotfactor=8;
 
 pen surfPen=lightgrey;
 pen arcPen=black+0.7bp;
@@ -36,7 +36,7 @@ for(int i=1;i<=n;++i){
     q=(j*360/m,((i%n)-arcFactor)*360/n);
     draw(fs(p)..fs((p+q)/2)..fs(q),arcPen);
     dot(fs(p));
-    revolution b=sphere(fs(p),0.06);
+    revolution b=sphere(fs(p),0.08);
     if (j<m/2+4 && j>1)
         draw(surface(b),.9blue+opacity(.9));
     else

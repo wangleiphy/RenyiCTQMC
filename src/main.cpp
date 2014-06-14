@@ -84,6 +84,8 @@ class MpiSimulation : public InteractionExpansion
             return results;
         }
 
+       void reset_schdule_checker(){schedule_checker.reset();}
+
     private:
         boost::mpi::communicator communicator;
         ScheduleChecker schedule_checker;
@@ -114,15 +116,29 @@ int main(int argc, char** argv){
         broadcast(comm, params);
     
       MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
-        
+       
+      //prerun to estimate eta  
+      sim.run(alps::stop_callback(600)); //check stop time in each thread 
+      MpiSimulation::results_type results = alps::collect_results(sim);
+
+      double eta; 
+      if (comm.rank() ==0) {
+          eta = results["Z"].mean<double>()/results["W"].mean<double>(); 
+          std::cout << "estimated eta: " << eta << std::endl; 
+      }
+      broadcast(comm, eta, 0);
+      sim.estimate_done(eta); 
+      sim.reset_schdule_checker();
+
       // Run simulation
-      sim.run(alps::stop_callback(options.timelimit)); //check stop time in each thread 
+      sim.run(alps::stop_callback(options.timelimit));  
 
       time(&end);
       double elapsed_time = difftime(end,start);
 
       //Collect results  
-      MpiSimulation::results_type results = alps::collect_results(sim);
+      results = alps::collect_results(sim);
+      //MpiSimulation::results_type results = alps::collect_results(sim);
  
       std::string filename = boost::lexical_cast<std::string>(params["filename"]);  
       std::string h5output_file = filename.substr(0, filename.find_last_of('.')) + ".out.h5"; // hdf5 output file 
