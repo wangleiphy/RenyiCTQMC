@@ -90,7 +90,7 @@ if __name__=='__main__':
     Thop = 1.0
 
     L = 8
-    LA = 6
+    LA = 4
 
     #Kinetic energy matrix 
     Kmat = zeros((L, L),float)
@@ -103,15 +103,18 @@ if __name__=='__main__':
     for s in range(L-1):   
         Kmat[s, s+1] = -Thop 
         Kmat[s+1, s] = -Thop 
+    
+    print Kmat 
 
     Kmat = sps.csr_matrix(Kmat)
 
     beta = 1./args.Temp 
-    S2A_nonint = calc_S2(Kmat, 0.0, LA, beta)
 
     #for V in arange(0.0, 10.01, 0.1):
-    if True:
-        V = 4.0
+    #if True:
+    for LA in range(1,L+1):
+        V = 10.0
+        S2A_nonint = calc_S2(Kmat, 0.0, LA, beta)
         S2A = calc_S2(Kmat, V, LA, beta) 
         S2 = calc_S2(Kmat, V, L, beta) 
         print V, S2A, S2A-S2A_nonint, 2.*S2A - S2 
