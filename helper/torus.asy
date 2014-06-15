@@ -1,6 +1,6 @@
 //asy -f pdf -noprc -render=4 torus.asy 
 
-size(200);
+size(160);
 import solids;
 import graph3;
 import settings;
