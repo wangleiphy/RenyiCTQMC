@@ -118,7 +118,7 @@ int main(int argc, char** argv){
       MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
        
       //prerun to estimate eta  
-      sim.run(alps::stop_callback(3600)); //check stop time in each thread 
+      sim.run(alps::stop_callback(boost::lexical_cast<unsigned>(params["EST_SECONDS"]| 3600))); //check stop time in each thread 
       MpiSimulation::results_type results = alps::collect_results(sim);
 
       double eta; 
