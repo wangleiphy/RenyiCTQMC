@@ -1,6 +1,6 @@
 //asy -f pdf -noprc -render=4 line.asy 
 
-size(80);
+size(100);
 import solids;
 import graph3;
 import settings;

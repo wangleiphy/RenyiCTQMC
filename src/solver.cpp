@@ -25,7 +25,7 @@ void InteractionExpansion::interaction_expansion_step()
     }
 }
 
-
+/*
 void InteractionExpansion::build_matrix(){
   //rebuild matrix by adding vertices back one by one 
     
@@ -49,18 +49,40 @@ void InteractionExpansion::build_matrix(){
      logweight += log(fabs(wratios[1])) - log(fabs(wratios[0]));  
     }
    
-   /*
-   std::cout << "Msuper from scratch:\n" << Msuper.matrix() << std::endl; 
-   std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 
+   //std::cout << "Msuper from scratch:\n" << Msuper.matrix() << std::endl; 
+   //std::cout << "det(Msuper)= " << Msuper.matrix().determinant() << std::endl; 
     
-   for (unsigned icopy = 0; icopy< 2; ++icopy){
-    std::cout << "M" << icopy << " from scratch:\n" << M[icopy].matrix() << std::endl; 
-    std::cout << "det(M"<< icopy <<") = " << M[icopy].matrix().determinant() << std::endl; 
-   }
+   //for (unsigned sec = 0; sec< 2; ++sec){
+   // std::cout << "M" << sec << " from scratch:\n" << M[sec].matrix() << std::endl; 
+   // std::cout << "det(M"<< sec <<") = " << M[sec].matrix().determinant() << std::endl; 
+   //}
 
-   std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
-   */
+   //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
 }
+*/
+
+
+void InteractionExpansion::build_matrix(){
+
+    //rebuild  Matrix 
+   for (unsigned sec=0; sec<2; ++sec) {
+
+    Msuper[sec].matrix() = Eigen::MatrixXd::Zero(Msuper[sec].creators().size(), Msuper[sec].creators().size());  
+    for (unsigned int i=0; i< Msuper[sec].creators().size(); ++i){
+        for (unsigned int j=i+1; j< Msuper[sec].creators().size(); ++j){ //do not fill diagonal 
+            Msuper[sec].matrix()(i,j) = super_green0_spline(sec, Msuper[sec].creators()[i], Msuper[sec].creators()[j]); 
+            Msuper[sec].matrix()(j,i) = -Msuper[sec].creators()[i].parity()*Msuper[sec].creators()[j].parity()*Msuper[sec].matrix()(i,j);//anti-symmetrization 
+        }
+    }
+
+    Msuper[sec].matrix() = Msuper[sec].matrix().inverse().eval();     
+
+    //std::cout << "M" << sec << " from scratch:\n" << M[sec].matrix() << std::endl; 
+    //std::cout << "det(M"<< sec <<") = " << M[sec].matrix().determinant() << std::endl; 
+  }
+    //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
+}
+
 
 ///Every now and then we have to recreate M from scratch to avoid roundoff error.
 void InteractionExpansion::reset_perturbation_series()
@@ -72,13 +94,15 @@ void InteractionExpansion::reset_perturbation_series()
   std::vector<m_matrix::matrix_t> Mdiff(2); 
   for (unsigned i=0; i<2; ++i)
     Mdiff[i] = Msuper[i].matrix(); //make a copy of M.matrix()
-  double logweight_old = logweight; 
 
-  build_matrix(); // rebuild Msuper and M and logweight 
+  build_matrix(); // rebuild Msuper matrix 
+  double new_logweight = log(fabs(Msuper[0].matrix().determinant())) - log(fabs(Msuper[1].matrix().determinant()));
   
   //check logweight 
-  if ( fabs(exp(logweight_old-logweight)-1.) >1E-6)
-      std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight_old-logweight)-1.)   << std::endl;
+  if ( fabs(exp(logweight-new_logweight)-1.) >1E-6)
+      std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight-new_logweight)-1.)   << std::endl;
+
+  logweight = new_logweight; 
 
   for (unsigned i=0; i<2; ++i) {
       //check the difference of M matrix 

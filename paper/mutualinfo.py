@@ -37,6 +37,14 @@ for fileheader in args.f2:
 resultFiles2 = list(set(resultFiles2))
 
 #filter resultFilies
+#for f in list(resultFiles2):
+    #L = int(re.search('L([0-9]*)W',f).group(1)) 
+    #W = int(re.search('W([0-9]*)NA',f).group(1)) 
+    #NA = int(re.search('NA([0-9]*)V',f).group(1)) 
+    #Temp= float(re.search('T([0-9]*\.?[0-9]*)Ntau',f).group(1)) 
+#    if L==12 and ("eta0.5" in f):
+#        resultFiles2.remove(f)
+
 for f in list(resultFiles2):
     #L = int(re.search('L([0-9]*)W',f).group(1)) 
     #W = int(re.search('W([0-9]*)NA',f).group(1)) 

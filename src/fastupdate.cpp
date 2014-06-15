@@ -5,7 +5,6 @@
 std::vector<double> InteractionExpansion::add_impl(const double tau, const std::vector<site_t>& sites, const bool compute_only_weight) {
     
     std::vector<double> wratios(2); 
-
     for (unsigned sec=0; sec<2; ++sec)
          wratios[sec] = Wadd_impl(tau, sites, sec, compute_only_weight); 
 
