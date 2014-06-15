@@ -8,7 +8,6 @@ Remove = 0.15
 
 ZtoW = 0.35
 WtoZ = 0.35
-eta = 1.0
 
 #latticename = 'open chain lattice'
 latticename = 'square lattice'
@@ -16,31 +15,31 @@ latticename = 'square lattice'
 #latticename = 'cylindrical honeycomb lattice'
 #latticename = 'honeycomb lattice'
 ###############################
-nickname = 'ratiotrick_scanV'
+nickname = 'tuen_eta'
 
-Llist = [6]
-Wlist = [6]
+Llist = [12]
+Wlist = [12]
 NAstep = 6
 
 Tlist = [1.0]
 #Tlist = arange(0.6, 1.2, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
-Vlist = arange(1.7, 2.4, 0.1)
-#Vlist = [2.0]
+#Vlist = arange(1.7, 2.4, 0.1)
+Vlist = [2.0]
 
 NSKIP = 100
 Ntau = 1000
 THERMALIZATION = 10**5
 SWEEPS = 10**6
-Nscratch = 100
+Nscratch = 1000
 
 ##############################
-wtime = '12:00:00'
+wtime = '24:00:00'
 tmin = 60
 tmax = 600
 ncores = 400  # a multiply of ntasks_per_node 
-prog = '../bin/ratiotrick'
+prog = '../bin/tune_eta'
 
 resfolder = '/mnt/lnec/lewang/renyidata/' + nickname  + '/'
 h, m, s = [int(i) for i in wtime.split(':')]
