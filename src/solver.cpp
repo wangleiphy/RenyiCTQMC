@@ -100,7 +100,7 @@ void InteractionExpansion::reset_perturbation_series()
   
   //check logweight 
   if ( fabs(exp(logweight-new_logweight)-1.) >1E-6)
-      std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight-new_logweight)-1.)   << std::endl;
+      std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight-new_logweight)-1.) <<  " " << logweight << " " << logweight << std::endl;
 
   logweight = new_logweight; 
 
