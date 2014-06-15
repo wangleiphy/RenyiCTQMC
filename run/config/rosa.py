@@ -7,7 +7,6 @@ Remove = 0.15
 
 ZtoW = 0.35
 WtoZ = 0.35
-eta = 0.5
 
 #latticename = 'open chain lattice'
 #latticename = 'open honeycomb lattice'
@@ -15,19 +14,23 @@ eta = 0.5
 #latticename = 'honeycomb lattice'
 latticename = 'square lattice'
 #######################################
-nickname = 'ratiotrick'
+nickname = 'tune_eta'
 
-Llist = [12]
-Wlist = [12]
-NAstep = 12
+Llist = [8]
+Wlist = [8]
+NAstep = 8
+
+#NA0list = [108]
+#NA1list = [120]
 
 #Tlist = [0.5]
-Tlist =[0.9, 1.0]
+Tlist =[0.9]
 #Tlist = arange(0.6, 2.1, 0.1)
+#Tlist = arange(0.2, 1.2, 0.2)
 #Vlist = arange(0.5, 3.0, 0.5)
-#Vlist = arange(2., 11., 1.)
+#Vlist = arange(1., 11., 1.)
 Vlist = [2.]
-#Vlist = [1.1, 1.2, 1.3, 1.4, 1.5]
+#Vlist = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
 
 NSKIP = 100
 THERMALIZATION = 10**5

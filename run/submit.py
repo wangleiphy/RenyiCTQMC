@@ -58,7 +58,6 @@ if __name__=='__main__':
                                            SWEEPS=SWEEPS, THERMALIZATION=THERMALIZATION, NSKIP=NSKIP, 
                                            Add = Add, Remove = Remove, 
                                            ZtoW = ZtoW, WtoZ = WtoZ, 
-                                           eta = eta, 
                                            folder=resfolder, textoutput=textoutput)
 
 
