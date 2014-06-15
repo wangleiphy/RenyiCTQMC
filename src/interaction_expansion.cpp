@@ -110,6 +110,7 @@ void InteractionExpansion::estimate_done(double neweta) {
     sweeps = 0; Msuper[0].clear(); Msuper[1].clear(); sector = 0; logweight= 0., sign = 1., eta= neweta;  measurements.reset(false); estimating = false; 
 
     //std::cout << "eta: " <<  eta << std::endl; 
+    //std::cout << "sweeps: " <<  sweeps << std::endl; 
 }
 
 
