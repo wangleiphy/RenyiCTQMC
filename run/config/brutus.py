@@ -1,12 +1,11 @@
 import subprocess 
 from numpy import arange 
 
-Add  = 0.15
-Remove = 0.15
+Add  = 0.3
+Remove = 0.3
 
-ZtoW = 0.35
-WtoZ = 0.35
-eta = 0.5
+ZtoW = 0.2
+WtoZ = 0.2
 
 #latticename = 'open chain lattice'
 latticename = 'honeycomb lattice'
@@ -18,12 +17,12 @@ nickname = 'ratiotrick'
 
 Llist = [6]
 Wlist = [6]
-NAstep = 12 
+NAstep = 12
 
 #NA0list= [0,6,12,18,24,30]
 #NA1list= [6,12,18,24,30,36]
 
-Tlist = [0.1]
+Tlist = [0.125]
 #Tlist =[0.85, 0.95, 1.05, 1.15]
 #Tlist = arange(0.6, 2.1, 0.1)
 #Vlist = arange(0.1, 1.6, 0.1)
@@ -36,13 +35,13 @@ Ntau = 1000
 NSKIP = 100 
 THERMALIZATION = 10**5
 SWEEPS = 10**6
-Nscratch = 100
+Nscratch = 1000
 ##############################
 
 tmin = 60
 tmax = 300
 ncores = 16 
-wtime = '18:00'
+wtime = '8:00'
 
 resfolder = '/cluster/work/scr6/lewang/renyidata/' + nickname  + '/'
 #h, m = [int(i) for i in wtime.split(':')]
