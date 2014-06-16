@@ -51,7 +51,7 @@ ZtoW(boost::lexical_cast<double>(parms["ZtoW"])),
 WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
 sector(0), // initialy we are in Z space 
-S2(0),
+S2(0.),
 estimating(true) // initially we do estimation of eta 
 {
    probs.push_back(Add); 

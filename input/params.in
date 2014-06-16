@@ -1,12 +1,12 @@
 LATTICE_LIBRARY = "../input/mylattices.xml"
-LATTICE = "square lattice"
-L = 4
-W = 4 
+LATTICE = "honeycomb lattice"
+L = 6
+W = 6 
 NA0 = 0
-NA1 = 4
+NA1 = 36
 MAX_ORDER = 1024
 N_TAU = 1000
-TEMPERATURE = 0.5
+TEMPERATURE = 0.1
 V = 1.0
 MEASUREMENT_PERIOD = 100
 THERMALIZATION = 10000

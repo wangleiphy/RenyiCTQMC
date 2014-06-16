@@ -109,10 +109,12 @@ void InteractionExpansion::reset_perturbation_series()
       Mdiff[i] -= Msuper[i].matrix(); //subtract the new one 
       Mdiff[i] = Mdiff[i].cwiseAbs(); //and take absolute value 
    }
-   double max_diff = Mdiff[0].maxCoeff() + Mdiff[1].maxCoeff() ; 
- 
-   if(max_diff > 1.e-6){
-     std::cout<<"WARNING: roundoff errors " <<max_diff << std::endl;
+
+   Eigen::MatrixXd::Index r0, c0, r1, c1;//keep track the location of the max difference
+   //double max_diff = Mdiff[0].maxCoeff(&r0, &c0) + Mdiff[1].maxCoeff(&r1, &c1) ; 
+
+   if( Mdiff[0].maxCoeff(&r0, &c0) + Mdiff[1].maxCoeff(&r1, &c1)  > 1.e-6){
+     std::cout<<"WARNING: roundoff errors " << Mdiff[0].maxCoeff(&r0, &c0) << " " <<  Mdiff[1].maxCoeff(&r1, &c1)  << std::endl;  //<<  " " << Msuper[0].matrix()(r0, c0) << " " << Msuper[1].matrix()(r1, c1) <<  std::endl;
 
     //std::cout << Mdiff << std::endl; 
     //std::cout << "creators: ";  
