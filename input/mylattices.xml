@@ -414,7 +414,6 @@
   <EDGE type="2"><SOURCE vertex="3"/><TARGET vertex="3" offset="1 0"/></EDGE>
 </UNITCELL>
 
-
 <UNITCELL name="piflux" dimension="2">
   <VERTEX type="0"><COORDINATE>0 0</COORDINATE></VERTEX>
   <VERTEX type="1"><COORDINATE>0 0.5</COORDINATE></VERTEX>
@@ -424,15 +423,14 @@
   <EDGE type="0"><SOURCE vertex="2"/><TARGET vertex="1" offset="0 1"/></EDGE>
 
   <EDGE type="1"><SOURCE vertex="1"/><TARGET vertex="1" offset="1 0"/></EDGE>
-
+<!--
   <EDGE type="2"><SOURCE vertex="1"/><TARGET vertex="2" offset="1 0"/></EDGE>
   <EDGE type="2"><SOURCE vertex="2"/><TARGET vertex="1" offset="1 0"/></EDGE>
 
   <EDGE type="2"><SOURCE vertex="2"/><TARGET vertex="1" offset="-1 1"/></EDGE>
   <EDGE type="2"><SOURCE vertex="1"/><TARGET vertex="2" offset="-1 -1"/></EDGE>
+  -->
 </UNITCELL>
-
-
 
 
 <UNITCELL name="coupled ladders" dimension="2">
@@ -842,7 +840,9 @@
 <LATTICEGRAPH name = "piflux lattice">
   <FINITELATTICE>
     <LATTICE ref="square lattice"/>
-    <PARAMETER name="W" default="L"/>
+    <PARAMETER name="W" default="L/2"/>
+    <PARAMETER name="BCx" default="periodic"/>
+    <PARAMETER name="BCy" default="periodic"/>
     <EXTENT dimension="1" size="L"/>
     <EXTENT dimension="2" size="W"/>
     <BOUNDARY dimension="1" type="BCx" />
