@@ -25,7 +25,6 @@ void InteractionExpansion::interaction_expansion_step()
     }
 }
 
-/*
 void InteractionExpansion::build_matrix(){
   //rebuild matrix by adding vertices back one by one 
     
@@ -59,9 +58,9 @@ void InteractionExpansion::build_matrix(){
 
    //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
 }
-*/
 
 
+/*
 void InteractionExpansion::build_matrix(){
 
     //rebuild  Matrix 
@@ -82,7 +81,7 @@ void InteractionExpansion::build_matrix(){
   }
     //std::cout << "weight from scratch " <<  M[0].matrix().determinant()*M[1].matrix().determinant()/Msuper.matrix().determinant() << std::endl;  
 }
-
+*/
 
 ///Every now and then we have to recreate M from scratch to avoid roundoff error.
 void InteractionExpansion::reset_perturbation_series()
@@ -94,15 +93,14 @@ void InteractionExpansion::reset_perturbation_series()
   std::vector<m_matrix::matrix_t> Mdiff(2); 
   for (unsigned i=0; i<2; ++i)
     Mdiff[i] = Msuper[i].matrix(); //make a copy of M.matrix()
-
+  
+  double old_logweight = logweight; 
   build_matrix(); // rebuild Msuper matrix 
-  double new_logweight = log(fabs(Msuper[0].matrix().determinant())) - log(fabs(Msuper[1].matrix().determinant()));
+  //double new_logweight = log(fabs(Msuper[0].matrix().determinant())) - log(fabs(Msuper[1].matrix().determinant()));
   
   //check logweight 
-  if ( fabs(exp(logweight-new_logweight)-1.) >1E-6)
-      std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight-new_logweight)-1.) <<  " " << logweight << " " << logweight << std::endl;
-
-  logweight = new_logweight; 
+  if ( fabs(exp(logweight-old_logweight)-1.) >1E-6)
+      std::cout<<"WARNING: roundoff errors in weight " <<  fabs(exp(logweight-old_logweight)-1.) <<  " " << old_logweight << " " << logweight << std::endl;
 
   for (unsigned i=0; i<2; ++i) {
       //check the difference of M matrix 

@@ -16,7 +16,7 @@ latticename = 'piflux lattice'
 ###############################
 nickname = 'ratiotrick'
 
-L = 8 
+L = 8
 Llist = [L]
 Wlist = [L/2]
 NAstep = L
