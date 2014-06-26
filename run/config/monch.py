@@ -19,9 +19,12 @@ nickname = 'tuen_eta'
 
 Llist = [12]
 Wlist = [12]
-NAstep = 6
+NA0list = [126]
+NA1list = [132]
 
-Tlist = [1.0]
+#NAstep = 6
+
+Tlist = [0.9]
 #Tlist = arange(0.6, 1.2, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
