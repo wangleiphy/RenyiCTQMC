@@ -47,15 +47,14 @@ resultFiles = list(set(resultFiles))
 #        resultFiles.remove(f)
 
 #filter resultFilies
-for f in list(resultFiles):
-
+#for f in list(resultFiles):
     #Temp= float(re.search('T([0-9]*\.?[0-9]*)Ntau',f).group(1)) 
     #if Temp not in [0.4, 0.6, 0.8, 1.0, 1.2]:
     #    resultFiles.remove(f)
 
-    V = float(re.search('V([0-9]*\.?[0-9]*)T',f).group(1)) 
-    if V not in [0.5, 1.0, 1.5, 2.0, 2.5]:
-        resultFiles.remove(f)
+#    V = float(re.search('V([0-9]*\.?[0-9]*)T',f).group(1)) 
+#    if V not in [0.5, 1.0, 1.5, 2.0, 2.5]:
+#        resultFiles.remove(f)
 
 data = []
 print resultFiles 
@@ -77,15 +76,16 @@ for r in res:
 
     Temp = float(r.props['TEMPERATURE'])
     V = float(r.props['V'])
-    r.props['label'] = '$T=%.1f$'%(Temp)
-    #r.props['label'] = '$V=%.1f$'%(V)
+    #r.props['label'] = '$T=%.2f$'%(Temp)
+    r.props['label'] = '$V=%.1f$'%(V)
+
 
     r.props['ylabel'] = '$S_2$'
     r.props['xlabel'] = '$N_A$'
 
     r.props['color'] = colors[icolor]
     r.props['line'] = '-o'
-    icolor += 1 
+    icolor = (icolor+1)%len(colors)
 
 print res 
 

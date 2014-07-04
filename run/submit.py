@@ -49,7 +49,7 @@ if __name__=='__main__':
 
                 jobid = input.waitfor 
                 #for NA0, NA1 in zip(NA0list, NA1list):
-                for NA0 in range(0, L*W, NAstep):
+                for NA0 in range(L*W, L*L, NAstep):
                         NA1 = NA0 + NAstep 
 
                         inputfile = params(latticename, L , W, NA0, NA1,   
