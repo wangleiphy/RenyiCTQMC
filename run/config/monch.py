@@ -19,17 +19,18 @@ nickname = 'tuen_eta'
 
 Llist = [12]
 Wlist = [12]
-NA0list = [126]
-NA1list = [132]
 
-#NAstep = 6
+#NA0list = [126]
+#NA1list = [132]
 
-Tlist = [0.9]
+NAstep = 12
+
+Tlist = [0.5]
 #Tlist = arange(0.6, 1.2, 0.1)
 #Vlist = arange(0.1, 1.6, 0.2)
 #Vlist = arange(0.5, 10., 0.5)
 #Vlist = arange(1.7, 2.4, 0.1)
-Vlist = [2.0]
+Vlist = [1.2, 1.3]
 
 NSKIP = 100
 Ntau = 1000
