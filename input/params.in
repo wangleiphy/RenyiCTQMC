@@ -1,13 +1,13 @@
 LATTICE_LIBRARY = "../input/mylattices.xml"
 LATTICE = "open chain lattice"
-L = 8 
+L = 32
 W = 1
 NA0 = 0
-NA1 = 3
+NA1 = 16
 MAX_ORDER = 1024
 N_TAU = 1000
-TEMPERATURE = 0.5
-V = 1.0
+TEMPERATURE = 0.1
+V = 4.0
 MEASUREMENT_PERIOD = 13 
 THERMALIZATION = 10000
 SWEEPS = 5000000

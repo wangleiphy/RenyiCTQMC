@@ -3,12 +3,11 @@
 
 #include "types.h"
 
-typedef class c_or_cdagger  //represents a creator operator at site s at time tau, site s has parity 
+typedef class c_or_cdagger  //represents a creator operator at site s at time tau
 { 
 public:
-  c_or_cdagger(const site_t s, const double parity, const itime_t t)
+  c_or_cdagger(const site_t s,const itime_t t)
   :s_(s)
-  ,parity_(parity)
   ,t_(t)
   {
   }
@@ -31,7 +30,6 @@ public:
 */  
 
   inline const itime_t &t() const{return t_;}
-  inline const double &parity() const {return parity_;}
   inline const site_t &s() const {return s_;}
 
 //  inline const spin_t &flavor() const {return z_;}
@@ -43,7 +41,6 @@ public:
   
 private:
   site_t s_;      //this operator site
-  double parity_; // parity of this site 
   itime_t t_;     //its imaginary time point
 
 } creator;

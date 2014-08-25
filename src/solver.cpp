@@ -96,7 +96,7 @@ void InteractionExpansion::reset_perturbation_series()
   
   double old_logweight = logweight; 
   build_matrix(); // rebuild Msuper matrix 
-  //double new_logweight = log(fabs(Msuper[0].matrix().determinant())) - log(fabs(Msuper[1].matrix().determinant()));
+  //double logweight = log(fabs(Msuper[0].matrix().determinant())) - log(fabs(Msuper[1].matrix().determinant()));
   
   //check logweight 
   if ( fabs(exp(logweight-old_logweight)-1.) >1E-6)

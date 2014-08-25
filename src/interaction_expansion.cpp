@@ -169,7 +169,7 @@ void InteractionExpansion::load(alps::hdf5::archive & ar) {
     //copy vectors to tlist and vlist
     for (unsigned sec = 0; sec< 2; ++sec) {
         for (unsigned i=0; i< vt.size(); ++i){
-            Msuper[sec].creators().push_back(creator(vs[i], parity(sec, vs[i]), vt[i])); 
+            Msuper[sec].creators().push_back(creator(vs[i], vt[i])); 
         }
         Msuper[sec].num_vertices() = vt.size()/2; 
     }

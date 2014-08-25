@@ -45,7 +45,7 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
          for(unsigned j=0; j< Msize; ++j){
               Q(j,i) = super_green0_spline(sec, Msuper[sec].creators()[j].t(), tau, Msuper[sec].creators()[j].s(), sites[i]);
               //Q(j,i) = super_bare_green_itime.gf(Msuper.creators()[j].t(), tau, Msuper.creators()[j].s(), sites[i]);
-              Msuper[sec].R(i,j) = -parity(sec, sites[i]) * Msuper[sec].creators()[j].parity()* Q(j,i);//anti-symmetrization 
+              Msuper[sec].R(i,j) = -parity(sec, sites[i]) *parity(sec, Msuper[sec].creators()[j].s())* Q(j,i);//anti-symmetrization 
           }
         }
         
@@ -76,7 +76,7 @@ double InteractionExpansion::Wadd_impl(const double tau, const std::vector<site_
   Msuper[sec].matrix().bottomRightCorner(2, 2) = Msuper[sec].Stilde; 
 
   for(unsigned i=0; i<2; ++i){
-     Msuper[sec].creators().push_back(creator(sites[i], parity(sec, sites[i]), tau)); 
+     Msuper[sec].creators().push_back(creator(sites[i], tau)); 
   }
 
   Msuper[sec].num_vertices() += 1; 
