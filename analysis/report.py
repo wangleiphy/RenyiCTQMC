@@ -14,4 +14,6 @@ def report(h5_outfile, observables):
     count = measurements['count'];
     results.append({'observable': observable,'mean': mean, 'error': error, 'tau': tau, 'count': count});
 
-  return results;
+  #return results;
+  for d in results:
+      print d['observable']  , d['mean'] , '+/-',  d['error'] , d['tau'], d['count']

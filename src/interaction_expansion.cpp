@@ -113,4 +113,64 @@ void InteractionExpansion::estimate_done(double neweta) {
     //std::cout << "sweeps: " <<  sweeps << std::endl; 
 }
 
+void InteractionExpansion::save(alps::hdf5::archive & ar) const {
+    mcbase::save(ar);
 
+    std::string context = ar.get_context();
+    ar.set_context("/simulation/realizations/0/clones/0/checkpoint");
+    
+    //copy tlist and vlist to vectors 
+    std::vector<itime_t> vt; 
+    std::vector<site_t> vs; 
+
+    for (unsigned i=0; i< 2*Msuper[0].num_vertices(); ++i){
+
+        vt.push_back(Msuper[0].creators()[i].t()); 
+        vs.push_back(Msuper[0].creators()[i].s());  
+    }
+    
+    ar["eta"] << eta;
+
+    ar["sweeps"] << sweeps;
+    ar["sector"] << sector; 
+    ar["logweight"] << logweight; 
+
+    ar["vt"] << vt;
+    ar["vs"] << vs;
+
+    ar.set_context(context);
+}
+
+void InteractionExpansion::load(alps::hdf5::archive & ar) {
+
+    mcbase::load(ar);
+
+    double neweta; 
+    std::vector<itime_t> vt; 
+    std::vector<site_t> vs; 
+
+    std::string context = ar.get_context();
+    ar.set_context("/simulation/realizations/0/clones/0/checkpoint");
+
+    ar["eta"] >> neweta;
+    estimate_done(neweta);
+
+    ar["sweeps"] >> sweeps;
+    ar["sector"] >> sector; 
+    ar["logweight"] >> logweight; 
+
+    ar["vt"] >> vt;
+    ar["vs"] >> vs;
+
+    ar.set_context(context);
+
+    //copy vectors to tlist and vlist
+    for (unsigned sec = 0; sec< 2; ++sec) {
+        for (unsigned i=0; i< vt.size(); ++i){
+            Msuper[sec].creators().push_back(creator(vs[i], lattice.parity(vs[i]), vt[i])); 
+        }
+        Msuper[sec].num_vertices() = vt.size()/2; 
+    }
+
+    build_matrix(); 
+}

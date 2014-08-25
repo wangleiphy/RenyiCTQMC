@@ -47,6 +47,13 @@ public:
 
   void evaluate(results_type& results);
 
+  using alps::mcbase::save;
+  virtual void save(alps::hdf5::archive & ar) const;
+  
+  using alps::mcbase::load;
+  virtual void load(alps::hdf5::archive & ar);
+
+
 private:
   /*functions*/
   // in file io.cpp

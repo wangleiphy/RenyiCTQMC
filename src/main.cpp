@@ -1,7 +1,7 @@
 #include "interaction_expansion.hpp"
 
 #include <alps/ngs.hpp>
-#include <alps/ngs/scheduler/parseargs.hpp>
+#include <alps/parseargs.hpp>
 #include <alps/stop_callback.hpp> 
 //#include <alps/check_schedule.hpp> 
 #include "mycheck_schedule.hpp"
@@ -114,36 +114,48 @@ int main(int argc, char** argv){
             //std::cout << "L,W= " << params["L"] << ","<< params["W"] << std::endl;
         }
         broadcast(comm, params);
-    
-      MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
-       
-      //prerun to estimate eta  
-      sim.run(alps::stop_callback(boost::lexical_cast<unsigned>(params["EST_SECONDS"]| 3600))); //check stop time in each thread 
-      MpiSimulation::results_type results = alps::collect_results(sim);
 
-      double eta; 
-      if (comm.rank() ==0) {
-          eta = results["Z"].mean<double>()/results["W"].mean<double>(); 
-          std::cout << "estimated eta: " << eta << std::endl; 
+      MpiSimulation sim(params, comm, check_schedule(options.tmin, options.tmax));
+
+      std::string filename = boost::lexical_cast<std::string>(params["filename"]);  
+      std::string h5output_file = filename.substr(0, filename.find_last_of('.')) + ".out.h5"; // hdf5 output file 
+
+      std::string checkpoint_path = filename.substr(0, filename.find_last_of('.'))  + ".chkp"; 
+      std::string checkpoint_file = checkpoint_path +  "/clone"+ boost::lexical_cast<std::string>(comm.rank()) + ".h5";
+
+      if (!boost::filesystem::exists(checkpoint_path) && comm.rank() ==0){
+          boost::filesystem::create_directory(checkpoint_path);
       }
-      broadcast(comm, eta, 0);
-      sim.estimate_done(eta); 
-      sim.reset_schdule_checker();
+
+      if (options.resume && boost::filesystem::exists(checkpoint_file)){
+
+           sim.load(checkpoint_file);
+        
+      }else{//prerun to estimate eta  
+
+            sim.run(alps::stop_callback(boost::lexical_cast<unsigned>(params["EST_SECONDS"]| 3600))); //check stop time in each thread 
+            MpiSimulation::results_type results = alps::collect_results(sim);
+ 
+            double eta; 
+            if (comm.rank() ==0) {
+                eta = results["Z"].mean<double>()/results["W"].mean<double>(); 
+                std::cout << "estimated eta: " << eta << std::endl; 
+            }
+            broadcast(comm, eta, 0);
+            sim.estimate_done(eta); 
+            sim.reset_schdule_checker();
+      }
 
       // Run simulation
       sim.run(alps::stop_callback(options.timelimit));  
+      sim.save(checkpoint_file);
 
       time(&end);
       double elapsed_time = difftime(end,start);
 
       //Collect results  
-      results = alps::collect_results(sim);
-      //MpiSimulation::results_type results = alps::collect_results(sim);
- 
-      std::string filename = boost::lexical_cast<std::string>(params["filename"]);  
-      std::string h5output_file = filename.substr(0, filename.find_last_of('.')) + ".out.h5"; // hdf5 output file 
-
-     
+      MpiSimulation::results_type results = alps::collect_results(sim);
+      
       if (comm.rank() ==0) 
       {
                sim.evaluate(results);
