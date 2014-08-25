@@ -21,7 +21,7 @@ double InteractionExpansion::super_green0_spline(const unsigned sec, const itime
   
   if (tau2>=beta && site2 >= NA[sec])
        s2 = site2 + NB[sec];  
-    
+   
   double res; // we always propagate from small to larger 
   if (tau1>=tau2)
     res = super_bare_green_itime[sec](tau1, tau2, s1, s2); 
@@ -29,10 +29,10 @@ double InteractionExpansion::super_green0_spline(const unsigned sec, const itime
     res = -super_bare_green_itime[sec](tau2, tau1, s2, s1)*parity(sec, site1)*parity(sec, site2); 
 
   //compare with direct calculation 
-  //double diff =  super_bare_green_itime.fromscratch(tau1, tau2)(s1, s2) -res;
+  //double diff =  super_bare_green_itime[sec].fromscratch(tau1, tau2)(s1, s2) -res;
   //if (fabs(diff)>1E-6){
   //    std::cout << "gf:" << tau1 << " " << tau2 << " " << site1 << " " << site2 << " " << res << " " << res + diff << std::endl;
-  //    abort(); 
+    //abort(); 
   //}
 
   return res ;
