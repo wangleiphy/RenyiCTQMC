@@ -202,8 +202,12 @@ private:
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 
-  int parity(const unsigned sec, const site_t site) const{
-       site_t s = site + NB[sec];  
+  int parity(const unsigned sec, const itime_t tau ,const site_t site) const{//site is still in the original lattice 
+
+       site_t s = site; 
+       if (tau>=beta && s >= NA[sec])
+           s += NB[sec]; 
+
        return s%2 == 0  ? 1: -1; 
   }
 

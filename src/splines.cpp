@@ -26,7 +26,7 @@ double InteractionExpansion::super_green0_spline(const unsigned sec, const itime
   if (tau1>=tau2)
     res = super_bare_green_itime[sec](tau1, tau2, s1, s2); 
   else
-    res = -super_bare_green_itime[sec](tau2, tau1, s2, s1)*parity(sec, site1)*parity(sec, site2); 
+    res = -super_bare_green_itime[sec](tau2, tau1, s2, s1)*parity(sec, tau1, site1)*parity(sec, tau2, site2); 
 
   //compare with direct calculation 
   //double diff =  super_bare_green_itime[sec].fromscratch(tau1, tau2)(s1, s2) -res;

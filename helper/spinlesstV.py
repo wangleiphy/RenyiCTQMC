@@ -90,7 +90,7 @@ if __name__=='__main__':
     Thop = 1.0
 
     L = 8
-    LA = 5 
+    LA = 4
 
     #Kinetic energy matrix 
     Kmat = zeros((L, L),float)
