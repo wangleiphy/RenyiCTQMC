@@ -52,7 +52,8 @@ WtoZ(boost::lexical_cast<double>(parms["WtoZ"])),
 probs(),// empty vector 
 sector(0), // initialy we are in Z space 
 S2(0.),
-estimating(true) // initially we do estimation of eta 
+estimating(true), // initially we do estimation of eta 
+parity_(2)
 {
    probs.push_back(Add); 
    probs.push_back(Add+Remove); 
@@ -70,6 +71,12 @@ estimating(true) // initially we do estimation of eta
        Eigen::MatrixXd KAB = buildKAB(lattice, NA[i]); 
        Eigen::MatrixXd KABprime = buildKABprime(lattice, NA[i]); 
        super_bare_green_itime.push_back(super_green_function(16, KAB, KABprime, beta)); 
+    
+   //parity for this sector: we copy NB to the extension part  
+   for (site_t s = 0; s< lattice.num_sites(); ++s)
+       parity_[i].push_back(lattice.parity(s)); 
+   for (site_t s=lattice.num_sites(); s<lattice.num_sites()+NB[i]; ++s) 
+       parity_[i].push_back(lattice.parity(s-NB[i])); 
    }
 
    //initialize ALPS observables

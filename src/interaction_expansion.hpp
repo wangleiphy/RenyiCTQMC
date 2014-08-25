@@ -194,6 +194,7 @@ private:
 
   double S2; 
   bool estimating; 
+  std::vector<std::vector<int> > parity_; 
 
   //std::vector<histogram> pertorder_hist;
   //std::vector<histogram> lng;
@@ -208,7 +209,7 @@ private:
        if (tau>=beta && s >= NA[sec])
            s += NB[sec]; 
 
-       return s%2 == 0  ? 1: -1; 
+       return parity_[sec][s]; 
   }
 
 };

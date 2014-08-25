@@ -21,10 +21,10 @@ void InteractionExpansion::add()
   std::vector<double> wratios = add_impl(tau, sites, true);    // wratios in the Z and W sectors 
   double metropolis_weight = (Remove/Add)*(-2.*beta*n_bond*V)/(pert_order+1)* wratios[sector]; // sector =0 (Z) =1 (W)
 
-  //if (metropolis_weight<0.){
-  //  std::cout << metropolis_weight << " < 0 in add" << std::endl; 
-  //  abort();  
-  //}
+  if (metropolis_weight<0.){
+    std::cout << metropolis_weight << " < 0 in add" << std::endl; 
+    abort();  
+  }
 
   if(fabs(metropolis_weight) > random()){
 
@@ -67,10 +67,10 @@ void InteractionExpansion::remove()
     double metropolis_weight = (Add/Remove)*pert_order/(-2.*beta*n_bond*V)* wratios[sector];
 
     //std::cout << "after remove_impl" << std::endl; 
-    //if (metropolis_weight<0.){
-    //  std::cout << metropolis_weight << " < 0 in remove" << std::endl; 
-    // abort();  
-    //}
+    if (metropolis_weight<0.){
+      std::cout << metropolis_weight << " < 0 in remove" << std::endl; 
+      abort();  
+    }
 
     if(fabs(metropolis_weight) > random()){ //do the actual update
 
