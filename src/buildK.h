@@ -30,7 +30,11 @@ Eigen::MatrixXd buildKAB(const alps::graph_helper<>& lattice, const unsigned NA)
          KAB(lattice.target(b), lattice.source(b)) = KAB(lattice.source(b), lattice.target(b));
     }
 
-   return KAB; 
+//    for (unsigned i=lattice.num_sites(); i<lattice.num_sites()+NB; ++i) {
+//        KAB(i, i) = i%2 ==0 ? 0.1: -0.1; 
+//    }
+    
+    return KAB; 
 }
 
 
@@ -51,8 +55,11 @@ Eigen::MatrixXd buildKABprime(const alps::graph_helper<>& lattice, const unsigne
         KABprime.col(i).swap(KABprime.col(i+NB));
     }
 
-   return KABprime; 
+//    for (unsigned i=NA; i<lattice.num_sites(); ++i) {
+//        KABprime(i, i) = i%2 ==0 ? 0.1: -0.1; 
+//    }
 
+    return KABprime; 
 }
 
 

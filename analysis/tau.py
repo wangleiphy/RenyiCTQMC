@@ -21,9 +21,9 @@ resultFiles = list(set(resultFiles))
 
 for filename in resultFiles:
 
-    obslist = ['PertOrder_0', 'PertOrder_1', 'Z','W','dS2','S2']
+    obslist = ['PertOrder', 'PertOrder_0', 'PertOrder_1', 'Z','W','dS2','S2']
 
-    print filename, obslist 
-    print pyalps.dwa.tau(filename, obslist)
-    print pyalps.dwa.thermalized(filename, obslist)
+    #print filename, obslist 
+    #print pyalps.dwa.tau(filename, obslist)
+    #print pyalps.dwa.thermalized(filename, obslist)
     print report(filename, obslist)

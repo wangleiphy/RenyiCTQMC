@@ -202,6 +202,11 @@ private:
 
   unsigned int randomint(const unsigned int i) {return random() * i;}//random int [0, i) 
 
+  int parity(const unsigned sec, const site_t site) const{
+       site_t s = site + NB[sec];  
+       return s%2 == 0  ? 1: -1; 
+  }
+
 };
 
 #endif

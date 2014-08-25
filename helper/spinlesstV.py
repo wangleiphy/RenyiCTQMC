@@ -90,7 +90,7 @@ if __name__=='__main__':
     Thop = 1.0
 
     L = 8
-    LA = 4
+    LA = 3
 
     #Kinetic energy matrix 
     Kmat = zeros((L, L),float)
@@ -113,7 +113,7 @@ if __name__=='__main__':
     #for V in arange(0.0, 10.01, 0.1):
     if True:
     #for LA in range(1,L+1):
-        V = 4.0
+        V = 1.0
         S2A_nonint = calc_S2(Kmat, 0.0, LA, beta)
         S2A = calc_S2(Kmat, V, LA, beta) 
         S2 = calc_S2(Kmat, V, L, beta) 
