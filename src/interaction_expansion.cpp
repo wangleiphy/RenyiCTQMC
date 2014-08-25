@@ -130,6 +130,8 @@ void InteractionExpansion::save(alps::hdf5::archive & ar) const {
     }
     
     ar["eta"] << eta;
+    ar["sign"] << sign;
+    ar["estimating"] << estimating;
 
     ar["sweeps"] << sweeps;
     ar["sector"] << sector; 
@@ -145,15 +147,15 @@ void InteractionExpansion::load(alps::hdf5::archive & ar) {
 
     mcbase::load(ar);
 
-    double neweta; 
     std::vector<itime_t> vt; 
     std::vector<site_t> vs; 
 
     std::string context = ar.get_context();
     ar.set_context("/simulation/realizations/0/clones/0/checkpoint");
 
-    ar["eta"] >> neweta;
-    estimate_done(neweta);
+    ar["eta"] >> eta;
+    ar["sign"] >> sign;
+    ar["estimating"] >> estimating;
 
     ar["sweeps"] >> sweeps;
     ar["sector"] >> sector; 
