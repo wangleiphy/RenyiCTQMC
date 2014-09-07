@@ -7,30 +7,30 @@ Remove = 0.3
 ZtoW = 0.2
 WtoZ = 0.2
 
-#latticename = 'open chain lattice'
+latticename = 'open chain lattice'
 #latticename = 'honeycomb lattice'
 #latticename = 'open honeycomb lattice'
 #latticename = 'cylindrical honeycomb lattice'
 #latticename = 'square lattice'
-latticename = 'piflux lattice'
+#latticename = 'piflux lattice'
 ###############################
-nickname = 'ratiotrick'
+nickname = 'openchain'
 
-L = 8
+L = 32
 Llist = [L]
-Wlist = [L/2]
-NAstep = L
+Wlist = [1]
+NAstep = 1
 
 #NA0list= [0,6,12,18,24,30]
 #NA1list= [6,12,18,24,30,36]
 
-Tlist = [1./L]
+Tlist = [0.1]
 #Tlist =[0.85, 0.95, 1.05, 1.15]
 #Tlist = arange(0.6, 2.1, 0.1)
 #Vlist = arange(0.1, 1.6, 0.1)
 #Vlist = arange(2., 11., 1.)
-Vlist = arange(1.1, 1.6, 0.1)
-#Vlist = [2.]
+#Vlist = arange(1.1, 1.6, 0.1)
+Vlist = [1., 2., 3.]
 
 Ntau = 1000
 NSKIP = 100 
@@ -48,7 +48,7 @@ resfolder = '/cluster/work/scr6/lewang/renyidata/' + nickname  + '/'
 #h, m = [int(i) for i in wtime.split(':')]
 #Tlimit = max(3600*h + 60*m - int(tmax*2) , 0)
 
-prog = 'mpirun ../bin/ratiotrick -i '+ str(tmin) + ' -a ' + str(tmax) 
+prog = 'mpirun ../bin/ratiotrick -i '+ str(tmin) + ' -a ' + str(tmax) + ' -c '
 
 def submitJob(bin,args,jobname,wtime,run=False,ncores=None, wait=[]):
 

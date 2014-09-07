@@ -77,7 +77,7 @@ for r in res:
     Temp = float(r.props['TEMPERATURE'])
     V = float(r.props['V'])
     #r.props['label'] = '$T=%.2f$'%(Temp)
-    r.props['label'] = '$V=%.1f$'%(V)
+    r.props['label'] = '$V=%.1f,T=%.1f$'%(V,Temp)
 
 
     r.props['ylabel'] = '$S_2$'

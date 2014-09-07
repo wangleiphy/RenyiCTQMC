@@ -130,8 +130,13 @@ int main(int argc, char** argv){
       if (options.resume && boost::filesystem::exists(checkpoint_file)){
 
            sim.load(checkpoint_file);
+           if (comm.rank()== 0)
+               std::cout << "loaded configuration from " << checkpoint_path  << std::endl;
         
       }else{//prerun to estimate eta  
+
+            if (comm.rank()== 0)
+                std::cout << "will write configuration to " << checkpoint_path  << std::endl;
 
             sim.run(alps::stop_callback(boost::lexical_cast<unsigned>(params["EST_SECONDS"]| 3600))); //check stop time in each thread 
             MpiSimulation::results_type results = alps::collect_results(sim);
