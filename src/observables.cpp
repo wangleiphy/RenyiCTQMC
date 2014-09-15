@@ -69,6 +69,7 @@ void InteractionExpansion::measure_observables()
     */
 
 
+  /*
   if (sector==0){
     measurements["Z"] << 1.;
     measurements["W"] << 0.;
@@ -77,6 +78,11 @@ void InteractionExpansion::measure_observables()
     measurements["Z"] << 0.;
     measurements["W"] << 1.;
   }
+  */
+
+  measurements["Z"] << 1./(1.+eta*exp(logweight));
+  measurements["W"] << 1./(1.+exp(-logweight)/eta);
+
 }
 
 //finial evaluation 
